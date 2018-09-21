@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Split Money</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="splitType">
+        <item>均分</item>
+        <item>部份均分</item>
+        <item>按比例分</item>
+    </string-array>
+</resources>

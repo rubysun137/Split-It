@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient">
+
+    <TextView
+        android:id="@+id/how_many_people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="60dp"
+        android:text="人數 :"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:fontFamily="@font/chinese_one"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/people_edit_text"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:fontFamily="@font/chinese_one"
+        app:layout_constraintBottom_toBottomOf="@+id/how_many_people"
+        app:layout_constraintStart_toEndOf="@+id/how_many_people"
+        app:layout_constraintTop_toTopOf="@+id/how_many_people" />
+
+    <TextView
+        android:id="@+id/people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="人"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:fontFamily="@font/chinese_one"
+        app:layout_constraintBottom_toBottomOf="@+id/people_edit_text"
+        app:layout_constraintStart_toEndOf="@+id/people_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/people_edit_text" />
+
+    <CheckBox
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:buttonTint="@color/colorAccent"
+        android:checked="true"
+        android:fontFamily="@font/chinese_one"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:fontFamily="@font/chinese_one"
+        app:layout_constraintStart_toStartOf="@+id/how_many_people"
+        app:layout_constraintTop_toBottomOf="@+id/how_many_people" />
+
+    <Spinner
+        android:id="@+id/split_type_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="包含自己"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:fontFamily="@font/chinese_one"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
+
+
+</android.support.constraint.ConstraintLayout>
