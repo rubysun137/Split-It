@@ -16,7 +16,7 @@ public class WelcomeActivity extends BaseActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(1000);
                     startActivity(new Intent().setClass(WelcomeActivity.this,MainActivity.class));
                     finish();
                 } catch (InterruptedException e) {

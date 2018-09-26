@@ -8,9 +8,10 @@
     android:singleLine="true"
     android:gravity="center"
     android:textColor="@android:color/white"
-    android:textSize="30sp"
+    android:textSize="20sp"
     android:padding="8dp"
-    android:background="@color/welcomeColor"
-    app:fontFamily="@font/chinese_two">
+    android:background="@drawable/rc_split_type"
+    app:fontFamily="@font/chinese_one">
 
+    <!--android:background="@color/welcomeColor"-->
 </TextView>

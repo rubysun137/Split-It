@@ -6,6 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="myDropTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:backgroundTint">@color/welcomeColor</item>
+    </style>
+
 
 </resources>

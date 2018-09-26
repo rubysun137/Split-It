@@ -4,9 +4,7 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/sea"
+        android:font="@font/gen"
 
-        app:fontStyle="normal"
-        app:fontWeight="400"
-        app:font="@font/sea"/>
+        app:font="@font/gen"/>
 </font-family>

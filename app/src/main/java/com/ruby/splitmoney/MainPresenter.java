@@ -36,7 +36,7 @@ public class MainPresenter implements MainContract.Presenter {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         mQuickSplitFragment = new QuickSplitFragment();
-        mQuickSplitPresenter = new QuickSplitPresenter();
+//        mQuickSplitPresenter = new QuickSplitPresenter();
         transaction.add(R.id.main_activity_placeholder, mQuickSplitFragment, Constants.QUICK);
         transaction.commit();
     }

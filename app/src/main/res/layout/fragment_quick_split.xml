@@ -7,87 +7,293 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient">
 
-    <TextView
-        android:id="@+id/how_many_people"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="60dp"
-        android:text="人數 :"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:fontFamily="@font/chinese_one"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/quick_split_first_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-    <EditText
-        android:id="@+id/people_edit_text"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:inputType="number"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:fontFamily="@font/chinese_one"
-        app:layout_constraintBottom_toBottomOf="@+id/how_many_people"
-        app:layout_constraintStart_toEndOf="@+id/how_many_people"
-        app:layout_constraintTop_toTopOf="@+id/how_many_people" />
+        <EditText
+            android:id="@+id/quick_split_money_edit_text"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:gravity="end"
+            android:hint="不含服務費"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textColorHint="#edd9d9d9"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/quick_split_money_text_view"
+            app:layout_constraintStart_toEndOf="@+id/quick_split_money_text_view"
+            app:layout_constraintTop_toTopOf="@+id/quick_split_money_text_view" />
 
-    <TextView
-        android:id="@+id/people"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="人"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:fontFamily="@font/chinese_one"
-        app:layout_constraintBottom_toBottomOf="@+id/people_edit_text"
-        app:layout_constraintStart_toEndOf="@+id/people_edit_text"
-        app:layout_constraintTop_toTopOf="@+id/people_edit_text" />
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="包含自己"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/self_check_box"
+            app:layout_constraintStart_toEndOf="@+id/self_check_box"
+            app:layout_constraintTop_toTopOf="@+id/self_check_box" />
 
-    <CheckBox
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:buttonTint="@color/colorAccent"
-        android:checked="true"
-        android:fontFamily="@font/chinese_one"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:fontFamily="@font/chinese_one"
-        app:layout_constraintStart_toStartOf="@+id/how_many_people"
-        app:layout_constraintTop_toBottomOf="@+id/how_many_people" />
+        <TextView
+            android:id="@+id/quick_split_money_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="60dp"
+            android:text="金額 :"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/split_type_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        <EditText
+            android:id="@+id/fee_edit_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:gravity="end"
+            android:inputType="number"
+            android:textColor="@android:color/white"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/fee"
+            app:layout_constraintStart_toEndOf="@+id/fee"
+            app:layout_constraintTop_toTopOf="@+id/fee"
+            tools:text="10" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="包含自己"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:fontFamily="@font/chinese_one"
-        app:layout_constraintBottom_toBottomOf="@+id/textView4"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        <CheckBox
+            android:id="@+id/self_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/colorAccent"
+            android:checked="true"
+            android:fontFamily="@font/chinese_one"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintStart_toStartOf="@+id/how_many_people"
+            app:layout_constraintTop_toBottomOf="@+id/how_many_people" />
+
+        <EditText
+            android:id="@+id/people_edit_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:gravity="end"
+            android:inputType="number"
+            android:textColor="@android:color/white"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/how_many_people"
+            app:layout_constraintStart_toEndOf="@+id/how_many_people"
+            app:layout_constraintTop_toTopOf="@+id/how_many_people"
+            tools:text="10" />
+
+        <TextView
+            android:id="@+id/fee_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="%"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/fee_edit_text"
+            app:layout_constraintStart_toEndOf="@+id/fee_edit_text"
+            app:layout_constraintTop_toTopOf="@+id/fee_edit_text" />
+
+        <TextView
+            android:id="@+id/yan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="元"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/quick_split_money_edit_text"
+            app:layout_constraintStart_toEndOf="@+id/quick_split_money_edit_text"
+            app:layout_constraintTop_toTopOf="@+id/quick_split_money_edit_text" />
+
+        <Spinner
+            android:id="@+id/split_type_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/welcomeColor"
+            android:gravity="center"
+            android:spinnerMode="dialog"
+            android:theme="@style/myDropTheme"
+            app:layout_constraintStart_toStartOf="@+id/self_check_box"
+            app:layout_constraintTop_toBottomOf="@+id/self_check_box" />
+
+        <TextView
+            android:id="@+id/fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="服務費 :"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintStart_toStartOf="@+id/split_type_spinner"
+            app:layout_constraintTop_toBottomOf="@+id/split_type_spinner" />
+
+        <TextView
+            android:id="@+id/people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="人"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="@+id/people_edit_text"
+            app:layout_constraintStart_toEndOf="@+id/people_edit_text"
+            app:layout_constraintTop_toTopOf="@+id/people_edit_text" />
+
+        <TextView
+            android:id="@+id/how_many_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="人數 :"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quick_split_money_text_view" />
+
+        <TextView
+            android:id="@+id/next_page_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/rc_botton_hollow"
+            android:text="下一頁"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/quick_split_second_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/previous_page_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/rc_botton_hollow"
+            android:text="上一頁"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/previous_page_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                android:id="@+id/quick_equal_split"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:text="全部均分結果"
+                    android:textSize="30sp"
+                    app:fontFamily="@font/chinese_one"/>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="元"
+                        android:textSize="30sp"
+                        app:fontFamily="@font/chinese_one"
+                        app:layout_constraintBottom_toBottomOf="@+id/equal_split_number"
+                        app:layout_constraintStart_toEndOf="@+id/equal_split_number"
+                        app:layout_constraintTop_toTopOf="@+id/equal_split_number" />
+
+                    <TextView
+                        android:id="@+id/equal_split_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="100"
+                        android:textSize="30sp"
+                        app:fontFamily="@font/chinese_one"
+                        app:layout_constraintBottom_toBottomOf="@+id/textView"
+                        app:layout_constraintStart_toEndOf="@+id/textView"
+                        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:text="平均每人: "
+                        android:textSize="30sp"
+                        app:fontFamily="@font/chinese_one"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/quick_unequal_split"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="部份均分結果"
+                    android:textSize="30sp"
+                    app:fontFamily="@font/chinese_one"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/unequal_result_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fontFamily="@font/chinese_one"/>
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
