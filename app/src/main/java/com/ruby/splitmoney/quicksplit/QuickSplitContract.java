@@ -16,7 +16,7 @@ public interface QuickSplitContract {
 
         void showUnequalResult(List<Double> results);
 
-        void showShareResult();
+        void showSharedResult(List<Double> results);
 
     }
 
@@ -30,8 +30,12 @@ public interface QuickSplitContract {
 
         void addExtraMoneyList(int position, int extraMoney);
 
+        void addSharedMoneyList(int position, int sharedMoney);
+
         void setListSize(int totalMember);
 
         void passValue(int totalMoney,int totalMember, int feePercentage);
+
+        boolean isSharedListEmpty();
     }
 }

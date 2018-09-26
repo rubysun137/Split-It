@@ -10,21 +10,20 @@ import android.widget.TextView;
 
 import com.ruby.splitmoney.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class QuickSplitPartialResultAdapter extends RecyclerView.Adapter {
+public class QuickSplitResultAdapter extends RecyclerView.Adapter {
 
     private List<Double> mResults;
 
-    public QuickSplitPartialResultAdapter(List<Double> results) {
+    public QuickSplitResultAdapter(List<Double> results) {
         mResults = results;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_unequal_result,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quick_split_result,null);
         return new QuickSplitPartialResultViewHolder(view);
     }
 

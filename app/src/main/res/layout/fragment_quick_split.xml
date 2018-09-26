@@ -273,7 +273,8 @@
                 android:id="@+id/quick_unequal_split"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView6"
@@ -284,13 +285,37 @@
                     android:padding="10dp"
                     android:text="部份均分結果"
                     android:textSize="30sp"
-                    app:fontFamily="@font/chinese_one"/>
+                    app:fontFamily="@font/chinese_one" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/unequal_result_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:fontFamily="@font/chinese_one"/>
+                    app:fontFamily="@font/chinese_one" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/quick_percent_split"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="比例分攤結果"
+                    android:textSize="30sp"
+                    app:fontFamily="@font/chinese_one" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/percent_result_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fontFamily="@font/chinese_one" />
             </LinearLayout>
         </FrameLayout>
     </android.support.constraint.ConstraintLayout>

@@ -22,7 +22,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="成員" />
+            android:text="成員"
+            app:fontFamily="@font/chinese_one"/>
 
         <TextView
             android:id="@+id/partial_split_member_number"
@@ -31,7 +32,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="10" />
+            android:text="10"
+            app:fontFamily="@font/chinese_one"/>
     </LinearLayout>
 
     <TextView
@@ -39,7 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="分攤$" />
+        android:text="分攤$"
+        app:fontFamily="@font/chinese_one"/>
 
 
     <TextView
@@ -48,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:text="+" />
+        android:text="+"
+        app:fontFamily="@font/chinese_one"/>
 
     <EditText
         android:id="@+id/partial_split_add_money"
@@ -62,5 +66,6 @@
         android:backgroundTint="@color/colorAccent"
         android:ems="10"
         android:inputType="number"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        app:fontFamily="@font/chinese_one"/>
 </LinearLayout>

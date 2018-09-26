@@ -10,7 +10,9 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
     private QuickSplitContract.View mView;
     private List<Integer> mExtraMoney;
+    private List<Integer> mSharedMoney;
     private List<Double> mCountExtra;
+    private List<Double> mCountShared;
     private int mSplitType;
     private int mTotalMoney;
     private int mTotalMember;
@@ -57,8 +59,8 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
 
                 for (int i = 0; i < mTotalMember; i++) {
-                    double math = ((moneyUnequal / mTotalMember) + mExtraMoney.get(i)) * (1 + ((double) mFeePercentage / 100));
-                    math = Math.round(math*100)/100;
+                    double math = (((double) moneyUnequal / mTotalMember) + mExtraMoney.get(i)) * (1 + ((double) mFeePercentage / 100));
+                    math = ((double) Math.round(math * 100)/100);
                     mCountExtra.add(i, math);
                 }
 
@@ -67,6 +69,27 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
                 break;
             case 2:
+                mCountShared = new ArrayList<>();
+                int sharedRate = 0;
+
+                for (int i = 0; i < mTotalMember; i++) {
+                    sharedRate += mSharedMoney.get(i);
+                }
+
+                double moneyShared = (double) mTotalMoney / sharedRate;
+
+                for (int i = 0; i < mTotalMember; i++) {
+                    if (mSharedMoney.get(i) != 0) {
+                        double math = ((moneyShared * mSharedMoney.get(i)) * (1 + ((double) mFeePercentage / 100)));
+                        math = ((double) Math.round(math * 100)/100);
+                        mCountShared.add(i, math);
+                    } else {
+                        mCountShared.add(i, 0.0);
+                    }
+                }
+
+                mView.showSharedResult(mCountShared);
+
                 break;
         }
     }
@@ -78,6 +101,11 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
     }
 
     @Override
+    public void addSharedMoneyList(int position, int sharedMoney) {
+        mSharedMoney.set(position, sharedMoney);
+    }
+
+    @Override
     public void setListSize(int totalMember) {
         Integer[] members = new Integer[totalMember];
 
@@ -86,6 +114,7 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
         }
 
         mExtraMoney = Arrays.asList(members);
+        mSharedMoney = Arrays.asList(members);
     }
 
     @Override
@@ -94,6 +123,19 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
         mTotalMember = totalMember;
         mFeePercentage = feePercentage;
 
+    }
+
+    @Override
+    public boolean isSharedListEmpty() {
+        int sharerate = 0;
+        for (int i = 0; i < mSharedMoney.size(); i++) {
+            sharerate += mSharedMoney.get(i);
+        }
+        if (sharerate == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

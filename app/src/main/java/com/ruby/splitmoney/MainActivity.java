@@ -14,6 +14,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
         mPresenter = new MainPresenter(this,getSupportFragmentManager());
         mPresenter.start();
+
+
+
     }
 
     @Override

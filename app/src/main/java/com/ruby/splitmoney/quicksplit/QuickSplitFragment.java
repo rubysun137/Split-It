@@ -26,7 +26,8 @@ import android.widget.Toast;
 
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.QuickSplitPartialAdapter;
-import com.ruby.splitmoney.adapters.QuickSplitPartialResultAdapter;
+import com.ruby.splitmoney.adapters.QuickSplitResultAdapter;
+import com.ruby.splitmoney.adapters.QuickSplitPercentAdapter;
 
 import java.util.List;
 
@@ -49,13 +50,16 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     private View mDialogView;
     private AlertDialog mDialogPartial;
     private QuickSplitPartialAdapter mPartialAdapter;
-    private QuickSplitPartialResultAdapter mPartialResultAdapter;
+    private QuickSplitResultAdapter mPartialResultAdapter;
+    private QuickSplitPercentAdapter mPercentAdapter;
     private String mMoney;
     private String mMember;
-    private boolean mIsPartial;
-    private LinearLayout mEqualPage;
+    private boolean mIsNotEqual;
     private TextView mEqualNumber;
+    private LinearLayout mEqualPage;
     private LinearLayout mUnequalPage;
+    private LinearLayout mPercentPage;
+    private boolean mIsPercent;
 
 
     public QuickSplitFragment() {
@@ -67,7 +71,8 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quick_split, container, false);
 
-        mIsPartial = false;
+        mIsNotEqual = false;
+        mIsPercent = false;
 
         mPresenter = new QuickSplitPresenter(this);
 
@@ -84,12 +89,14 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mFeePercent = view.findViewById(R.id.fee_edit_text);
         mNextPage = view.findViewById(R.id.next_page_text_view);
         mPrePage = view.findViewById(R.id.previous_page_text_view);
+        mEqualNumber = view.findViewById(R.id.equal_split_number);
         mEqualPage = view.findViewById(R.id.quick_equal_split);
         mEqualPage.setVisibility(View.GONE);
-        mEqualNumber = view.findViewById(R.id.equal_split_number);
         mUnequalPage = view.findViewById(R.id.quick_unequal_split);
         mUnequalPage.setVisibility(View.GONE);
-        mSplitType = new String[]{"全部均分", "部份均分", "按比例分"};
+        mPercentPage = view.findViewById(R.id.quick_percent_split);
+        mPercentPage.setVisibility(View.GONE);
+        mSplitType = new String[]{"全部均分", "部份均分", "比例分攤"};
         ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
         mSplitTypeList.setDropDownViewResource(R.layout.dropdown_style);
         mSpinner.setAdapter(mSplitTypeList);
@@ -119,7 +126,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
 
                             RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
                             mPartialAdapter = new QuickSplitPartialAdapter(mMoney, mMember, mPresenter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                             recyclerView.setAdapter(mPartialAdapter);
 
                             mDialogPartial = new AlertDialog.Builder(getContext())
@@ -148,9 +155,9 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
                             mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 
                             RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                            mPartialAdapter = new QuickSplitPartialAdapter(mMoney, mMember, mPresenter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-                            recyclerView.setAdapter(mPartialAdapter);
+                            mPercentAdapter = new QuickSplitPercentAdapter(mMoney, mMember, mPresenter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mPercentAdapter);
 
                             mDialogPartial = new AlertDialog.Builder(getContext())
                                     .setView(mDialogView)
@@ -164,6 +171,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
 
                             correct.setOnClickListener(QuickSplitFragment.this);
                             cancel.setOnClickListener(QuickSplitFragment.this);
+                            mIsPercent = true;
                         } else {
                             mSpinner.setSelection(0);
                             Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
@@ -188,8 +196,8 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mIsPartial) {
-                    mIsPartial = false;
+                if (mIsNotEqual) {
+                    mIsNotEqual = false;
                     mSpinner.setSelection(0);
                 }
             }
@@ -221,6 +229,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mResultPage.setVisibility(View.VISIBLE);
         mEqualPage.setVisibility(View.GONE);
         mUnequalPage.setVisibility(View.GONE);
+        mPercentPage.setVisibility(View.GONE);
 
     }
 
@@ -234,27 +243,39 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     public void showUnequalResult(List<Double> results) {
         mUnequalPage.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = mUnequalPage.findViewById(R.id.unequal_result_recycler_view);
-        mPartialResultAdapter = new QuickSplitPartialResultAdapter(results);
+        mPartialResultAdapter = new QuickSplitResultAdapter(results);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPartialResultAdapter);
 
     }
 
     @Override
-    public void showShareResult() {
-
+    public void showSharedResult(List<Double> results) {
+        mPercentPage.setVisibility(View.VISIBLE);
+        RecyclerView recyclerView = mPercentPage.findViewById(R.id.percent_result_recycler_view);
+        mPartialResultAdapter = new QuickSplitResultAdapter(results);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(mPartialResultAdapter);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_correct_text:
+                if (mIsPercent) {
+                    if (mPresenter.isSharedListEmpty()) {
+                        Toast.makeText(getContext(), "須至少一人分攤帳務", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
                 mDialogPartial.dismiss();
-                mIsPartial = true;
+                mIsNotEqual = true;
+                mIsPercent = false;
                 break;
             case R.id.dialog_cancel_text:
                 mDialogPartial.dismiss();
                 mSpinner.setSelection(0);
+                mIsPercent = false;
                 break;
             case R.id.next_page_text_view:
                 int money = parseInt(mTotalMoney.getText().toString());
@@ -270,10 +291,10 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         }
     }
 
-    private int parseInt(String s){
-        if(s.equals("")){
+    private int parseInt(String s) {
+        if (s.equals("")) {
             return 0;
-        }else {
+        } else {
             return Integer.parseInt(s);
         }
     }
