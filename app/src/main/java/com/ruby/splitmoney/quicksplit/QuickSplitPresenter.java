@@ -127,11 +127,11 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
     @Override
     public boolean isSharedListEmpty() {
-        int sharerate = 0;
+        int shareRate = 0;
         for (int i = 0; i < mSharedMoney.size(); i++) {
-            sharerate += mSharedMoney.get(i);
+            shareRate += mSharedMoney.get(i);
         }
-        if (sharerate == 0) {
+        if (shareRate == 0) {
             return true;
         } else {
             return false;

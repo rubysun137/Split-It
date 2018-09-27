@@ -19,6 +19,94 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/welcomeColor"
-        app:headerLayout="@layout/nav_header_main"/>
+        app:headerLayout="@layout/nav_header_main">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <LinearLayout
+                android:id="@+id/nav_spend"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="24dp"-->
+                <!--app:srcCompat="@drawable/collection_icon" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="記帳"
+                    android:textColor="@color/click_text_color"
+                    app:fontFamily="@font/chinese_one" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_split"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="24dp"-->
+                <!--app:srcCompat="@drawable/recommend_icon" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="拆帳"
+                    android:textColor="@color/click_text_color"
+                    app:fontFamily="@font/chinese_one" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_quick"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="24dp"-->
+                <!--app:srcCompat="@drawable/search_icon" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="NotoSansCJKtc-Regular"
+                    android:lineSpacingExtra="7sp"
+                    android:text="快速拆帳"
+                    android:textColor="@color/click_text_color"
+                    app:fontFamily="@font/chinese_one" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

@@ -1,7 +1,7 @@
 package com.ruby.splitmoney.quicksplit;
 
-import com.ruby.splitmoney.BasePresenter;
-import com.ruby.splitmoney.BaseView;
+import com.ruby.splitmoney.util.BasePresenter;
+import com.ruby.splitmoney.util.BaseView;
 
 import java.util.List;
 

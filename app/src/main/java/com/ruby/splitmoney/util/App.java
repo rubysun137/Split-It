@@ -1,4 +1,4 @@
-package com.ruby.splitmoney;
+package com.ruby.splitmoney.util;
 
 import android.app.Application;
 import android.content.Context;

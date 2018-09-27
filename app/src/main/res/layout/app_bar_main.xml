@@ -19,16 +19,24 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:background="@android:color/transparent">-->
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            app:title="title"
-            app:titleTextAppearance="@style/toolbarTitleTheme"
-            android:background="@android:color/transparent"
-            tools:background="@color/welcomeColor"
-            android:theme="@style/AppTheme.AppBarOverlay" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingTop="16dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:title="@null"
+        tools:background="@color/welcomeColor" />
+
+    <TextView
+        android:id="@+id/toolbarTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="快速拆帳"
+        app:fontFamily="@font/chinese_one"/>
 
     <!--</android.support.design.widget.AppBarLayout>-->
 

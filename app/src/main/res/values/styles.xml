@@ -25,8 +25,7 @@
     </style>
 
     <style name="toolbarTitleTheme" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/chinese_one</item>
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
 

@@ -1,4 +1,4 @@
-package com.ruby.splitmoney;
+package com.ruby.splitmoney.util;
 
 public interface BaseView<T> {
 
