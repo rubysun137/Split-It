@@ -8,11 +8,25 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="MenuTextStyle">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="myDropTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:backgroundTint">@color/welcomeColor</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    </style>
+
+    <style name="toolbarTitleTheme" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/chinese_one</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 

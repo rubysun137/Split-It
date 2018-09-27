@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="@dimen/toolbar_height"
             android:text="金額 :"
             app:fontFamily="@font/chinese_one"
             app:layout_constraintStart_toStartOf="parent"
@@ -220,11 +220,11 @@
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="@dimen/toolbar_height"
                     android:gravity="center"
                     android:text="全部均分結果"
                     android:textSize="30sp"
-                    app:fontFamily="@font/chinese_one"/>
+                    app:fontFamily="@font/chinese_one" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -280,7 +280,7 @@
                     android:id="@+id/textView6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="@dimen/toolbar_height"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="部份均分結果"
@@ -304,7 +304,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="@dimen/toolbar_height"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="比例分攤結果"

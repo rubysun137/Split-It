@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "http://lib.gcssloop.com:8081/repository/gcssloop-central/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0-rc03'
