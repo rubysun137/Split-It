@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="toolbar_height">80dp</dimen>
+    <dimen name="big_toolbar_height">100dp</dimen>
 </resources>

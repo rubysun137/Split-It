@@ -22,4 +22,9 @@ public class FriendPresenter implements FriendContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void transToFriendDetailPage(String friendName) {
+        mView.setFriendDetailPage(friendName);
+    }
 }

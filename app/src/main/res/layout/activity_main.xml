@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/welcomeColor"
+        android:background="?colorSecondary"
         app:headerLayout="@layout/nav_header_main">
 
         <LinearLayout
@@ -31,6 +31,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <LinearLayout
+                android:id="@+id/nav_home"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="24dp"-->
+                <!--app:srcCompat="@drawable/collection_icon" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="首頁"
+                    android:textColor="@color/click_text_color"
+                    app:fontFamily="@font/chinese_one" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/nav_spend"
@@ -97,9 +121,32 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="NotoSansCJKtc-Regular"
                     android:lineSpacingExtra="7sp"
                     android:text="快速拆帳"
+                    android:textColor="@color/click_text_color"
+                    app:fontFamily="@font/chinese_one" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_change"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical">
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginEnd="24dp"-->
+                <!--app:srcCompat="@drawable/search_icon" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="7sp"
+                    android:text="切換主題"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 

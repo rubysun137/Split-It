@@ -22,10 +22,10 @@
         <com.gcssloop.widget.RCImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:contentDescription="@string/nav_header_desc"
-            android:src="@drawable/moon"
+            android:src="@drawable/user"
             app:round_as_circle="true" />
 
         <TextView

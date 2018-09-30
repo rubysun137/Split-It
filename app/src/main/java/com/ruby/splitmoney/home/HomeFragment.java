@@ -1,4 +1,4 @@
-package com.ruby.splitmoney.spend;
+package com.ruby.splitmoney.home;
 
 
 import android.os.Bundle;
@@ -10,33 +10,41 @@ import android.view.ViewGroup;
 import com.ruby.splitmoney.R;
 
 
-public class SpendFragment extends Fragment implements SpendContract.View {
+public class HomeFragment extends Fragment implements HomeContract.View, View.OnClickListener {
 
-    private SpendContract.Presenter mPresenter;
+    private HomeContract.Presenter mPresenter;
 
 
-    public SpendFragment() {
+
+
+    public HomeFragment() {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_spend, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        mPresenter = new SpendPresenter(this);
+        mPresenter = new HomePresenter(this);
 
 
         mPresenter.start();
+
+
 
         return view;
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
 
     @Override
-    public void setPresenter(SpendContract.Presenter presenter) {
+    public void setPresenter(HomeContract.Presenter presenter) {
         mPresenter = presenter;
     }
 }

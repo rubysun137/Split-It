@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient">
+    android:background="@android:color/transparent"
+    tools:background="@color/colorDrawer">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/quick_split_first_page"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/quick_split_money_edit_text"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="?colorAccent"
             android:ems="10"
             android:gravity="end"
             android:hint="不含服務費"
@@ -60,7 +60,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="?colorAccent"
             android:ems="10"
             android:gravity="end"
             android:inputType="number"
@@ -76,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:buttonTint="@color/colorAccent"
             android:checked="true"
             android:fontFamily="@font/chinese_one"
             app:fontFamily="@font/chinese_one"
@@ -88,7 +87,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="?colorAccent"
             android:ems="10"
             android:gravity="end"
             android:inputType="number"
@@ -128,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/welcomeColor"
+            android:backgroundTint="?colorSecondary"
             android:gravity="center"
             android:spinnerMode="dialog"
             android:theme="@style/myDropTheme"
@@ -298,7 +297,8 @@
                 android:id="@+id/quick_percent_split"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/textView8"

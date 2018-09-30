@@ -1,4 +1,4 @@
-package com.ruby.splitmoney.spend;
+package com.ruby.splitmoney.addlist;
 
 
 import android.os.Bundle;
@@ -10,22 +10,22 @@ import android.view.ViewGroup;
 import com.ruby.splitmoney.R;
 
 
-public class SpendFragment extends Fragment implements SpendContract.View {
+public class AddListFragment extends Fragment implements AddListContract.View {
 
-    private SpendContract.Presenter mPresenter;
+    private AddListContract.Presenter mPresenter;
 
 
-    public SpendFragment() {
+    public AddListFragment() {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_spend, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_list, container, false);
 
 
-        mPresenter = new SpendPresenter(this);
+        mPresenter = new AddListPresenter(this);
 
 
         mPresenter.start();
@@ -36,7 +36,7 @@ public class SpendFragment extends Fragment implements SpendContract.View {
 
 
     @Override
-    public void setPresenter(SpendContract.Presenter presenter) {
+    public void setPresenter(AddListContract.Presenter presenter) {
         mPresenter = presenter;
     }
 }

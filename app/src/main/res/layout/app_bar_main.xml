@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:paddingTop="16dp"
+        android:paddingTop="20dp"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:title="@null"
         tools:background="@color/welcomeColor" />
@@ -37,6 +37,13 @@
         android:gravity="center"
         android:text="快速拆帳"
         app:fontFamily="@font/chinese_one"/>
+
+    <FrameLayout
+        android:id="@+id/fullPagePlaceHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
     <!--</android.support.design.widget.AppBarLayout>-->
 

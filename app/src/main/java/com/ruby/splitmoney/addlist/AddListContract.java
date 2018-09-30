@@ -1,19 +1,15 @@
-package com.ruby.splitmoney.friend;
+package com.ruby.splitmoney.addlist;
 
 import com.ruby.splitmoney.util.BasePresenter;
 import com.ruby.splitmoney.util.BaseView;
 
-import java.util.List;
-
-public interface FriendContract {
+public interface AddListContract {
 
     interface View extends BaseView<Presenter> {
-        void setFriendDetailPage(String friendName);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void transToFriendDetailPage(String friendName);
     }
 }

@@ -67,6 +67,6 @@ public class GroupFragment extends Fragment implements GroupContract.View, View.
 
     @Override
     public void setPresenter(GroupContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 }

@@ -11,5 +11,6 @@ public interface SplitContract {
 
     interface Presenter extends BasePresenter {
 
+        void transToAddList();
     }
 }
