@@ -8,6 +8,7 @@ public class Constants {
     public static final String SPLIT = "SPLIT";
     public static final String QUICK = "QUICK";
     public static final String FRIEND_DETAIL = "FRIEND_DETAIL";
+    public static final String ADD_LIST = "ADD_LIST";
 
     //SharePreference
     public static final String THEME_COLOR = "ThemeColor";

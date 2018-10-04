@@ -6,41 +6,46 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorSecondary">@color/colorDrawer</item>
+        <item name="colorSecondary">@android:color/white</item>
+        <item name="colorPrimary50">@color/colorDrawer</item>
+        <item name="colorSecondary50">@color/colorPrimaryDark</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/chinese_one</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="OverlayPrimaryColorHalloween">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/halloweenPrimary</item>
+        <item name="colorPrimaryDark">@color/halloweenPrimaryDark</item>
         <item name="colorAccent">@color/halloweenAccent</item>
-        <item name="colorSecondary">@color/halloweenDrawer</item>
+        <item name="colorPrimary50">@color/halloweenDrawer</item>
+        <item name="colorSecondary50">@color/halloweenPrimaryDark</item>
     </style>
 
     <style name="OverlayPrimaryColorDefault">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorSecondary">@color/colorDrawer</item>
+        <item name="colorPrimary50">@color/colorDrawer</item>
+        <item name="colorSecondary50">@color/colorPrimaryDark</item>
     </style>
 
     <style name="MenuTextStyle">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="myDropTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="myDropTheme" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:backgroundTint">?colorSecondary</item>
+        <item name="android:backgroundTint">?colorPrimary50</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
     </style>
 
     <style name="toolbarTitleTheme" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/chinese_one</item>
     </style>
 
     <style name="TabLayoutText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
@@ -48,6 +53,23 @@
         <item name="android:fontFamily">@font/chinese_one</item>
         <item name="android:shadowColor">@android:color/white</item>
         <item name="android:shadowRadius">10</item>
+    </style>
+
+    <style name="FloatingButtonLabel" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">20sp</item>
+        <item name="android:shadowColor">@android:color/white</item>
+        <item name="android:shadowRadius">10</item>
+    </style>
+
+    <style name="AddListTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">@font/chinese_one</item>
+    </style>
+
+    <style name="datePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?colorPrimary50</item>
+        <item name="android:textColor">?colorSecondary50</item>
+        <item name="android:fontFamily">@font/chinese_one</item>
     </style>
 
 

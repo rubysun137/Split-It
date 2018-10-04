@@ -25,5 +25,7 @@ public interface MainContract {
 
         void transToFriendDetailPage(String friendName);
 
+        void transToAddListPage();
+
     }
 }

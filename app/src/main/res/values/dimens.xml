@@ -6,6 +6,6 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="toolbar_height">80dp</dimen>
+    <dimen name="toolbar_height">75dp</dimen>
     <dimen name="big_toolbar_height">100dp</dimen>
 </resources>

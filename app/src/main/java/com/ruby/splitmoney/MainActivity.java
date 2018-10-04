@@ -154,4 +154,8 @@ public class MainActivity extends BaseActivity implements MainContract.View,
     public void showFriendDetailPage(String friendName) {
         mPresenter.transToFriendDetailPage(friendName);
     }
+
+    public void showAddListPage() {
+        mPresenter.transToAddListPage();
+    }
 }

@@ -10,7 +10,6 @@
     android:textColor="@android:color/white"
     android:textSize="20sp"
     android:padding="8dp"
-    android:background="@drawable/rc_split_type"
     app:fontFamily="@font/chinese_one">
 
     <!--android:background="@color/welcomeColor"-->

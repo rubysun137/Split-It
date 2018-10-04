@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorSecondary"
+    android:background="?colorPrimary50"
     android:orientation="vertical">
 
 
@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@drawable/rc_botton_hollow"
+        android:background="@drawable/rc_button_hollow"
         android:orientation="horizontal">
 
         <TextView

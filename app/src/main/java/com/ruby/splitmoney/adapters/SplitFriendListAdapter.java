@@ -9,19 +9,27 @@ import android.widget.TextView;
 
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.friend.FriendContract;
+import com.ruby.splitmoney.objects.Friend;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SplitFriendListAdapter extends RecyclerView.Adapter {
 
     private FriendContract.Presenter mPresenter;
-    private List<String> mFriendNameList;
+    private List<Friend> mFriendNameList;
+
+    public void setFriendList(List<Friend> friends){
+        mFriendNameList = new ArrayList<>(friends);
+        notifyDataSetChanged();
+    }
 
     public SplitFriendListAdapter(FriendContract.Presenter presenter) {
         mPresenter = presenter;
+        mFriendNameList = new ArrayList<>();
         String[] friends = new String[]{"恩涵","冠賢","Roger","文彬","Ruby","瓘閎","Paula","Justin","Sandy","Wayne"};
-        mFriendNameList = Arrays.asList(friends);
+
     }
 
     @NonNull
@@ -52,14 +60,14 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.transToFriendDetailPage(mFriendNameList.get(getAdapterPosition()));
+                    mPresenter.transToFriendDetailPage(mFriendNameList.get(getAdapterPosition()).getName());
                 }
             });
         }
 
         private void bindView(){
             int position = getAdapterPosition();
-            mName.setText(mFriendNameList.get(position));
+            mName.setText(mFriendNameList.get(position).getName());
         }
     }
 }

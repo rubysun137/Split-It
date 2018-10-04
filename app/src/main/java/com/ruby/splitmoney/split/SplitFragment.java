@@ -1,6 +1,9 @@
 package com.ruby.splitmoney.split;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -8,21 +11,37 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.friend.FriendFragment;
 import com.ruby.splitmoney.group.GroupFragment;
+import com.ruby.splitmoney.objects.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
 
-public class SplitFragment extends Fragment implements SplitContract.View,View.OnClickListener {
+
+public class SplitFragment extends Fragment implements SplitContract.View, View.OnClickListener {
 
     private SplitContract.Presenter mPresenter;
     private List<Fragment> mFragmentList;
@@ -34,6 +53,9 @@ public class SplitFragment extends Fragment implements SplitContract.View,View.O
     private FloatingActionButton mAddListFab;
     private FloatingActionButton mAddFriendFab;
     private FloatingActionButton mAddGroupFab;
+    private Context mContext;
+    private View mDialogView;
+    private Dialog mDialog;
 
 
     public SplitFragment() {
@@ -46,6 +68,9 @@ public class SplitFragment extends Fragment implements SplitContract.View,View.O
         View view = inflater.inflate(R.layout.fragment_split, container, false);
         mPresenter = new SplitPresenter(this);
         mPresenter.start();
+
+
+        mContext = container.getContext();
 
         mFragmentList = new ArrayList<>();
         mGroupFragment = new GroupFragment();
@@ -95,14 +120,12 @@ public class SplitFragment extends Fragment implements SplitContract.View,View.O
         mAddGroupFab = view.findViewById(R.id.fab_add_group);
 
 
-
         mAddListFab.setOnClickListener(this);
         mAddFriendFab.setOnClickListener(this);
         mAddGroupFab.setOnClickListener(this);
 
         return view;
     }
-
 
 
     @Override
@@ -112,17 +135,34 @@ public class SplitFragment extends Fragment implements SplitContract.View,View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.fab_add_list:
-                mPresenter.transToAddList();
-                mFab.close(true);
+                mFab.close(false);
+                ((MainActivity) getActivity()).showAddListPage();
                 break;
             case R.id.fab_add_friend:
+                mDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_add_friend, null, false);
+                mDialog = new AlertDialog.Builder(getContext())
+                        .setView(mDialogView)
+                        .show();
+
+                mDialogView.findViewById(R.id.send_friend_email).setOnClickListener(this);
                 mFab.close(true);
                 break;
             case R.id.fab_add_group:
                 mFab.close(true);
                 break;
+            case R.id.send_friend_email:
+                EditText mail = mDialogView.findViewById(R.id.add_friend_email);
+                String friendEmail = mail.getText().toString();
+                mPresenter.searchForFriend(friendEmail,mDialog.getContext());
+                break;
         }
+    }
+
+    @Override
+    public void closeAddFriendDialog(String name) {
+        mDialog.dismiss();
+        Toast.makeText(mContext, "已成功加 "+name+" 為好友", Toast.LENGTH_SHORT).show();
     }
 }

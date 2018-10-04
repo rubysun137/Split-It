@@ -44,29 +44,34 @@
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        app:menu_buttonSpacing="5dp"
-        app:menu_animationDelayPerItem="50"
         app:fab_size="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:menu_animationDelayPerItem="50"
+        app:menu_buttonSpacing="5dp"
         app:menu_colorNormal="@android:color/transparent"
         app:menu_colorPressed="@android:color/transparent"
-        app:menu_icon="@drawable/plus2">
+        app:menu_icon="@drawable/plus2"
+        app:menu_labels_customFont="fonts/gen.ttf"
+        app:menu_labels_style="@style/TabLayoutText">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/add_friend_small"
-            app:fab_showAnimation="@anim/fab_scale_up"
-            app:fab_hideAnimation="@anim/fab_scale_down"
             app:fab_colorNormal="#3dffffff"
             app:fab_colorPressed="#85ffffff"
-            app:fab_shadowColor="@android:color/transparent" />
+            app:fab_hideAnimation="@anim/fab_scale_down"
+            app:fab_label="新增好友"
+            app:fab_shadowColor="@android:color/transparent"
+            app:fontFamily="@font/chinese_one"
+            app:fab_showAnimation="@anim/fab_scale_up" />
+
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add_group"
             android:layout_width="wrap_content"
@@ -74,7 +79,10 @@
             android:src="@drawable/add_group_thick"
             app:fab_colorNormal="#3dffffff"
             app:fab_colorPressed="#85ffffff"
-            app:fab_shadowColor="@android:color/transparent"/>
+            app:fab_label="新增群組"
+            app:fab_shadowColor="@android:color/transparent"
+            app:fontFamily="@font/chinese_one"/>
+
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add_list"
             android:layout_width="wrap_content"
@@ -82,8 +90,10 @@
             android:src="@drawable/add_list"
             app:fab_colorNormal="#3dffffff"
             app:fab_colorPressed="#85ffffff"
-            app:fab_shadowColor="@android:color/transparent"/>
-        
+            app:fab_label="新增清單"
+            app:fab_shadowColor="@android:color/transparent"
+            app:fontFamily="@font/chinese_one" />
+
     </com.github.clans.fab.FloatingActionMenu>
 
 

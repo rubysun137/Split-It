@@ -28,7 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void run() {
                 try {
                     Thread.sleep(1000);
-                    startActivity(new Intent().setClass(WelcomeActivity.this,MainActivity.class));
+                    startActivity(new Intent().setClass(WelcomeActivity.this,LoginActivity.class));
                     finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
