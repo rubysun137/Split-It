@@ -32,19 +32,20 @@ public class LoginActivity extends BaseActivity {
     private EditText mPassword;
     private TextView mSendButton;
     private boolean mIsLoading;
+    private FirebaseUser mFirebaseUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser != null) {
-//            firebaseUser.getDisplayName();
-//            firebaseUser.getEmail();
-//            firebaseUser.getUid();
-//            User user = new User(firebaseUser.getEmail(),firebaseUser.getDisplayName(),firebaseUser.getUid(),"default");
-//            FirebaseFirestore.getInstance().collection("users").document(firebaseUser.getUid()).set(user);
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mFirebaseUser != null) {
+//            mFirebaseUser.getDisplayName();
+//            mFirebaseUser.getEmail();
+//            mFirebaseUser.getUid();
+//            User user = new User(mFirebaseUser.getEmail(),mFirebaseUser.getDisplayName(),mFirebaseUser.getUid(),"default");
+//            FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -56,8 +57,8 @@ public class LoginActivity extends BaseActivity {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmail.getText().toString();
-                String password = mPassword.getText().toString();
+                final String email = mEmail.getText().toString();
+                final String password = mPassword.getText().toString();
                 if (!"".equals(email) && !"".equals(password)) {
                     if (!mIsLoading) {
                         mIsLoading = true;
@@ -65,6 +66,12 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    mFirebaseUser.getDisplayName();
+                                    mFirebaseUser.getEmail();
+                                    mFirebaseUser.getUid();
+                                    User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), "default");
+                                    FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
+
                                     Log.d("Login ", "signInWithEmail:success");
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);

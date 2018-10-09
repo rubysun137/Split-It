@@ -3,6 +3,7 @@ package com.ruby.splitmoney;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.ruby.splitmoney.util.BaseActivity;
 import com.ruby.splitmoney.util.Constants;
 
@@ -28,10 +31,17 @@ public class MainActivity extends BaseActivity implements MainContract.View,
     private ImageView mBackgroundImage;
     private SharedPreferences mPreferences;
     private boolean mIsHalloween;
+    private TextView mUserName;
+    private TextView mUserEmail;
+    private FirebaseUser mFirebaseUser;
+    private NavigationView mNavView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         mPreferences = getSharedPreferences(Constants.THEME_COLOR, Context.MODE_PRIVATE);
         String theme = mPreferences.getString(Constants.THEME, Constants.DEFAULT_THEME);
@@ -49,6 +59,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
 
         setContentView(R.layout.activity_main);
 
+        mNavView = findViewById(R.id.nav_view);
         mToolTitle = findViewById(R.id.toolbarTitleText);
         mNavMain = findViewById(R.id.nav_home);
         mNavSpend = findViewById(R.id.nav_spend);
@@ -56,6 +67,11 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mNavQuick = findViewById(R.id.nav_quick);
         mNavChange = findViewById(R.id.nav_change);
         mBackgroundImage = findViewById(R.id.app_background_image);
+        //取得Header
+        View headerView = mNavView.getHeaderView(0);
+        // 取得Header中的東西
+        mUserName = headerView.findViewById(R.id.nav_user_name);
+        mUserEmail = headerView.findViewById(R.id.nav_user_email);
 
 
         if (mIsHalloween) {
@@ -70,6 +86,8 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mNavSplit.setOnClickListener(this);
         mNavQuick.setOnClickListener(this);
         mNavChange.setOnClickListener(this);
+        mUserName.setText(mFirebaseUser.getDisplayName());
+        mUserEmail.setText(mFirebaseUser.getEmail());
 
 
         mPresenter = new MainPresenter(this, getSupportFragmentManager());
@@ -100,6 +118,9 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//            transaction.remove(getSupportFragmentManager().findFragmentByTag(Constants.ADD_LIST));
+//            getSupportFragmentManager().popBackStack();
             super.onBackPressed();
         }
     }

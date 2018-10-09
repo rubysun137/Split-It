@@ -53,7 +53,7 @@ public class FriendFragment extends Fragment implements FriendContract.View {
         View view = inflater.inflate(R.layout.fragment_friend, container, false);
 
 
-        mPresenter = new FriendPresenter(this);
+        mPresenter = new FriendPresenter(this,getContext());
         mPresenter.start();
 
         return view;
@@ -67,25 +67,6 @@ public class FriendFragment extends Fragment implements FriendContract.View {
         mFriendListAdapter = new SplitFriendListAdapter(mPresenter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mFriendListAdapter);
-
-        ItemTouchHelper.SimpleCallback itemTouchCallBack = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-            }
-
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
-
-        new ItemTouchHelper(itemTouchCallBack).attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -99,7 +80,7 @@ public class FriendFragment extends Fragment implements FriendContract.View {
     }
 
     @Override
-    public void showFriendList(List<Friend> friends) {
-        mFriendListAdapter.setFriendList(friends);
+    public void showFriendList() {
+        mFriendListAdapter.setFriendList();
     }
 }

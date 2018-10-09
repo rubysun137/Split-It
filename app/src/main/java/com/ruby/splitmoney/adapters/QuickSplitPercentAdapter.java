@@ -65,7 +65,8 @@ public class QuickSplitPercentAdapter extends RecyclerView.Adapter {
 
         private void bindView() {
             mPosition = getAdapterPosition();
-            mMemberNumber.setText(String.valueOf(mPosition + 1));
+            String text = "成員"+String.valueOf(mPosition + 1);
+            mMemberNumber.setText(text);
 
             mSharedMoney.addTextChangedListener(new TextWatcher() {
                 @Override

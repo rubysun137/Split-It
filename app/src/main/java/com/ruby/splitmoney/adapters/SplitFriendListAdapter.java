@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.friend.FriendContract;
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +21,8 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
     private FriendContract.Presenter mPresenter;
     private List<Friend> mFriendNameList;
 
-    public void setFriendList(List<Friend> friends){
-        mFriendNameList = new ArrayList<>(friends);
+    public void setFriendList(){
+        mFriendNameList = new ArrayList<>(FriendList.getInstance().getFriendList());
         notifyDataSetChanged();
     }
 
@@ -61,6 +62,14 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     mPresenter.transToFriendDetailPage(mFriendNameList.get(getAdapterPosition()).getName());
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mPresenter.deleteFriendDialog(mFriendNameList.get(getAdapterPosition()).getUid());
+                    return true;
                 }
             });
         }

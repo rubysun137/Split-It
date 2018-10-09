@@ -4,11 +4,13 @@ public class Friend {
     private String email;
     private String uid;
     private String name;
+    private Double money;
 
-    public Friend(String email, String uid, String name) {
+    public Friend(String email, String uid, String name, Double money) {
         this.email = email;
         this.uid = uid;
         this.name = name;
+        this.money = money;
     }
 
     public Friend() {
@@ -36,5 +38,9 @@ public class Friend {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Double getMoney() {
+        return money;
     }
 }

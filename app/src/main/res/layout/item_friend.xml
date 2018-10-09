@@ -30,5 +30,16 @@
             android:layout_margin="16dp"
             android:text="恩涵"
             app:fontFamily="@font/chinese_one" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="- 100 元"
+            android:textColor="@color/moneyRed" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

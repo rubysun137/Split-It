@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9a6dab</color>
+    <color name="colorPrimary">#2b2b2b</color>
     <color name="colorPrimaryDark">#21005c</color>
     <color name="colorAccent">#b3bdff</color>
     <color name="colorDrawer">#564c77</color>
     <color name="welcomeColor">#343f75</color>
     <color name="lightGray">#b2b2b2</color>
     <color name="semiGray">#45ffffff</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="moneyRed">#fe6767</color>
+    <color name="moneyGreen">#66bb82</color>
 
     <color name="halloweenPrimary">#778f9b</color>
     <color name="halloweenPrimaryDark">#4a626d</color>

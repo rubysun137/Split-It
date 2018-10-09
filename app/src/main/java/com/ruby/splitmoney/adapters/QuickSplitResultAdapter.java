@@ -23,7 +23,7 @@ public class QuickSplitResultAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quick_split_result,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quick_split_result,parent, false);
         return new QuickSplitPartialResultViewHolder(view);
     }
 

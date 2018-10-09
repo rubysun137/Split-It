@@ -98,7 +98,6 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mPercentPage.setVisibility(View.GONE);
         mSplitType = new String[]{"全部均分", "部份均分", "比例分攤"};
         ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
-        mSplitTypeList.setDropDownViewResource(R.layout.item_spinner);
         mSpinner.setAdapter(mSplitTypeList);
 
 
@@ -134,7 +133,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
                                     .setCancelable(false)
                                     .show();
                             mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-
+                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
                             TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
                             TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
@@ -164,7 +163,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
                                     .setCancelable(false)
                                     .show();
                             mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-
+                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
                             TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
                             TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);

@@ -5,7 +5,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimary50"
     android:padding="16dp"
     tools:context=".MainActivity">
 
@@ -17,6 +16,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +77,21 @@
             android:paddingStart="40dp"
             android:paddingTop="10dp"
             android:text="登入"
+            app:fontFamily="@font/chinese_one" />
+
+        <TextView
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rc_button_hollow"
+            android:paddingBottom="10dp"
+            android:paddingEnd="40dp"
+            android:paddingStart="40dp"
+            android:paddingTop="10dp"
+            android:text="註冊"
+            android:textAlignment="center"
+            android:visibility="gone"
             app:fontFamily="@font/chinese_one" />
 
     </LinearLayout>

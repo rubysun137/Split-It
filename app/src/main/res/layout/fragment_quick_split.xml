@@ -32,7 +32,7 @@
             android:layout_marginStart="8dp"
             android:backgroundTint="?colorAccent"
             android:ems="10"
-            android:gravity="end"
+            android:gravity="start"
             android:hint="不含服務費"
             android:inputType="number"
             android:singleLine="true"
@@ -76,7 +76,7 @@
             android:layout_marginStart="8dp"
             android:backgroundTint="?colorAccent"
             android:ems="10"
-            android:gravity="end"
+            android:gravity="start"
             android:inputType="number"
             android:textColor="@android:color/white"
             app:fontFamily="@font/chinese_one"
@@ -163,7 +163,7 @@
             android:layout_marginStart="8dp"
             android:backgroundTint="?colorAccent"
             android:ems="10"
-            android:gravity="end"
+            android:gravity="start"
             android:inputType="number"
             android:textColor="@android:color/white"
             app:fontFamily="@font/chinese_one"
@@ -191,6 +191,8 @@
             android:layout_marginBottom="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/rc_button_hollow"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
             android:text="下一頁"
             app:fontFamily="@font/chinese_one"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -201,18 +203,6 @@
         android:id="@+id/quick_split_second_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/previous_page_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:layout_marginStart="32dp"
-            android:background="@drawable/rc_button_hollow"
-            android:text="上一頁"
-            app:fontFamily="@font/chinese_one"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <FrameLayout
             android:layout_width="0dp"
@@ -265,12 +255,12 @@
                         android:text="100"
                         android:textSize="30sp"
                         app:fontFamily="@font/chinese_one"
-                        app:layout_constraintBottom_toBottomOf="@+id/textView"
-                        app:layout_constraintStart_toEndOf="@+id/textView"
-                        app:layout_constraintTop_toTopOf="@+id/textView" />
+                        app:layout_constraintBottom_toBottomOf="@+id/nav_user_email"
+                        app:layout_constraintStart_toEndOf="@+id/nav_user_email"
+                        app:layout_constraintTop_toTopOf="@+id/nav_user_email" />
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/nav_user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
@@ -334,6 +324,20 @@
                     app:fontFamily="@font/chinese_one" />
             </LinearLayout>
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/previous_page_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/rc_button_hollow"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:text="上一頁"
+            app:fontFamily="@font/chinese_one"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 

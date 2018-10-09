@@ -12,12 +12,14 @@ public interface FriendContract {
 
         void setFriendDetailPage(String friendName);
 
-        void showFriendList(List<Friend> friends);
+        void showFriendList();
 
     }
 
     interface Presenter extends BasePresenter {
 
         void transToFriendDetailPage(String friendName);
+
+        void deleteFriendDialog(String friendUid);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="?colorPrimary50"
+    android:background="@drawable/rc_dialog_background"
     android:layout_height="wrap_content">
 
     <android.support.design.widget.TextInputLayout
@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:focusableInTouchMode="true"
         android:textColorHint="?colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_friend_email"
@@ -27,10 +28,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/re_login_item"
             android:ems="10"
-            android:focusedByDefault="false"
             android:hint="請輸入 Email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
+            android:textAlignment="textStart"
             android:textColor="@android:color/white"
             app:fontFamily="@font/chinese_one" />
 
@@ -40,7 +41,7 @@
         android:id="@+id/send_friend_email"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"

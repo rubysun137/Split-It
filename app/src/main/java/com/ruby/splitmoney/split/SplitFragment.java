@@ -145,7 +145,7 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
                 mDialog = new AlertDialog.Builder(getContext())
                         .setView(mDialogView)
                         .show();
-
+                mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
                 mDialogView.findViewById(R.id.send_friend_email).setOnClickListener(this);
                 mFab.close(true);
                 break;

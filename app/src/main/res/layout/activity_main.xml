@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?colorPrimary50"
         app:headerLayout="@layout/nav_header_main">
+        <!--android:background="?colorPrimary50"-->
 
         <LinearLayout
             android:id="@+id/linearLayout2"

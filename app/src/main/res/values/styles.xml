@@ -7,13 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@android:color/white</item>
-        <item name="colorPrimary50">@color/colorDrawer</item>
+        <item name="colorPrimary50">@color/welcomeColor</item>
         <item name="colorSecondary50">@color/colorPrimaryDark</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/chinese_one</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:colorBackground">?colorPrimary50</item>
     </style>
 
     <style name="OverlayPrimaryColorHalloween">
