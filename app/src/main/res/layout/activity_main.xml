@@ -15,7 +15,7 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header_main">
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="記帳"
+                    android:text="記帳頁面"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="拆帳"
+                    android:text="拆帳頁面"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 

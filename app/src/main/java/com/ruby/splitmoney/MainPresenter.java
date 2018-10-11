@@ -57,8 +57,14 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("首頁");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null) transaction.remove(mAddListFragment);
-        if (mFriendDetailFragment != null) transaction.remove(mFriendDetailFragment);
+        if (mAddListFragment != null){
+            transaction.remove(mAddListFragment);
+            mFragmentManager.popBackStack();
+        }
+        if (mFriendDetailFragment != null){
+            transaction.remove(mFriendDetailFragment);
+            mFragmentManager.popBackStack();
+        }
         if (mSpendFragment != null) transaction.hide(mSpendFragment);
         if (mSplitFragment != null) transaction.hide(mSplitFragment);
         if (mQuickSplitFragment != null) transaction.hide(mQuickSplitFragment);
@@ -77,8 +83,14 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("記帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null) transaction.remove(mAddListFragment);
-        if (mFriendDetailFragment != null) transaction.remove(mFriendDetailFragment);
+        if (mAddListFragment != null){
+            transaction.remove(mAddListFragment);
+            mFragmentManager.popBackStack();
+        }
+        if (mFriendDetailFragment != null){
+            transaction.remove(mFriendDetailFragment);
+            mFragmentManager.popBackStack();
+        }
         if (mHomeFragment != null) transaction.hide(mHomeFragment);
         if (mSplitFragment != null) transaction.hide(mSplitFragment);
         if (mQuickSplitFragment != null) transaction.hide(mQuickSplitFragment);
@@ -96,8 +108,14 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("拆帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null) transaction.remove(mAddListFragment);
-        if (mFriendDetailFragment != null) transaction.remove(mFriendDetailFragment);
+        if (mAddListFragment != null){
+            transaction.remove(mAddListFragment);
+            mFragmentManager.popBackStack();
+        }
+        if (mFriendDetailFragment != null){
+            transaction.remove(mFriendDetailFragment);
+            mFragmentManager.popBackStack();
+        }
         if (mHomeFragment != null) transaction.hide(mHomeFragment);
         if (mSpendFragment != null) transaction.hide(mSpendFragment);
         if (mQuickSplitFragment != null) transaction.hide(mQuickSplitFragment);
@@ -115,8 +133,14 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("快速拆帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null) transaction.remove(mAddListFragment);
-        if (mFriendDetailFragment != null) transaction.remove(mFriendDetailFragment);
+        if (mAddListFragment != null){
+            transaction.remove(mAddListFragment);
+            mFragmentManager.popBackStack();
+        }
+        if (mFriendDetailFragment != null){
+            transaction.remove(mFriendDetailFragment);
+            mFragmentManager.popBackStack();
+        }
         if (mHomeFragment != null) transaction.hide(mHomeFragment);
         if (mSpendFragment != null) transaction.hide(mSpendFragment);
         if (mSplitFragment != null) transaction.hide(mSplitFragment);

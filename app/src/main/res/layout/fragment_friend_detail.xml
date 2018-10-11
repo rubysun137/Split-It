@@ -42,11 +42,13 @@
                     android:textColor="@android:color/white"
                     android:textSize="30dp"
                     android:textStyle="bold"
-                    app:fontFamily="@font/chinese_one"/>
+                    app:fontFamily="@font/chinese_one" />
 
                 <LinearLayout
+                    android:id="@+id/money_is_not_balance_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -54,16 +56,16 @@
                         android:id="@+id/friend_detail_who_owe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginEnd="10dp"
+                        android:gravity="center"
                         android:text="Ruby Sun"
                         app:fontFamily="@font/chinese_one" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginEnd="10dp"
+                        android:gravity="center"
                         android:text="欠"
                         app:fontFamily="@font/chinese_one" />
 
@@ -71,18 +73,20 @@
                         android:id="@+id/friend_detail_owe_who"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginEnd="10dp"
+                        android:gravity="center"
                         android:text="你"
                         app:fontFamily="@font/chinese_one" />
+
                     <TextView
                         android:id="@+id/friend_detail_own_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginEnd="10dp"
-                        android:text="100"
-                        app:fontFamily="@font/chinese_one" />
+                        android:gravity="center"
+                        app:fontFamily="@font/chinese_one"
+                        tools:text="100" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -91,6 +95,35 @@
                         app:fontFamily="@font/chinese_one" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/money_is_balance_linear_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="帳務結清" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/no_list_linear_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="無帳務關係" />
+                </LinearLayout>
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
@@ -131,10 +164,10 @@
         android:textColor="@android:color/white"
         android:textSize="25dp"
         android:textStyle="bold"
-        app:fontFamily="@font/chinese_one"
         app:dependTargetY="-206dp"
         app:dependType="y"
         app:dependsOn="@+id/appbar"
+        app:fontFamily="@font/chinese_one"
         app:layout_behavior="com.zoonref.SimpleViewBehavior"
         app:targetAlpha="1"
         app:targetY="-10dp" />
@@ -147,24 +180,24 @@
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
         <!--<android.support.constraint.ConstraintLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@android:color/transparent">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@android:color/transparent">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_marginEnd="8dp"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:text="FRIEND DETAIL PAGE"-->
-                <!--android:textColor="@android:color/background_dark"-->
-                <!--android:textSize="36sp"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toTopOf="parent" />-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:text="FRIEND DETAIL PAGE"-->
+        <!--android:textColor="@android:color/background_dark"-->
+        <!--android:textSize="36sp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
         <!--</android.support.constraint.ConstraintLayout>-->
     </android.support.v7.widget.RecyclerView>

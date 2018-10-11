@@ -98,6 +98,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mPercentPage.setVisibility(View.GONE);
         mSplitType = new String[]{"全部均分", "部份均分", "比例分攤"};
         ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
+        mSplitTypeList.setDropDownViewResource(R.layout.dropdown_style);
         mSpinner.setAdapter(mSplitTypeList);
 
 

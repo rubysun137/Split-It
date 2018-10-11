@@ -40,10 +40,10 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
     private Context mContext;
 
     public void setEvents(List<Event> events, List<Double> moneyList){
-        mEventList = new ArrayList<>(events);
         mMoneyList = new ArrayList<>(moneyList);
-
+        mEventList = new ArrayList<>(events);
         notifyDataSetChanged();
+
     }
 
 
@@ -51,6 +51,7 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
         mPresenter = presenter;
         mFriend = friend;
         mEventList = new ArrayList<>();
+        mMoneyList = new ArrayList<>();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirestore = FirebaseFirestore.getInstance();
     }
@@ -90,6 +91,10 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
         }
 
         private void bindView() {
+            Log.d("EVENT NUMBER", "bindView: position: " + getAdapterPosition());
+            Log.d("EVENT NUMBER", "event size: " + mEventList.size());
+            Log.d("EVENT NUMBER", "money size: " + mMoneyList.size());
+
             int position = getAdapterPosition();
             mTitle.setText(mEventList.get(position).getName());
             if(mMoneyList.get(position)<0){
@@ -101,7 +106,9 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
                 mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
                 setColor(R.color.moneyGreen);
             }else{
-
+                mBalanceType.setText("你借出");
+                mBalanceMoney.setText(String.valueOf(0));
+                setColor(R.color.moneyGreen);
             }
         }
 

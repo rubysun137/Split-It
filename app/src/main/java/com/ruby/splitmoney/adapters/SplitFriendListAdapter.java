@@ -1,10 +1,12 @@
 package com.ruby.splitmoney.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ruby.splitmoney.R;
@@ -16,10 +18,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class SplitFriendListAdapter extends RecyclerView.Adapter {
 
     private FriendContract.Presenter mPresenter;
     private List<Friend> mFriendNameList;
+    private Context mContext;
 
     public void setFriendList(){
         mFriendNameList = new ArrayList<>(FriendList.getInstance().getFriendList());
@@ -37,6 +42,7 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend,parent,false);
+        mContext = parent.getContext();
 
         return new SplitFriendListViewHolder(view);
     }
@@ -48,16 +54,20 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mFriendNameList.size();
+            return mFriendNameList.size()+1;
     }
 
     private class  SplitFriendListViewHolder extends RecyclerView.ViewHolder {
 
+        private ImageView mImage;
         private TextView mName;
+        private TextView mMoney;
 
         public SplitFriendListViewHolder(@NonNull View itemView) {
             super(itemView);
+            mImage = itemView.findViewById(R.id.default_user_image);
             mName = itemView.findViewById(R.id.friend_name_text);
+            mMoney = itemView.findViewById(R.id.friend_list_money);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,7 +86,26 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
 
         private void bindView(){
             int position = getAdapterPosition();
-            mName.setText(mFriendNameList.get(position).getName());
+            if(position == mFriendNameList.size()){
+                mImage.setVisibility(View.INVISIBLE);
+                mName.setVisibility(View.INVISIBLE);
+                mMoney.setVisibility(View.INVISIBLE);
+            }else{
+                mImage.setVisibility(View.VISIBLE);
+                mName.setVisibility(View.VISIBLE);
+                mName.setText(mFriendNameList.get(position).getName());
+                mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
+                if (mFriendNameList.get(position).getMoney() > 0) {
+                    mMoney.setTextColor(getColor(mContext, R.color.moneyGreen));
+                    mMoney.setVisibility(View.VISIBLE);
+                } else if (mFriendNameList.get(position).getMoney() < 0) {
+                    mMoney.setTextColor(getColor(mContext, R.color.moneyRed));
+                    mMoney.setVisibility(View.VISIBLE);
+                } else if (mFriendNameList.get(position).getMoney() == 0) {
+                    mMoney.setVisibility(View.INVISIBLE);
+                }
+            }
+
         }
     }
 }

@@ -18,9 +18,9 @@
         <ImageView
             android:id="@+id/default_user_image"
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginStart="24dp"
-            app:srcCompat="@drawable/jack" />
+            app:srcCompat="@drawable/user2" />
 
         <TextView
             android:id="@+id/friend_name_text"
@@ -32,7 +32,7 @@
             app:fontFamily="@font/chinese_one" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/friend_list_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

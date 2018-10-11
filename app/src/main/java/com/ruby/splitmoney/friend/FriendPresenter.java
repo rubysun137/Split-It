@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.R;
+import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.App;
 import com.ruby.splitmoney.util.FriendList;
@@ -41,6 +43,10 @@ public class FriendPresenter implements FriendContract.Presenter {
     private List<Friend> mFriends;
     private Context mContext;
     private Dialog mDialog;
+
+    private List<String> mEventIdList;
+    private List<Event> mEventList;
+    private List<Double> mMoneyList;
 
 
     public FriendPresenter(FriendContract.View view, Context context) {

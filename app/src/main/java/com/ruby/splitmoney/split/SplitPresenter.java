@@ -61,13 +61,13 @@ public class SplitPresenter implements SplitContract.Presenter {
     }
 
     private void addFriend(String myUid, String friendUid, String name) {
-        Friend friend = new Friend(mFriendEmail, friendUid, name);
+        Friend friend = new Friend(mFriendEmail, friendUid, name , 0.0);
 //        mFirestore.collection("users").document(myUid).update(
 //                "friends." + friendUid + ".friend_email", mFriendEmail,
 //                "friends." + friendUid + ".friend_uid", friendUid,
 //                "friends." + friendUid + ".friend_name", name);
 //        mDataBase.collection("users").document(myUid).update("friends", friend);
-        Friend myInfo = new Friend(mUser.getEmail(),mUser.getUid(),mUser.getDisplayName());
+        Friend myInfo = new Friend(mUser.getEmail(),mUser.getUid(),mUser.getDisplayName(), 0.0);
         mDataBase.collection("users").document(myUid).collection("friends").document(friendUid).set(friend);
         mDataBase.collection("users").document(friendUid).collection("friends").document(myUid).set(myInfo);
         mView.closeAddFriendDialog(name);
