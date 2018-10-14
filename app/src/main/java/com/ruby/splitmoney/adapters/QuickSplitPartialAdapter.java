@@ -25,6 +25,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
     private int mTotalMoney;
     private int mTotalMember;
     private int mPartialMoney;
+    private List<String> mStringList;
 //    private List<Integer> mExtraMoney;
 
     public QuickSplitPartialAdapter(String money, String member, QuickSplitContract.Presenter presenter) {
@@ -33,6 +34,11 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
         mPresenter = presenter;
 //        mExtraMoney = Arrays.asList(new Integer[mTotalMember]);
         mPresenter.setListSize(mTotalMember);
+        mStringList = new ArrayList<>();
+        for(int i = 0;i<mTotalMember;i++){
+            mStringList.add(i,"");
+        }
+
     }
 
     @NonNull
@@ -60,17 +66,14 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
 //        private TextView mAverageMoney;
         private EditText mAddMoney;
         private int mPosition;
-        private List<String> mStringList;
+
 
         private QuickSplitPartialViewHolder(@NonNull View itemView) {
             super(itemView);
             mMemberNumber = itemView.findViewById(R.id.partial_split_member_number);
 //            mAverageMoney = itemView.findViewById(R.id.partial_spit_average_money);
             mAddMoney = itemView.findViewById(R.id.partial_split_add_money);
-            mStringList = new ArrayList<>();
-            for(int i = 0;i<mTotalMember;i++){
-                mStringList.add(i,"");
-            }
+
 
         }
 

@@ -35,6 +35,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
     private FriendDetailAdapter mFriendListAdapter;
     private TextView mNameTitle;
     private TextView mNameBig;
+    private TextView mClearBalance;
     private TextView mWhoOwe;
     private TextView mOweWho;
     private TextView mOweMoney;
@@ -57,6 +58,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
 
         mNameTitle = view.findViewById(R.id.friend_detail_friend_title);
         mNameBig = view.findViewById(R.id.friend_detail_friend_name);
+        mClearBalance = view.findViewById(R.id.friend_detail_clear_balance);
         mWhoOwe = view.findViewById(R.id.friend_detail_who_owe);
         mOweWho = view.findViewById(R.id.friend_detail_owe_who);
         mOweMoney = view.findViewById(R.id.friend_detail_own_money);
@@ -70,6 +72,8 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mNotBalancedLayout.setVisibility(View.GONE);
         mBalancedLayout.setVisibility(View.GONE);
         mNoListLayout.setVisibility(View.GONE);
+        mClearBalance.setVisibility(View.GONE);
+        mClearBalance.setOnClickListener(this);
 
 
         mFriendList = new ArrayList<>(FriendList.getInstance().getFriendList());
@@ -91,7 +95,11 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.friend_detail_clear_balance:
 
+                break;
+        }
     }
 
     @Override
@@ -106,9 +114,10 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
             mNoListLayout.setVisibility(View.VISIBLE);
             mNotBalancedLayout.setVisibility(View.GONE);
             mBalancedLayout.setVisibility(View.GONE);
+            mClearBalance.setVisibility(View.GONE);
         } else {
             mFriendListAdapter.setEvents(events, moneyList);
-            int balanceMoney = 0;
+            double balanceMoney = 0;
             for (Double money : moneyList) {
                 balanceMoney += money;
             }
@@ -119,6 +128,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                 mWhoOwe.setText(mFriendName);
                 mOweWho.setText("你");
                 mOweMoney.setText(String.valueOf(balanceMoney));
+                mClearBalance.setVisibility(View.VISIBLE);
             } else if (balanceMoney < 0) {
                 mNoListLayout.setVisibility(View.GONE);
                 mNotBalancedLayout.setVisibility(View.VISIBLE);
@@ -126,10 +136,12 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                 mWhoOwe.setText("你");
                 mOweWho.setText(mFriendName);
                 mOweMoney.setText(String.valueOf(0 - balanceMoney));
+                mClearBalance.setVisibility(View.VISIBLE);
             } else {
                 mNoListLayout.setVisibility(View.GONE);
                 mNotBalancedLayout.setVisibility(View.GONE);
                 mBalancedLayout.setVisibility(View.VISIBLE);
+                mClearBalance.setVisibility(View.GONE);
             }
         }
 

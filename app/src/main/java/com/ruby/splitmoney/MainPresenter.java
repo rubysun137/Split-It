@@ -104,7 +104,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void transToSplit() {
+    public void transToSplit(boolean transToFriend) {
         mView.setToolBarTitle("拆帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
@@ -125,6 +125,9 @@ public class MainPresenter implements MainContract.Presenter {
         } else {
             transaction.show(mSplitFragment);
         }
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("friendPage",transToFriend);
+        mSplitFragment.setArguments(bundle);
         transaction.commit();
     }
 

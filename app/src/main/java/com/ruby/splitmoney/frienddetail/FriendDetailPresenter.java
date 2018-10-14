@@ -71,35 +71,55 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                     mFirestore.collection("events").addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                            for(QueryDocumentSnapshot document : queryDocumentSnapshots){
+                            for (final QueryDocumentSnapshot document : queryDocumentSnapshots) {
                                 mEventList = new ArrayList<>();
                                 mMoneyList = new ArrayList<>();
                                 mMap = new HashMap<>();
-                                for(String id :mEventIdList){
-                                    if(document.getId().equals(id)){
+                                for (String id : mEventIdList) {
+                                    if (document.getId().equals(id)) {
                                         final Event event = document.toObject(Event.class);
-                                        document.getReference().collection("members").document(mFriend.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                        document.getReference().collection("members").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                             @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                Log.d("CHANGE!!!!", "onSuccess: WHY???????? mEventList.size()"+mEventList.size());
-                                                Log.d("CHANGE!!!!", "onSuccess: WHY???????? mMoneyList.size()"+mMoneyList.size());
-                                                double moneyBalance = documentSnapshot.getDouble("owe");
-                                                if (documentSnapshot.getDouble("pay") == 0.0) {
-                                                    //我付錢
-                                                    mEventList.add(event);
-                                                    mMoneyList.add(moneyBalance);
-                                                    mMap.put(event, moneyBalance);
-                                                Log.d("CHANGE!!!!", "onSuccess: EVENT????????"+event.getName());
+                                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                boolean payByFriend = false;
+                                                double oweMe = 0.0;
+                                                double oweFriend = 0.0;
 
-                                                } else {
-                                                    //朋友付錢
-                                                    mEventList.add(event);
-                                                    moneyBalance = 0 - moneyBalance;
-                                                    mMoneyList.add(moneyBalance);
-                                                    mMap.put(event, moneyBalance);
+                                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                                    Log.d("CHANGE!!!!", "onSuccess: WHY???????? mEventList.size()" + mEventList.size());
+                                                    Log.d("CHANGE!!!!", "onSuccess: WHY???????? mMoneyList.size()" + mMoneyList.size());
+                                                    Log.d("CHANGE!!!!", "onSuccess: WHY???????? documentSnapshot" + documentSnapshot.getId());
+                                                    documentSnapshot.contains("members");
+                                                    double moneyBalance = documentSnapshot.getDouble("owe");
+                                                    if (documentSnapshot.getId().equals(mFriend.getUid())) {
+                                                        if (documentSnapshot.getDouble("pay") != 0.0) {
+                                                            payByFriend = true;
+                                                            oweFriend = moneyBalance;
+                                                        }else{
+                                                            payByFriend = false;
+                                                            oweFriend = moneyBalance;
+                                                        }
+                                                    }else if(documentSnapshot.getId().equals(mUser.getUid())){
+                                                        oweMe = moneyBalance;
+                                                    }
                                                 }
+                                                    if (payByFriend) {
+                                                        //朋友付錢
+                                                        mEventList.add(event);
+                                                        oweMe = 0 - oweMe;
+                                                        mMoneyList.add(oweMe);
+                                                        mMap.put(event, oweMe);
+                                                    } else {
+                                                        //我付錢
+                                                        mEventList.add(event);
+                                                        mMoneyList.add(oweFriend);
+                                                        mMap.put(event, oweFriend);
+                                                        Log.d("CHANGE!!!!", "onSuccess: EVENT????????" + event.getName());
+
+
+                                                    }
                                                 if (mMoneyList.size() == mEventIdList.size()) {
-                                                Log.d("CHANGE!!!!", "onSuccess: GO????????");
+                                                    Log.d("CHANGE!!!!", "onSuccess: GO????????");
                                                     Collections.sort(mEventList, new Comparator<Event>() {
                                                         @Override
                                                         public int compare(Event o1, Event o2) {
@@ -123,7 +143,7 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                                                         mMoneyList.add(j, mMap.get(mEventList.get(j)));
                                                     }
                                                     mView.showEvents(mEventList, mMoneyList, mMap);
-                                                    int balanceMoney = 0;
+                                                    double balanceMoney = 0;
                                                     for (Double money : mMoneyList) {
                                                         balanceMoney += money;
                                                     }
@@ -133,70 +153,10 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                                             }
                                         });
                                     }
-
                                 }
                             }
-
                         }
                     });
-//                    for (int i = 0; i < mEventIdList.size(); i++) {
-//                        mFirestore.collection("events").document(mEventIdList.get(i)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                            @Override
-//                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                final Event event = documentSnapshot.toObject(Event.class);
-//                                documentSnapshot.getReference().collection("members").document(mFriend.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                    @Override
-//                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                        double moneyBalance = documentSnapshot.getDouble("owe");
-//                                        if (documentSnapshot.getDouble("pay") == 0.0) {
-//                                            //我付錢
-//                                            mEventList.add(event);
-//                                            mMoneyList.add(moneyBalance);
-//                                            mMap.put(event, moneyBalance);
-//
-//                                        } else {
-//                                            //朋友付錢
-//                                            mEventList.add(event);
-//                                            moneyBalance = 0 - moneyBalance;
-//                                            mMoneyList.add(moneyBalance);
-//                                            mMap.put(event, moneyBalance);
-//                                        }
-//                                        if (mMoneyList.size() == mEventIdList.size()) {
-//                                            Collections.sort(mEventList, new Comparator<Event>() {
-//                                                @Override
-//                                                public int compare(Event o1, Event o2) {
-//                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/dd");
-//                                                    int i = 0;
-//                                                    try {
-//                                                        i = (int) (sdf.parse(o1.getDate()).getTime() - sdf.parse(o2.getDate()).getTime());
-//                                                        if (i == 0) {
-//                                                            return 0 - (int) (o1.getTime().getTime() - o2.getTime().getTime());
-//                                                        } else {
-//                                                            return 0 - i;
-//                                                        }
-//                                                    } catch (ParseException e) {
-//                                                        e.printStackTrace();
-//                                                    }
-//                                                    return 0 - i;
-//                                                }
-//                                            });
-//                                            mMoneyList = new ArrayList<>();
-//                                            for (int j = 0; j < mEventList.size(); j++) {
-//                                                mMoneyList.add(j, mMap.get(mEventList.get(j)));
-//                                            }
-//                                            mView.showEvents(mEventList, mMoneyList, mMap);
-//                                            int balanceMoney = 0;
-//                                            for (Double money : mMoneyList) {
-//                                                balanceMoney += money;
-//                                            }
-//                                            mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(mFriend.getUid()).update("money", balanceMoney);
-//                                            mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mUser.getUid()).update("money", 0 - balanceMoney);
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
                 } else {
 
                     mView.showEvents(mEventList, mMoneyList, mMap);

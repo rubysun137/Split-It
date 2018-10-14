@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
-    tools:background="?colorPrimary50">
+    tools:background="?colorPrimary">
 
 
     <LinearLayout

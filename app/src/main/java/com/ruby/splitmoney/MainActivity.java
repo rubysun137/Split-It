@@ -1,6 +1,9 @@
 package com.ruby.splitmoney;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,10 +11,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +32,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
     private LinearLayout mNavSplit;
     private LinearLayout mNavQuick;
     private LinearLayout mNavChange;
+    private LinearLayout mNavLogout;
     private TextView mToolTitle;
     private ImageView mBackgroundImage;
     private SharedPreferences mPreferences;
@@ -35,6 +41,9 @@ public class MainActivity extends BaseActivity implements MainContract.View,
     private TextView mUserEmail;
     private FirebaseUser mFirebaseUser;
     private NavigationView mNavView;
+    private View mDialogView;
+    private Dialog mDialog;
+    private long mExitTime = 0;
 
 
     @Override
@@ -66,6 +75,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mNavSplit = findViewById(R.id.nav_split);
         mNavQuick = findViewById(R.id.nav_quick);
         mNavChange = findViewById(R.id.nav_change);
+        mNavLogout = findViewById(R.id.nav_logout);
         mBackgroundImage = findViewById(R.id.app_background_image);
         //取得Header
         View headerView = mNavView.getHeaderView(0);
@@ -86,6 +96,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mNavSplit.setOnClickListener(this);
         mNavQuick.setOnClickListener(this);
         mNavChange.setOnClickListener(this);
+        mNavLogout.setOnClickListener(this);
         mUserName.setText(mFirebaseUser.getDisplayName());
         mUserEmail.setText(mFirebaseUser.getEmail());
 
@@ -118,10 +129,15 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            transaction.remove(getSupportFragmentManager().findFragmentByTag(Constants.ADD_LIST));
-//            getSupportFragmentManager().popBackStack();
-            super.onBackPressed();
+            if(!getSupportFragmentManager().popBackStackImmediate()){
+                //最後一頁
+                if((System.currentTimeMillis()-mExitTime)>2000){
+                    Toast.makeText(this, "再按一次退出程式", Toast.LENGTH_SHORT).show();
+                    mExitTime = System.currentTimeMillis();
+                }else {
+                    super.onBackPressed();
+                }
+            }
         }
     }
 
@@ -143,13 +159,19 @@ public class MainActivity extends BaseActivity implements MainContract.View,
                 mPresenter.transToSpend();
                 break;
             case R.id.nav_split:
-                mPresenter.transToSplit();
+                mPresenter.transToSplit(false);
                 break;
             case R.id.nav_quick:
                 mPresenter.transToQuickSplit();
                 break;
             case R.id.nav_change:
                 mPresenter.changeTheme();
+                break;
+            case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 break;
 
         }
@@ -178,5 +200,19 @@ public class MainActivity extends BaseActivity implements MainContract.View,
 
     public void showAddListPage() {
         mPresenter.transToAddListPage();
+    }
+
+    public void switchPage(String pageName){
+        switch(pageName){
+            case Constants.SPLIT:
+                mPresenter.transToSplit(true);
+                break;
+            case  Constants.ADD_LIST:
+                mPresenter.transToAddListPage();
+                break;
+            case Constants.QUICK:
+                mPresenter.transToQuickSplit();
+                break;
+        }
     }
 }

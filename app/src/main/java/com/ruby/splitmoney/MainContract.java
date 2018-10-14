@@ -17,7 +17,7 @@ public interface MainContract {
 
         void transToSpend();
 
-        void transToSplit();
+        void transToSplit(boolean transToFriend);
 
         void transToQuickSplit();
 

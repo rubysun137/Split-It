@@ -10,16 +10,16 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorPrimary50"
+        android:background="?colorPrimary"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:contentScrim="?colorPrimary50"
+            app:contentScrim="?colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:statusBarScrim="?colorPrimary50">
+            app:statusBarScrim="?colorPrimary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,8 +29,8 @@
                 android:layout_marginRight="16dp"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="40dp"
                 android:paddingTop="180dp"
+                android:paddingBottom="40dp"
                 app:layout_collapseMode="none"
                 app:layout_collapseParallaxMultiplier="1.0">
 
@@ -153,14 +153,16 @@
 
     <TextView
         android:id="@+id/friend_detail_friend_title"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="@dimen/big_toolbar_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="-100dp"
         android:alpha="0"
         android:elevation="10dp"
+        android:ellipsize="end"
         android:gravity="center_vertical"
-        android:text="Ruby Sun"
+        android:maxLines="1"
+        android:text="Ruby Sun Ruby Sun Ruby Sun Ruby Sun Ruby Sun Ruby Sun"
         android:textColor="@android:color/white"
         android:textSize="25dp"
         android:textStyle="bold"
@@ -172,6 +174,20 @@
         app:targetAlpha="1"
         app:targetY="-10dp" />
 
+    <TextView
+        android:id="@+id/friend_detail_clear_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rc_button_hollow"
+        android:elevation="10dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="結清帳務"
+        app:fontFamily="@font/chinese_one"
+        app:layout_behavior="com.zoonref.SimpleViewBehavior" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friend_detail_recycler_view"

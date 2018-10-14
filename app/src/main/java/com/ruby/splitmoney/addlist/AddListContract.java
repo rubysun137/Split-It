@@ -28,7 +28,15 @@ public interface AddListContract {
 
         void addExtraMoneyList(int position, int extraMoney);
 
+        void addSharedMoneyList(int position, int sharedMoney);
+
+        void addFreeMoneyList(int position, int freeMoney);
+
         void setListSize(int totalMember);
+
+        boolean isSharedListEmpty();
+
+        int freeTotalMoney();
 
         void saveSplitResultToFirebase(String event, List<Friend> friends,String whoPays, int money, int tipPercent, String date);
     }

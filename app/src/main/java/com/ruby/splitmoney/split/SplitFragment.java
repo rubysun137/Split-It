@@ -93,6 +93,12 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
             }
         });
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            boolean friendPage = bundle.getBoolean("friendPage");
+            transToFriendPage(friendPage);
+        }
+
         mTabLayout = view.findViewById(R.id.tabLayout);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -164,5 +170,11 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
     public void closeAddFriendDialog(String name) {
         mDialog.dismiss();
         Toast.makeText(mContext, "已成功加 "+name+" 為好友", Toast.LENGTH_SHORT).show();
+    }
+
+    public void transToFriendPage(boolean friendPage){
+        if(friendPage){
+            mPager.setCurrentItem(1);
+        }
     }
 }

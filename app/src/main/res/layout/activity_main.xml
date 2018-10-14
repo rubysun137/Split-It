@@ -24,7 +24,7 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="200dp"
             android:orientation="vertical"
             android:padding="16dp"
@@ -35,7 +35,7 @@
             <LinearLayout
                 android:id="@+id/nav_home"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="45dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical">
@@ -59,10 +59,11 @@
             <LinearLayout
                 android:id="@+id/nav_spend"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="45dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
                 <!--<ImageView-->
                 <!--android:layout_width="wrap_content"-->
@@ -83,7 +84,7 @@
             <LinearLayout
                 android:id="@+id/nav_split"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="45dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical">
@@ -107,7 +108,7 @@
             <LinearLayout
                 android:id="@+id/nav_quick"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="45dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical">
@@ -131,7 +132,7 @@
             <LinearLayout
                 android:id="@+id/nav_change"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="45dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical">
@@ -152,8 +153,41 @@
 
             </LinearLayout>
 
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/nav_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical|end"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="35dp"
+                        android:layout_marginEnd="16dp"
+                        app:srcCompat="@drawable/logout" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="7sp"
+                        android:text="登出"
+                        android:textColor="@color/click_text_color"
+                        app:fontFamily="@font/chinese_one" />
+
+                </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
+
 
         </LinearLayout>
+
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

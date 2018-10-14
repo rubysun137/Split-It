@@ -3,34 +3,31 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorDrawer</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSecondary">@android:color/white</item>
-        <item name="colorPrimary50">@color/welcomeColor</item>
-        <item name="colorSecondary50">@color/colorPrimaryDark</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:color">@color/colorDrawer</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/chinese_one</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:colorBackground">?colorPrimary50</item>
+        <item name="android:colorBackground">?android:color</item>
     </style>
 
     <style name="OverlayPrimaryColorHalloween">
-        <item name="colorPrimary">@color/halloweenPrimary</item>
+        <item name="colorPrimary">@color/halloweenDrawer</item>
         <item name="colorPrimaryDark">@color/halloweenPrimaryDark</item>
         <item name="colorAccent">@color/halloweenAccent</item>
-        <item name="colorPrimary50">@color/halloweenDrawer</item>
-        <item name="colorSecondary50">@color/halloweenPrimaryDark</item>
+        <item name="android:color">@color/halloweenDrawer</item>
     </style>
 
     <style name="OverlayPrimaryColorDefault">
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorDrawer</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary50">@color/colorDrawer</item>
-        <item name="colorSecondary50">@color/colorPrimaryDark</item>
+        <item name="android:color">@color/colorDrawer</item>
     </style>
 
     <style name="MenuTextStyle">
@@ -39,7 +36,7 @@
 
     <style name="myDropTheme" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:backgroundTint">?colorPrimary50</item>
+        <item name="android:backgroundTint">?android:color</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -68,8 +65,8 @@
     </style>
 
     <style name="datePicker" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">?colorPrimary50</item>
-        <item name="android:textColor">?colorSecondary50</item>
+        <item name="colorAccent">?android:color</item>
+        <item name="android:textColor">?android:color</item>
         <item name="android:fontFamily">@font/chinese_one</item>
     </style>
 

@@ -30,7 +30,9 @@ import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.AddSplitMemberAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitPartialAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitPercentAdapter;
+import com.ruby.splitmoney.adapters.SplitFreeAdapter;
 import com.ruby.splitmoney.adapters.SplitPartialAdapter;
+import com.ruby.splitmoney.adapters.SplitPercentAdapter;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.quicksplit.QuickSplitFragment;
 import com.ruby.splitmoney.util.FriendList;
@@ -73,12 +75,12 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     private View mDialogView;
     private Dialog mDialogPartial;
     private SplitPartialAdapter mPartialAdapter;
+    private SplitPercentAdapter mPercentAdapter;
+    private SplitFreeAdapter mFreeAdapter;
     private EditText mTipPercent;
     private EditText mEvent;
     private String mWhoPays;
     private List<String> mNames;
-
-
 
 
     public AddListFragment() {
@@ -134,8 +136,8 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mTotalMoney = view.findViewById(R.id.add_list_split_money);
         mTipPercent = view.findViewById(R.id.split_tip_percent);
 
-        mSplitType = new String[]{"全部均分", "部份均分", "比例分攤","任意分配"};
-        ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
+        mSplitType = new String[]{"全部均分", "部份均分", "比例分攤", "任意分配"};
+        ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.dropdown_style, mSplitType);
         mSplitTypeSpinner.setAdapter(mSplitTypeList);
 
 
@@ -160,7 +162,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                         break;
                     case 1:
                         mMoney = mTotalMoney.getText().toString();
-                        if (!mMoney.equals("") && !mMoney.equals("0")) {
+                        if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
                             mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 
                             RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
@@ -190,27 +192,26 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                         break;
                     case 2:
                         mMoney = mTotalMoney.getText().toString();
-                        if (!mMoney.equals("") && !mMoney.equals("0")) {
-//                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
-//
-//                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-//                            mPercentAdapter = new QuickSplitPercentAdapter(mMoney, mMember, mPresenter);
-//                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-//                            recyclerView.setAdapter(mPercentAdapter);
-//
-//                            mDialogPartial = new AlertDialog.Builder(getContext())
-//                                    .setView(mDialogView)
-//                                    .setCancelable(false)
-//                                    .show();
-//                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-//                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
-//
-//                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-//                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
-//
-//                            correct.setOnClickListener(QuickSplitFragment.this);
-//                            cancel.setOnClickListener(QuickSplitFragment.this);
-//                            mIsPercent = true;
+                        if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
+                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+
+                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+                            mPercentAdapter = new SplitPercentAdapter(mMoney, mAddedFriends, mPresenter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mPercentAdapter);
+
+                            mDialogPartial = new AlertDialog.Builder(getContext())
+                                    .setView(mDialogView)
+                                    .setCancelable(false)
+                                    .show();
+                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+
+                            correct.setOnClickListener(AddListFragment.this);
+                            cancel.setOnClickListener(AddListFragment.this);
                         } else if (mAddedFriends.size() == 0) {
                             Toast.makeText(getContext(), "至少需一個朋友參與拆帳", Toast.LENGTH_SHORT).show();
                             changeToEvenSplitType();
@@ -221,11 +222,39 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                         }
                         break;
                     case 3:
+                        mMoney = mTotalMoney.getText().toString();
+                        if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
+                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+
+                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+                            mFreeAdapter = new SplitFreeAdapter(mMoney, mAddedFriends, mPresenter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mFreeAdapter);
+
+                            mDialogPartial = new AlertDialog.Builder(getContext())
+                                    .setView(mDialogView)
+                                    .setCancelable(false)
+                                    .show();
+                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+
+                            correct.setOnClickListener(AddListFragment.this);
+                            cancel.setOnClickListener(AddListFragment.this);
+                        } else if (mAddedFriends.size() == 0) {
+                            Toast.makeText(getContext(), "至少需一個朋友參與拆帳", Toast.LENGTH_SHORT).show();
+                            changeToEvenSplitType();
+
+                        } else {
+                            Toast.makeText(getContext(), "金額不可為 0 ", Toast.LENGTH_SHORT).show();
+                            changeToEvenSplitType();
+                        }
                         break;
 
                 }
             }
-
 
 
             @Override
@@ -266,25 +295,32 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 getFragmentManager().popBackStack();
                 break;
             case R.id.add_list_save:
-                mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(),mAddedFriends,mWhoPays,parseInt(mTotalMoney.getText().toString()),parseInt(mTipPercent.getText().toString()),mPickDate.getText().toString());
+                mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString());
                 getFragmentManager().popBackStack();
                 break;
 
             case R.id.dialog_correct_text:
-//                if (mIsPercent) {
-//                    if (mPresenter.isSharedListEmpty()) {
-//                        Toast.makeText(getContext(), "須至少一人分攤帳務", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    }
-//                }
+                if (mSplitTypeSpinner.getSelectedItemPosition() == 2) {
+                    if (mPresenter.isSharedListEmpty()) {
+                        Toast.makeText(getContext(), "須至少一人分攤帳務", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+                if (mSplitTypeSpinner.getSelectedItemPosition() == 3) {
+                    if (mPresenter.freeTotalMoney() > parseInt(mTotalMoney.getText().toString())) {
+                        Toast.makeText(getContext(), "總數大於總金額 "+mTotalMoney.getText().toString()+" 元", Toast.LENGTH_SHORT).show();
+                        break;
+                    }else if (mPresenter.freeTotalMoney() < parseInt(mTotalMoney.getText().toString())) {
+                        Toast.makeText(getContext(), "總數小於總金額 "+mTotalMoney.getText().toString()+" 元", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+
                 mDialogPartial.dismiss();
-//                mIsNotEqual = true;
-//                mIsPercent = false;
                 break;
             case R.id.dialog_cancel_text:
                 mDialogPartial.dismiss();
                 mSplitTypeSpinner.setSelection(0);
-//                mIsPercent = false;
                 break;
             default:
                 break;
@@ -347,7 +383,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 mNames.add(friend.getName());
             }
         }
-        mPayerSpinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner, mNames));
+        mPayerSpinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.dropdown_style, mNames));
         mPayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

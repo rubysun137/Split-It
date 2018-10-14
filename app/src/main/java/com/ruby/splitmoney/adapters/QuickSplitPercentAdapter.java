@@ -54,7 +54,7 @@ public class QuickSplitPercentAdapter extends RecyclerView.Adapter {
 
         public QuickSplitPercentViewHolder(@NonNull View itemView) {
             super(itemView);
-            mMemberNumber = itemView.findViewById(R.id.partial_split_percent_member_number);
+            mMemberNumber = itemView.findViewById(R.id.partial_split_percent_member);
 //            mAverageMoney = itemView.findViewById(R.id.partial_spit_average_money);
             mSharedMoney = itemView.findViewById(R.id.partial_split_percent_share_money);
             mStringList = new ArrayList<>();
