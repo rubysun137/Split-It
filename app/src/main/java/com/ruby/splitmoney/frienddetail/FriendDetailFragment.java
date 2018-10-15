@@ -1,6 +1,9 @@
 package com.ruby.splitmoney.frienddetail;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.FriendDetailAdapter;
@@ -17,13 +22,7 @@ import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.FriendList;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +37,18 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
     private TextView mClearBalance;
     private TextView mWhoOwe;
     private TextView mOweWho;
+    private TextView mDialogWhoOwe;
+    private TextView mDialogOweWho;
     private TextView mOweMoney;
+    private EditText mSettleMoney;
     private List<Friend> mFriendList;
     private Friend mFriend;
     private LinearLayout mBalancedLayout;
     private LinearLayout mNotBalancedLayout;
     private LinearLayout mNoListLayout;
+    private Dialog mDialog;
+    private Context mContext;
+    private double mBalanceMoney;
 
     public FriendDetailFragment() {
         // Required empty public constructor
@@ -54,6 +59,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         View view = inflater.inflate(R.layout.fragment_friend_detail, container, false);
         mPresenter = new FriendDetailPresenter(this);
         mPresenter.start();
+        mContext = container.getContext();
         mFriendName = getArguments().getString("name", "Friend");
 
         mNameTitle = view.findViewById(R.id.friend_detail_friend_title);
@@ -95,9 +101,47 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.friend_detail_clear_balance:
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_settle_up, null, false);
+                mDialog = new AlertDialog.Builder(getContext())
+                        .setView(view)
+                        .show();
+                mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
+
+                mDialogWhoOwe = view.findViewById(R.id.dialog_who_owe);
+                mDialogOweWho = view.findViewById(R.id.dialog_owe_who);
+                mSettleMoney = view.findViewById(R.id.settle_money_edit_text);
+
+                if (mBalanceMoney > 0) {
+                    mDialogWhoOwe.setText(mFriendName);
+                    mDialogOweWho.setText("你");
+                    mSettleMoney.setText(String.valueOf(mBalanceMoney));
+                } else if (mBalanceMoney < 0) {
+                    mDialogWhoOwe.setText("你");
+                    mDialogOweWho.setText(mFriendName);
+                    mSettleMoney.setText(String.valueOf(0 - mBalanceMoney));
+                }
+                view.findViewById(R.id.dialog_positive).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Double settleMoney = Double.parseDouble(mSettleMoney.getText().toString());
+                        if(Math.abs(mBalanceMoney)>=settleMoney) {
+                            mPresenter.setSettleUpToFirebase(settleMoney, mBalanceMoney);
+                            mDialog.dismiss();
+                        }else {
+                            Toast.makeText(getContext(), "請輸入 " +Math.abs(mBalanceMoney)+" 或以下的數字", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                view.findViewById(R.id.dialog_negative).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mDialog.dismiss();
+                    }
+                });
                 break;
         }
     }
@@ -117,25 +161,25 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
             mClearBalance.setVisibility(View.GONE);
         } else {
             mFriendListAdapter.setEvents(events, moneyList);
-            double balanceMoney = 0;
+            mBalanceMoney = 0;
             for (Double money : moneyList) {
-                balanceMoney += money;
+                mBalanceMoney += money;
             }
-            if (balanceMoney > 0) {
+            if (mBalanceMoney > 0) {
                 mNoListLayout.setVisibility(View.GONE);
                 mNotBalancedLayout.setVisibility(View.VISIBLE);
                 mBalancedLayout.setVisibility(View.GONE);
                 mWhoOwe.setText(mFriendName);
                 mOweWho.setText("你");
-                mOweMoney.setText(String.valueOf(balanceMoney));
+                mOweMoney.setText(String.valueOf(mBalanceMoney));
                 mClearBalance.setVisibility(View.VISIBLE);
-            } else if (balanceMoney < 0) {
+            } else if (mBalanceMoney < 0) {
                 mNoListLayout.setVisibility(View.GONE);
                 mNotBalancedLayout.setVisibility(View.VISIBLE);
                 mBalancedLayout.setVisibility(View.GONE);
                 mWhoOwe.setText("你");
                 mOweWho.setText(mFriendName);
-                mOweMoney.setText(String.valueOf(0 - balanceMoney));
+                mOweMoney.setText(String.valueOf(0 - mBalanceMoney));
                 mClearBalance.setVisibility(View.VISIBLE);
             } else {
                 mNoListLayout.setVisibility(View.GONE);

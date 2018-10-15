@@ -17,7 +17,7 @@
         android:paddingStart="16dp"
         android:text="刪除好友"
         android:textAlignment="center"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/textView26"

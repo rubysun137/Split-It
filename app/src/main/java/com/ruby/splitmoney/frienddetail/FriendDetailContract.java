@@ -20,5 +20,6 @@ public interface FriendDetailContract {
 
         void loadEvents(Friend friend);
 
+        void setSettleUpToFirebase(Double money,Double balanceMoney);
     }
 }

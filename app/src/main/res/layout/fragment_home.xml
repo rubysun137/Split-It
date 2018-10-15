@@ -11,15 +11,13 @@
     android:background="@android:color/transparent">
 
 
-
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="@dimen/toolbar_height"
-        android:text="總攬"
+        android:text="總覽"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -96,7 +94,7 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="好友總攬"
+        android:text="好友總覽"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
