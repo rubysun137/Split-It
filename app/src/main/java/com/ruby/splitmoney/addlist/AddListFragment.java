@@ -342,7 +342,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 for (Friend friend : mAddedFriends) {
                     if (friend.getUid().equals(mMap.get(v.getId()))) {
                         mNotAddFriends.add(friend);
-                        mNotAddFriends.sort(new Comparator<Friend>() {
+                        Collections.sort(mNotAddFriends, new Comparator<Friend>() {
                             @Override
                             public int compare(Friend o1, Friend o2) {
                                 return o1.getName().compareTo(o2.getName());
@@ -359,7 +359,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         });
         mAddMemberLayout.addView(mItemNameLayout, mAddMemberLayout.getChildCount() - 1);
         mAddedFriends.add(mNotAddFriends.get(position));
-        mAddedFriends.sort(new Comparator<Friend>() {
+        Collections.sort(mAddedFriends, new Comparator<Friend>() {
             @Override
             public int compare(Friend o1, Friend o2) {
                 return o1.getName().compareTo(o2.getName());
