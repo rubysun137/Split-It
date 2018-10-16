@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "419931038083-q8ag3tfrpj28f6c4g5qe4n1cda3kea03.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ruby.splitmoney",
+            "certificate_hash": "0b47c120afcede587f6f703cd636c1f84b113385"
+          }
+        },
+        {
+          "client_id": "419931038083-tg561oc0irgkhpcup5l24hj0kdq0elog.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ruby.splitmoney",
+            "certificate_hash": "f557eba437eaad0a8dae0788821ee02e59c99eb2"
+          }
+        },
+        {
           "client_id": "419931038083-tcit4t359n7uhqvl71h1ut4oi0phv7cg.apps.googleusercontent.com",
           "client_type": 3
         }

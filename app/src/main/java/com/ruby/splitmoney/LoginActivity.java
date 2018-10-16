@@ -179,6 +179,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     mIsLoading = false;
                 }else{
                     Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式", Toast.LENGTH_SHORT).show();
+                    mSignInLayout.setVisibility(View.VISIBLE);
+                    mLoadingLayout.setVisibility(View.GONE);
                 }
             }
         });
