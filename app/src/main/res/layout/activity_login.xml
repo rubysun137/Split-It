@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <FrameLayout
+        android:id="@+id/login_background_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +41,7 @@
             android:id="@+id/progress_bar_loading"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:srcCompat="@drawable/progress_bar" />
+            app:srcCompat="@drawable/loading" />
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout

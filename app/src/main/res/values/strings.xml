@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Split Money</string>
+    <string name="app_name">Split It</string>
 
     <string-array name="splitType">
         <item>均分</item>

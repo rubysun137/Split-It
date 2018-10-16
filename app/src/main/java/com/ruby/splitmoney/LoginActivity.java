@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -65,6 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView mLoginButton;
     private View mDialogView;
     private Dialog mDialog;
+    private ImageView mProgressbar;
 
 
     @Override
@@ -78,20 +80,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             finish();
         }
         mIsLoading = false;
+        mProgressbar = findViewById(R.id.progress_bar_loading);
+        Glide.with(this).load(R.drawable.loading).into(mProgressbar);
         mSignInLayout = findViewById(R.id.login_page_container);
         mSignInLayout.setVisibility(View.VISIBLE);
         mLoadingLayout = findViewById(R.id.loading_layout);
         mLoadingLayout.setVisibility(View.GONE);
-        mProgressBarImage = findViewById(R.id.progress_bar_loading);
-        mProgressBarImage.post(new Runnable() {
-            @Override
-            public void run() {
-                AnimationDrawable animationDrawable = (AnimationDrawable) mProgressBarImage.getDrawable();
-                if (!animationDrawable.isRunning()) {
-                    animationDrawable.start();
-                }
-            }
-        });
         mAuth = FirebaseAuth.getInstance();
         mEmail = findViewById(R.id.emailText);
         mPassword = findViewById(R.id.passwordText);
@@ -262,6 +256,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
+                                    finish();
 
                                 } else {
                                     Log.w("Login ", "signInWithEmail:failure", task.getException());
@@ -326,7 +321,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(intent);
                 finish();
                 mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), "default");
+                User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), null);
                 FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
             }
         });

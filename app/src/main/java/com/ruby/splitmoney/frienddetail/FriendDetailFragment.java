@@ -4,6 +4,7 @@ package com.ruby.splitmoney.frienddetail;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.FriendDetailAdapter;
 import com.ruby.splitmoney.objects.Event;
@@ -49,6 +52,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
     private Dialog mDialog;
     private Context mContext;
     private double mBalanceMoney;
+    private ImageView mFriendDetailImage;
 
     public FriendDetailFragment() {
         // Required empty public constructor
@@ -71,6 +75,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mBalancedLayout = view.findViewById(R.id.money_is_balance_linear_layout);
         mNotBalancedLayout = view.findViewById(R.id.money_is_not_balance_linear_layout);
         mNoListLayout = view.findViewById(R.id.no_list_linear_layout);
+        mFriendDetailImage = view.findViewById(R.id.friend_detail_user_image);
 
         mNameTitle.setText(mFriendName);
         mNameBig.setText(mFriendName);
@@ -80,13 +85,15 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mNoListLayout.setVisibility(View.GONE);
         mClearBalance.setVisibility(View.GONE);
         mClearBalance.setOnClickListener(this);
-
-
         mFriendList = new ArrayList<>(FriendList.getInstance().getFriendList());
         for (Friend friend : mFriendList) {
             if (friend.getName().equals(mFriendName)) {
                 mFriend = friend;
             }
+        }
+
+        if(mFriend.getImage()!=null){
+            Glide.with(mContext).load(Uri.parse(mFriend.getImage())).into(mFriendDetailImage);
         }
         RecyclerView recyclerView = view.findViewById(R.id.friend_detail_recycler_view);
         mFriendListAdapter = new FriendDetailAdapter(mPresenter, mFriend);

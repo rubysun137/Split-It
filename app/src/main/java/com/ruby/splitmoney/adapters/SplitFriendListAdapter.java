@@ -37,7 +37,6 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
     public SplitFriendListAdapter(FriendContract.Presenter presenter) {
         mPresenter = presenter;
         mFriendNameList = new ArrayList<>();
-        String[] friends = new String[]{"恩涵","冠賢","Roger","文彬","Ruby","瓘閎","Paula","Justin","Sandy","Wayne"};
 
     }
 
@@ -96,7 +95,7 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
             }else{
                 mImage.setVisibility(View.VISIBLE);
                 mName.setVisibility(View.VISIBLE);
-            if(!"".equals(mFriendNameList.get(position).getImage())){
+            if(mFriendNameList.get(position).getImage()!=null){
                 Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
             }
                 mName.setText(mFriendNameList.get(position).getName());

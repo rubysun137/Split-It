@@ -49,11 +49,11 @@
                 android:id="@+id/add_list_member_linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal|start"
+                android:layout_gravity="center_vertical|start"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:foregroundGravity="center_horizontal|center"
-                android:gravity="center_horizontal|start"
+                android:foregroundGravity="center_vertical|center"
+                android:gravity="center_vertical|start"
                 android:orientation="horizontal">
 
                 <TextView

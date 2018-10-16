@@ -15,12 +15,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/welcomeColor">
 
-        <ImageView
+        <com.gcssloop.widget.RCImageView
             android:id="@+id/default_user_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
             android:layout_marginStart="24dp"
-            app:srcCompat="@drawable/user2" />
+            android:src="@drawable/user2"
+            app:round_as_circle="true" />
 
         <TextView
             android:id="@+id/friend_name_text"
