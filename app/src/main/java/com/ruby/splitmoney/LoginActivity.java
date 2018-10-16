@@ -42,6 +42,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.objects.User;
 import com.ruby.splitmoney.util.BaseActivity;
 
+import java.util.Objects;
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
@@ -50,7 +52,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText mName;
     private boolean mIsLoading;
     private FirebaseUser mFirebaseUser;
-    private ConstraintLayout mConstraintLayout;
     private ConstraintLayout mSignInLayout;
     private LinearLayout mLoadingLayout;
     private ImageView mProgressBarImage;
@@ -83,8 +84,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mProgressbar = findViewById(R.id.progress_bar_loading);
         Glide.with(this).load(R.drawable.loading).into(mProgressbar);
         mSignInLayout = findViewById(R.id.login_page_container);
-        mSignInLayout.setVisibility(View.VISIBLE);
         mLoadingLayout = findViewById(R.id.loading_layout);
+        mSignInLayout.setVisibility(View.VISIBLE);
         mLoadingLayout.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
         mEmail = findViewById(R.id.emailText);
@@ -94,8 +95,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mPassword.setTransformationMethod(new PasswordTransformationMethod());
         mSendButton = findViewById(R.id.sendButton);
         mSendButton.setOnClickListener(this);
-        mConstraintLayout = findViewById(R.id.container);
-        mConstraintLayout.setOnClickListener(this);
+        mSignInLayout.setOnClickListener(this);
 
         mGoogleSignInButton = findViewById(R.id.google_login_button);
         mGoogleSignInButton.setOnClickListener(this);
@@ -160,23 +160,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        mAuth.signInWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onSuccess(AuthResult authResult) {
-                if (authResult.getAdditionalUserInfo().isNewUser()) {
-                    mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                    mFirebaseUser.getDisplayName();
-                    mFirebaseUser.getEmail();
-                    mFirebaseUser.getUid();
-                    User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), String.valueOf(mFirebaseUser.getPhotoUrl()));
-                    FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+                        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        mFirebaseUser.getDisplayName();
+                        mFirebaseUser.getEmail();
+                        mFirebaseUser.getUid();
+                        User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), String.valueOf(mFirebaseUser.getPhotoUrl()));
+                        FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
 
+                    }
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    mIsLoading = false;
+                }else{
+                    Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                mIsLoading = false;
-
             }
         });
     }
@@ -187,10 +190,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.google_login_button:
                 signIn();
                 break;
-            case R.id.container:
+            case R.id.login_page_container:
                 //hide keyboard
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
                 break;
             case R.id.register_text_view_button:
                 mNameLayout.setVisibility(View.VISIBLE);
@@ -259,6 +262,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     finish();
 
                                 } else {
+                                    mSignInLayout.setVisibility(View.VISIBLE);
+                                    mLoadingLayout.setVisibility(View.GONE);
                                     Log.w("Login ", "signInWithEmail:failure", task.getException());
                                     Toast.makeText(LoginActivity.this, "登入失敗，請再次確認帳號與密碼是否正確!",
                                             Toast.LENGTH_LONG).show();
@@ -293,6 +298,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                                 } else {
                                     Log.w("SighUp ", "SighUpWithEmail:failure", task.getException());
+                                    mSignInLayout.setVisibility(View.VISIBLE);
+                                    mLoadingLayout.setVisibility(View.GONE);
                                     Toast.makeText(LoginActivity.this, "註冊失敗，請重新註冊!",
                                             Toast.LENGTH_LONG).show();
                                 }

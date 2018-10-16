@@ -22,8 +22,21 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.BaseActivity;
 import com.ruby.splitmoney.util.Constants;
+import com.ruby.splitmoney.util.FriendList;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class MainActivity extends BaseActivity implements MainContract.View,
         View.OnClickListener {
@@ -101,7 +114,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mNavQuick.setOnClickListener(this);
         mNavChange.setOnClickListener(this);
         mNavLogout.setOnClickListener(this);
-        if(mFirebaseUser.getPhotoUrl()!=null){
+        if (mFirebaseUser.getPhotoUrl() != null) {
             Glide.with(this).load(mFirebaseUser.getPhotoUrl()).into(mUserImage);
         }
         mUserName.setText(mFirebaseUser.getDisplayName());
@@ -136,12 +149,12 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(!getSupportFragmentManager().popBackStackImmediate()){
+            if (!getSupportFragmentManager().popBackStackImmediate()) {
                 //最後一頁
-                if((System.currentTimeMillis()-mExitTime)>2000){
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
                     Toast.makeText(this, "再按一次退出程式", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
-                }else {
+                } else {
                     super.onBackPressed();
                 }
             }
@@ -209,13 +222,23 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mPresenter.transToAddListPage();
     }
 
-    public void switchPage(String pageName){
-        switch(pageName){
+    public void switchPage(String pageName) {
+        switch (pageName) {
             case Constants.SPLIT:
                 mPresenter.transToSplit(true);
                 break;
-            case  Constants.ADD_LIST:
-                mPresenter.transToAddListPage();
+            case Constants.ADD_LIST:
+                FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).collection("friends").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        List<Friend> friends = new ArrayList<>();
+                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            friends.add(snapshot.toObject(Friend.class));
+                        }
+                        FriendList.getInstance().setFriendList(friends);
+                        mPresenter.transToAddListPage();
+                    }
+                });
                 break;
             case Constants.QUICK:
                 mPresenter.transToQuickSplit();
