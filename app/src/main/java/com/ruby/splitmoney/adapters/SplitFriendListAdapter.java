@@ -1,6 +1,7 @@
 package com.ruby.splitmoney.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.friend.FriendContract;
 import com.ruby.splitmoney.objects.Friend;
@@ -93,6 +96,9 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
             }else{
                 mImage.setVisibility(View.VISIBLE);
                 mName.setVisibility(View.VISIBLE);
+            if(!"".equals(mFriendNameList.get(position).getImage())){
+                Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
+            }
                 mName.setText(mFriendNameList.get(position).getName());
                 mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
                 if (mFriendNameList.get(position).getMoney() > 0) {

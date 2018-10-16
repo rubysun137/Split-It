@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ruby.splitmoney.util.BaseActivity;
@@ -37,6 +39,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
     private ImageView mBackgroundImage;
     private SharedPreferences mPreferences;
     private boolean mIsHalloween;
+    private ImageView mUserImage;
     private TextView mUserName;
     private TextView mUserEmail;
     private FirebaseUser mFirebaseUser;
@@ -80,6 +83,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         //取得Header
         View headerView = mNavView.getHeaderView(0);
         // 取得Header中的東西
+        mUserImage = headerView.findViewById(R.id.nav_user_image);
         mUserName = headerView.findViewById(R.id.nav_user_name);
         mUserEmail = headerView.findViewById(R.id.nav_user_email);
 
@@ -97,6 +101,9 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mNavQuick.setOnClickListener(this);
         mNavChange.setOnClickListener(this);
         mNavLogout.setOnClickListener(this);
+        if(mFirebaseUser.getPhotoUrl()!=null){
+            Glide.with(this).load(mFirebaseUser.getPhotoUrl()).into(mUserImage);
+        }
         mUserName.setText(mFirebaseUser.getDisplayName());
         mUserEmail.setText(mFirebaseUser.getEmail());
 

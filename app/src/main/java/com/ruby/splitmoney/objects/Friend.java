@@ -1,19 +1,26 @@
 package com.ruby.splitmoney.objects;
 
+
 public class Friend {
     private String email;
     private String uid;
     private String name;
     private Double money;
+    private String image;
 
-    public Friend(String email, String uid, String name, Double money) {
+    public Friend(String email, String uid, String name, Double money, String image) {
         this.email = email;
         this.uid = uid;
         this.name = name;
         this.money = money;
+        this.image = image;
     }
 
     public Friend() {
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getEmail() {

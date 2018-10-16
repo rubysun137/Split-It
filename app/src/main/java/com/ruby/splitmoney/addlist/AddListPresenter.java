@@ -158,7 +158,7 @@ public class AddListPresenter implements AddListContract.Presenter {
         mTotalMoney = totalMoney;
         mWhoPays = whoPays;
         //加入自己
-        Friend friendMe = new Friend(mUser.getEmail(), mUser.getUid(), "你", 0.0);
+        Friend friendMe = new Friend(mUser.getEmail(), mUser.getUid(), "你", 0.0, null);
         mFriendList = new ArrayList<>(friends);
         mFriendList.add(0, friendMe);
         mFeePercentage = tipPercent;

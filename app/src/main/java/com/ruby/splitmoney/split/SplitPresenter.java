@@ -1,6 +1,7 @@
 package com.ruby.splitmoney.split;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
@@ -52,7 +53,8 @@ public class SplitPresenter implements SplitContract.Presenter {
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
                             String uid = snapshot.getString("uid");
                             String name = snapshot.getString("name");
-                            addFriend(mUser.getUid(), uid, name);
+                            String image = snapshot.getString("image");
+                            addFriend(mUser.getUid(), uid, name,image);
                         }
                     }
                 }
@@ -60,14 +62,14 @@ public class SplitPresenter implements SplitContract.Presenter {
         });
     }
 
-    private void addFriend(String myUid, String friendUid, String name) {
-        Friend friend = new Friend(mFriendEmail, friendUid, name , 0.0);
+    private void addFriend(String myUid, String friendUid, String name, String image) {
+        Friend friend = new Friend(mFriendEmail, friendUid, name , 0.0, image);
 //        mFirestore.collection("users").document(myUid).update(
 //                "friends." + friendUid + ".friend_email", mFriendEmail,
 //                "friends." + friendUid + ".friend_uid", friendUid,
 //                "friends." + friendUid + ".friend_name", name);
 //        mDataBase.collection("users").document(myUid).update("friends", friend);
-        Friend myInfo = new Friend(mUser.getEmail(),mUser.getUid(),mUser.getDisplayName(), 0.0);
+        Friend myInfo = new Friend(mUser.getEmail(),mUser.getUid(),mUser.getDisplayName(), 0.0, String.valueOf(mUser.getPhotoUrl()));
         mDataBase.collection("users").document(myUid).collection("friends").document(friendUid).set(friend);
         mDataBase.collection("users").document(friendUid).collection("friends").document(myUid).set(myInfo);
         mView.closeAddFriendDialog(name);
