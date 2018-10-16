@@ -125,7 +125,7 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="新增清單"
+        android:text="新增拆帳清單"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
