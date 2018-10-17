@@ -13,6 +13,7 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
     private List<Integer> mSharedMoney;
     private List<Double> mCountExtra;
     private List<Double> mCountShared;
+    private List<String> mMemberNames;
     private int mSplitType;
     private int mTotalMoney;
     private int mTotalMember;
@@ -64,7 +65,7 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
                     mCountExtra.add(i, math);
                 }
 
-                mView.showUnequalResult(mCountExtra);
+                mView.showUnequalResult(mMemberNames, mCountExtra);
 
 
                 break;
@@ -88,10 +89,15 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
                     }
                 }
 
-                mView.showSharedResult(mCountShared);
+                mView.showSharedResult(mMemberNames, mCountShared);
 
                 break;
         }
+    }
+
+    @Override
+    public void addMemberNameList(int position, String member) {
+        mMemberNames.set(position, member);
     }
 
     @Override
@@ -115,6 +121,11 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
         mExtraMoney = Arrays.asList(members);
         mSharedMoney = Arrays.asList(members);
+
+        mMemberNames = new ArrayList<>();
+        for(int i = 0;i<totalMember;i++){
+            mMemberNames.add(i,"成員"+(i+ 1));
+        }
     }
 
     @Override

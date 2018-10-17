@@ -14,9 +14,9 @@ public interface QuickSplitContract {
 
         void showEqualResult(double money);
 
-        void showUnequalResult(List<Double> results);
+        void showUnequalResult(List<String> members, List<Double> results);
 
-        void showSharedResult(List<Double> results);
+        void showSharedResult(List<String> members, List<Double> results);
 
     }
 
@@ -27,6 +27,8 @@ public interface QuickSplitContract {
         void toFirstPage();
 
         void toSecondPage();
+
+        void addMemberNameList(int position, String member);
 
         void addExtraMoneyList(int position, int extraMoney);
 

@@ -15,8 +15,10 @@ import java.util.List;
 public class QuickSplitResultAdapter extends RecyclerView.Adapter {
 
     private List<Double> mResults;
+    private List<String> mMembers;
 
-    public QuickSplitResultAdapter(List<Double> results) {
+    public QuickSplitResultAdapter(List<String> members, List<Double> results) {
+        mMembers = members;
         mResults = results;
     }
 
@@ -51,8 +53,7 @@ public class QuickSplitResultAdapter extends RecyclerView.Adapter {
 
         private void bindView(){
             mPosition = getAdapterPosition();
-            String member = "成員"+(mPosition+1);
-            mMember.setText(member);
+            mMember.setText(mMembers.get(mPosition));
             Log.d("TAG  ", "bindView: "+mResults);
             mNumber.setText(String.valueOf(mResults.get(mPosition)));
         }

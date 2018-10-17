@@ -11,32 +11,35 @@
     android:paddingBottom="5dp">
 
 
-    <TextView
-        android:id="@+id/partial_split_percent_member"
+    <EditText
+        android:id="@+id/partial_quick_split_percent_member"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginStart="8dp"
+        android:backgroundTint="@android:color/transparent"
         android:gravity="center"
+        android:inputType="text"
         android:text="成員10"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
-        android:id="@+id/partial_spit_percent_average_money"
+        android:id="@+id/partial_quick_spit_percent_average_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="分攤比例"
-        app:layout_constraintBottom_toBottomOf="@+id/partial_split_percent_member"
-        app:layout_constraintStart_toEndOf="@+id/partial_split_percent_member"
-        app:layout_constraintTop_toTopOf="@+id/partial_split_percent_member" />
+        app:layout_constraintBottom_toBottomOf="@+id/partial_quick_split_percent_member"
+        app:layout_constraintStart_toEndOf="@+id/partial_quick_split_percent_member"
+        app:layout_constraintTop_toTopOf="@+id/partial_quick_split_percent_member" />
 
 
     <EditText
-        android:id="@+id/partial_split_percent_share_money"
+        android:id="@+id/partial_quick_split_percent_share_money"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -47,8 +50,8 @@
         android:gravity="end"
         android:inputType="number"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/partial_spit_percent_average_money"
+        app:layout_constraintBottom_toBottomOf="@+id/partial_quick_spit_percent_average_money"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/partial_spit_percent_average_money"
-        app:layout_constraintTop_toTopOf="@+id/partial_spit_percent_average_money" />
+        app:layout_constraintStart_toEndOf="@+id/partial_quick_spit_percent_average_money"
+        app:layout_constraintTop_toTopOf="@+id/partial_quick_spit_percent_average_money" />
 </android.support.constraint.ConstraintLayout>

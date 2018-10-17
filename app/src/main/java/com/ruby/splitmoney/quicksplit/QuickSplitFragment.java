@@ -240,20 +240,20 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     }
 
     @Override
-    public void showUnequalResult(List<Double> results) {
+    public void showUnequalResult(List<String> members, List<Double> results) {
         mUnequalPage.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = mUnequalPage.findViewById(R.id.unequal_result_recycler_view);
-        mPartialResultAdapter = new QuickSplitResultAdapter(results);
+        mPartialResultAdapter = new QuickSplitResultAdapter(members, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPartialResultAdapter);
 
     }
 
     @Override
-    public void showSharedResult(List<Double> results) {
+    public void showSharedResult(List<String> members, List<Double> results) {
         mPercentPage.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = mPercentPage.findViewById(R.id.percent_result_recycler_view);
-        mPartialResultAdapter = new QuickSplitResultAdapter(results);
+        mPartialResultAdapter = new QuickSplitResultAdapter(members, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mPartialResultAdapter);
     }

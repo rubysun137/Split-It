@@ -4,19 +4,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.quicksplit.QuickSplitContract;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
@@ -25,18 +21,23 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
     private int mTotalMoney;
     private int mTotalMember;
     private int mPartialMoney;
-    private List<String> mStringList;
+    private List<String> mMoneyList;
+    private List<String> mMemberList;
 //    private List<Integer> mExtraMoney;
 
-    public QuickSplitPartialAdapter(String money, String member, QuickSplitContract.Presenter presenter) {
+    public QuickSplitPartialAdapter(String money, String memberNumber, QuickSplitContract.Presenter presenter) {
         mTotalMoney = Integer.parseInt(money);
-        mTotalMember = Integer.parseInt(member);
+        mTotalMember = Integer.parseInt(memberNumber);
         mPresenter = presenter;
 //        mExtraMoney = Arrays.asList(new Integer[mTotalMember]);
         mPresenter.setListSize(mTotalMember);
-        mStringList = new ArrayList<>();
+        mMoneyList = new ArrayList<>();
         for(int i = 0;i<mTotalMember;i++){
-            mStringList.add(i,"");
+            mMoneyList.add(i,"");
+        }
+        mMemberList = new ArrayList<>();
+        for(int i = 0;i<mTotalMember;i++){
+            mMemberList.add(i,"成員"+(i+ 1));
         }
 
     }
@@ -44,7 +45,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_partial, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quick_dialog_partial, parent, false);
 
         return new QuickSplitPartialViewHolder(view);
     }
@@ -62,7 +63,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
 
     private class QuickSplitPartialViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mMemberNumber;
+        private EditText mMemberNumber;
 //        private TextView mAverageMoney;
         private EditText mAddMoney;
         private int mPosition;
@@ -70,17 +71,34 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
 
         private QuickSplitPartialViewHolder(@NonNull View itemView) {
             super(itemView);
-            mMemberNumber = itemView.findViewById(R.id.partial_split_member_number);
+            mMemberNumber = itemView.findViewById(R.id.partial_quick_split_member_edit_text);
 //            mAverageMoney = itemView.findViewById(R.id.partial_spit_average_money);
-            mAddMoney = itemView.findViewById(R.id.partial_split_add_money);
+            mAddMoney = itemView.findViewById(R.id.partial_quick_split_add_money);
 
 
         }
 
         private void bindView() {
             mPosition = getAdapterPosition();
-            String text = "成員"+String.valueOf(mPosition + 1);
-            mMemberNumber.setText(text);
+            mMemberNumber.setText(mMemberList.get(mPosition));
+            mMemberNumber.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String member = mMemberNumber.getText().toString();
+                    mMemberList.set(mPosition,member);
+                    mPresenter.addMemberNameList(mPosition,member);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
 
             mAddMoney.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -91,7 +109,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    mStringList.set(mPosition,mAddMoney.getText().toString());
+                    mMoneyList.set(mPosition,mAddMoney.getText().toString());
                     String add = mAddMoney.getText().toString();
                         if(add.equals("")){
                             add = "0";
@@ -104,7 +122,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
 
                 }
             });
-            mAddMoney.setText(mStringList.get(mPosition));
+            mAddMoney.setText(mMoneyList.get(mPosition));
         }
     }
 }
