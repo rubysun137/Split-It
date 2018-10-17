@@ -295,8 +295,13 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 getFragmentManager().popBackStack();
                 break;
             case R.id.add_list_save:
-                mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString());
-                getFragmentManager().popBackStack();
+                if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString())!=0) {
+                    mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString(), getFragmentManager());
+                } else if(mAddedFriends.size() == 0){
+                    Toast.makeText(getContext(), "至少需選擇一位朋友參與拆帳", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(), "請輸入拆帳金額", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.dialog_correct_text:
@@ -308,10 +313,10 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 }
                 if (mSplitTypeSpinner.getSelectedItemPosition() == 3) {
                     if (mPresenter.freeTotalMoney() > parseInt(mTotalMoney.getText().toString())) {
-                        Toast.makeText(getContext(), "總數大於總金額 "+mTotalMoney.getText().toString()+" 元", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "總數大於總金額 " + mTotalMoney.getText().toString() + " 元", Toast.LENGTH_SHORT).show();
                         break;
-                    }else if (mPresenter.freeTotalMoney() < parseInt(mTotalMoney.getText().toString())) {
-                        Toast.makeText(getContext(), "總數小於總金額 "+mTotalMoney.getText().toString()+" 元", Toast.LENGTH_SHORT).show();
+                    } else if (mPresenter.freeTotalMoney() < parseInt(mTotalMoney.getText().toString())) {
+                        Toast.makeText(getContext(), "總數小於總金額 " + mTotalMoney.getText().toString() + " 元", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }

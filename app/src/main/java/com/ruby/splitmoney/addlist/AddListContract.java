@@ -1,5 +1,7 @@
 package com.ruby.splitmoney.addlist;
 
+import android.support.v4.app.FragmentManager;
+
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.BasePresenter;
 import com.ruby.splitmoney.util.BaseView;
@@ -38,6 +40,6 @@ public interface AddListContract {
 
         int freeTotalMoney();
 
-        void saveSplitResultToFirebase(String event, List<Friend> friends,String whoPays, int money, int tipPercent, String date);
+        void saveSplitResultToFirebase(String event, List<Friend> friends, String whoPays, int money, int tipPercent, String date, FragmentManager fragmentManager);
     }
 }

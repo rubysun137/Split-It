@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
@@ -228,9 +229,9 @@ public class MainActivity extends BaseActivity implements MainContract.View,
                 mPresenter.transToSplit(true);
                 break;
             case Constants.ADD_LIST:
-                FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).collection("friends").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).collection("friends").orderBy("name", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         List<Friend> friends = new ArrayList<>();
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                             friends.add(snapshot.toObject(Friend.class));

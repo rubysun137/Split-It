@@ -29,7 +29,7 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
     private List<Friend> mFriendNameList;
     private Context mContext;
 
-    public void setFriendList(){
+    public void setFriendList() {
         mFriendNameList = new ArrayList<>(FriendList.getInstance().getFriendList());
         notifyDataSetChanged();
     }
@@ -43,7 +43,7 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_friend, parent, false);
         mContext = parent.getContext();
 
         return new SplitFriendListViewHolder(view);
@@ -56,20 +56,22 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-            return mFriendNameList.size()+1;
+        return mFriendNameList.size() + 1;
     }
 
-    private class  SplitFriendListViewHolder extends RecyclerView.ViewHolder {
+    private class SplitFriendListViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImage;
         private TextView mName;
         private TextView mMoney;
+        private View mDivider;
 
         public SplitFriendListViewHolder(@NonNull View itemView) {
             super(itemView);
             mImage = itemView.findViewById(R.id.default_user_image);
             mName = itemView.findViewById(R.id.friend_name_text);
             mMoney = itemView.findViewById(R.id.friend_list_money);
+            mDivider = itemView.findViewById(R.id.friend_divider);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,18 +88,24 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
             });
         }
 
-        private void bindView(){
+        private void bindView() {
             int position = getAdapterPosition();
-            if(position == mFriendNameList.size()){
+            if (position == mFriendNameList.size()) {
                 mImage.setVisibility(View.INVISIBLE);
                 mName.setVisibility(View.INVISIBLE);
                 mMoney.setVisibility(View.INVISIBLE);
-            }else{
+                mDivider.setVisibility(View.INVISIBLE);
+            } else {
                 mImage.setVisibility(View.VISIBLE);
                 mName.setVisibility(View.VISIBLE);
-            if(mFriendNameList.get(position).getImage()!=null){
-                Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
-            }
+                if (position == mFriendNameList.size() - 1) {
+                    mDivider.setVisibility(View.INVISIBLE);
+                } else {
+                    mDivider.setVisibility(View.VISIBLE);
+                }
+                if (mFriendNameList.get(position).getImage() != null) {
+                    Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
+                }
                 mName.setText(mFriendNameList.get(position).getName());
                 mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
                 if (mFriendNameList.get(position).getMoney() > 0) {

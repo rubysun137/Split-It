@@ -89,12 +89,12 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         for (Friend friend : mFriendList) {
             if (friend.getName().equals(mFriendName)) {
                 mFriend = friend;
+                if (mFriend.getImage() != null) {
+                    Glide.with(mContext).load(Uri.parse(mFriend.getImage())).into(mFriendDetailImage);
+                }
             }
         }
 
-        if(mFriend.getImage()!=null){
-            Glide.with(mContext).load(Uri.parse(mFriend.getImage())).into(mFriendDetailImage);
-        }
         RecyclerView recyclerView = view.findViewById(R.id.friend_detail_recycler_view);
         mFriendListAdapter = new FriendDetailAdapter(mPresenter, mFriend);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -134,11 +134,11 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                     @Override
                     public void onClick(View v) {
                         Double settleMoney = Double.parseDouble(mSettleMoney.getText().toString());
-                        if(Math.abs(mBalanceMoney)>=settleMoney) {
+                        if (Math.abs(mBalanceMoney) >= settleMoney) {
                             mPresenter.setSettleUpToFirebase(settleMoney, mBalanceMoney);
                             mDialog.dismiss();
-                        }else {
-                            Toast.makeText(getContext(), "請輸入 " +Math.abs(mBalanceMoney)+" 或以下的數字", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "請輸入 " + Math.abs(mBalanceMoney) + " 或以下的數字", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

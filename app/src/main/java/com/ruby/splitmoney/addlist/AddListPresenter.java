@@ -1,6 +1,7 @@
 package com.ruby.splitmoney.addlist;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -154,7 +155,7 @@ public class AddListPresenter implements AddListContract.Presenter {
     }
 
     @Override
-    public void saveSplitResultToFirebase(String eventName, List<Friend> friends, String whoPays, int totalMoney, int tipPercent, String date) {
+    public void saveSplitResultToFirebase(String eventName, List<Friend> friends, String whoPays, int totalMoney, int tipPercent, String date, FragmentManager fragmentManager) {
         mTotalMoney = totalMoney;
         mWhoPays = whoPays;
         //加入自己
@@ -203,19 +204,19 @@ public class AddListPresenter implements AddListContract.Presenter {
                                         List<FieldValue> list = new ArrayList<>();
                                         list.add(FieldValue.arrayUnion(mEventId));
                                         listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
+                                        WriteBatch batch = mFirestore.batch();
 //
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(f.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
+                                        DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
+                                        batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
+                                        DocumentReference refOwe = mFirestore.collection("users").document(f.getUid()).collection("friends").document(mPayFriend.getUid());
+                                        batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
 
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(f);
-                                                }
-                                            });
+                                        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                setTotalMoneyToFirebase(f);
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -264,19 +265,19 @@ public class AddListPresenter implements AddListContract.Presenter {
                                         List<FieldValue> list = new ArrayList<>();
                                         list.add(FieldValue.arrayUnion(mEventId));
                                         listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
+                                        WriteBatch batch = mFirestore.batch();
 
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(f.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
+                                        DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
+                                        batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
+                                        DocumentReference refOwe = mFirestore.collection("users").document(f.getUid()).collection("friends").document(mPayFriend.getUid());
+                                        batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
 
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(f);
-                                                }
-                                            });
+                                        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                setTotalMoneyToFirebase(f);
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -330,19 +331,19 @@ public class AddListPresenter implements AddListContract.Presenter {
                                         List<FieldValue> list = new ArrayList<>();
                                         list.add(FieldValue.arrayUnion(mEventId));
                                         listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
+                                        WriteBatch batch = mFirestore.batch();
 
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(f.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
+                                        DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
+                                        batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
+                                        DocumentReference refOwe = mFirestore.collection("users").document(f.getUid()).collection("friends").document(mPayFriend.getUid());
+                                        batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
 
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(f);
-                                                }
-                                            });
+                                        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                setTotalMoneyToFirebase(f);
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -377,16 +378,16 @@ public class AddListPresenter implements AddListContract.Presenter {
                         }
 
                         for (final Friend f : mFriendList) {
-                        //建 event list
-                        if (!f.getName().equals(mWhoPays)) {
+                            //建 event list
+                            if (!f.getName().equals(mWhoPays)) {
 
-                            mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    Map<String, Object> listMap = new HashMap<>();
-                                    List<FieldValue> list = new ArrayList<>();
-                                    list.add(FieldValue.arrayUnion(mEventId));
-                                    listMap.put("events", list);
+                                mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        Map<String, Object> listMap = new HashMap<>();
+                                        List<FieldValue> list = new ArrayList<>();
+                                        list.add(FieldValue.arrayUnion(mEventId));
+                                        listMap.put("events", list);
                                         WriteBatch batch = mFirestore.batch();
 
                                         DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(f.getUid());
@@ -400,14 +401,15 @@ public class AddListPresenter implements AddListContract.Presenter {
                                                 setTotalMoneyToFirebase(f);
                                             }
                                         });
-                                }
-                            });
+                                    }
+                                });
+                            }
                         }
-                    }
                         break;
                 }
             }
         });
+        fragmentManager.popBackStack();
     }
 
     public void setTotalMoneyToFirebase(Friend friend) {
