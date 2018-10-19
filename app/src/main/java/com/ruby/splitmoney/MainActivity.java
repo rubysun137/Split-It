@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.BaseActivity;
 import com.ruby.splitmoney.util.Constants;
@@ -105,7 +106,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         if (mIsHalloween) {
             mBackgroundImage.setImageResource(R.drawable.halloween);
         } else {
-            mBackgroundImage.setImageResource(R.drawable.gradient);
+            mBackgroundImage.setImageResource(R.drawable.gradient2);
         }
 
 
@@ -217,6 +218,10 @@ public class MainActivity extends BaseActivity implements MainContract.View,
 
     public void showFriendDetailPage(String friendName) {
         mPresenter.transToFriendDetailPage(friendName);
+    }
+
+    public void showListDetailPage(Event event){
+        mPresenter.transToListDetailPage(event);
     }
 
     public void showAddListPage() {

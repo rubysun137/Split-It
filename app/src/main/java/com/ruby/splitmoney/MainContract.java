@@ -1,5 +1,6 @@
 package com.ruby.splitmoney;
 
+import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.util.BasePresenter;
 import com.ruby.splitmoney.util.BaseView;
 
@@ -26,6 +27,8 @@ public interface MainContract {
         void transToFriendDetailPage(String friendName);
 
         void transToAddListPage();
+
+        void transToListDetailPage(Event event);
 
     }
 }

@@ -295,11 +295,13 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 getFragmentManager().popBackStack();
                 break;
             case R.id.add_list_save:
-                if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString())!=0) {
+                if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString())!=0 && !mEvent.getText().toString().equals("")) {
                     mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString(), getFragmentManager());
                 } else if(mAddedFriends.size() == 0){
                     Toast.makeText(getContext(), "至少需選擇一位朋友參與拆帳", Toast.LENGTH_SHORT).show();
-                }else{
+                }else if(mEvent.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "請輸入拆帳標題", Toast.LENGTH_SHORT).show();
+                }else {
                     Toast.makeText(getContext(), "請輸入拆帳金額", Toast.LENGTH_SHORT).show();
                 }
                 break;

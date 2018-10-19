@@ -94,21 +94,36 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
             Log.d("EVENT NUMBER", "bindView: position: " + getAdapterPosition());
             Log.d("EVENT NUMBER", "event size: " + mEventList.size());
             Log.d("EVENT NUMBER", "money size: " + mMoneyList.size());
-
             int position = getAdapterPosition();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("CLICK LIST!!!!", "onClick: ");
+                    mPresenter.transToListDetailPage(mEventList.get(getAdapterPosition()));
+                }
+            });
             mTitle.setText(mEventList.get(position).getName());
-            if(mMoneyList.get(position)<0){
-                mBalanceType.setText("你需還");
-                mBalanceMoney.setText(String.valueOf(0 - mMoneyList.get(position)));
-                setColor(R.color.moneyRed);
-            }else if(mMoneyList.get(position)>0){
-                mBalanceType.setText("你借出");
-                mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
-                setColor(R.color.moneyGreen);
-            }else{
-                mBalanceType.setText("你借出");
-                mBalanceMoney.setText(String.valueOf(0));
-                setColor(R.color.moneyGreen);
+            if(mEventList.get(position).isSettleUp()){
+                if (mMoneyList.get(position) < 0) {
+                    mBalanceType.setText("朋友還你");
+                    mBalanceMoney.setText(String.valueOf(0 - mMoneyList.get(position)));
+                } else if (mMoneyList.get(position) > 0) {
+                    mBalanceType.setText("妳還朋友");
+                    mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
+                }
+            }else {
+                if (mMoneyList.get(position) < 0) {
+                    mBalanceType.setText("你應還");
+                    mBalanceMoney.setText(String.valueOf(0 - mMoneyList.get(position)));
+                    setColor(R.color.moneyRed);
+                } else if (mMoneyList.get(position) > 0) {
+                    mBalanceType.setText("你借出");
+                    mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
+                    setColor(R.color.moneyGreen);
+                } else {
+                    mBalanceType.setText("你借出");
+                    mBalanceMoney.setText(String.valueOf(0));
+                }
             }
         }
 

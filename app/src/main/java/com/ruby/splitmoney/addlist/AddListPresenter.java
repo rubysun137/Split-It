@@ -165,7 +165,7 @@ public class AddListPresenter implements AddListContract.Presenter {
         mFeePercentage = tipPercent;
         mAddTipMoney = mTotalMoney * (1 + ((double) mFeePercentage / 100));
         mAddTipMoney = ((double) Math.round(mAddTipMoney * 100) / 100);
-        Event event = new Event(eventName, "", "", mAddTipMoney, date, new Date(System.currentTimeMillis()));
+        Event event = new Event(eventName, "", "", mAddTipMoney, date, new Date(System.currentTimeMillis()),false);
         mFirestore.collection("events").add(event).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -465,6 +465,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                             for (Double money : mMoneyList) {
                                                 balanceMoney += money;
                                             }
+                                            balanceMoney = ((double) Math.round(balanceMoney * 100) / 100);
                                             mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(mFriend.getUid()).update("money", balanceMoney);
                                             mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mPayFriend.getUid()).update("money", 0 - balanceMoney);
                                         }

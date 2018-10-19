@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import com.ruby.splitmoney.addlist.AddListFragment;
 import com.ruby.splitmoney.frienddetail.FriendDetailFragment;
 import com.ruby.splitmoney.home.HomeFragment;
+import com.ruby.splitmoney.listdetail.ListDetailFragment;
+import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.quicksplit.QuickSplitFragment;
 import com.ruby.splitmoney.spend.SpendFragment;
 import com.ruby.splitmoney.split.SplitFragment;
@@ -23,6 +25,7 @@ public class MainPresenter implements MainContract.Presenter {
     private QuickSplitFragment mQuickSplitFragment;
     private FriendDetailFragment mFriendDetailFragment;
     private AddListFragment mAddListFragment;
+    private ListDetailFragment mListDetailFragment;
 
     public MainPresenter(MainContract.View view, FragmentManager fragmentManager) {
         mView = view;
@@ -44,6 +47,8 @@ public class MainPresenter implements MainContract.Presenter {
         mFriendDetailFragment = (FriendDetailFragment) mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL);
         if (mFragmentManager.findFragmentByTag(Constants.ADD_LIST) != null) ;
         mAddListFragment = (AddListFragment) mFragmentManager.findFragmentByTag(Constants.ADD_LIST);
+        if (mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL) != null) ;
+        mListDetailFragment = (ListDetailFragment) mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL);
 
     }
 
@@ -63,6 +68,10 @@ public class MainPresenter implements MainContract.Presenter {
         }
         if (mFriendDetailFragment != null){
             transaction.remove(mFriendDetailFragment);
+            mFragmentManager.popBackStack();
+        }
+        if (mListDetailFragment != null){
+            transaction.remove(mListDetailFragment);
             mFragmentManager.popBackStack();
         }
         if (mSpendFragment != null) transaction.hide(mSpendFragment);
@@ -91,6 +100,10 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.remove(mFriendDetailFragment);
             mFragmentManager.popBackStack();
         }
+        if (mListDetailFragment != null){
+            transaction.remove(mListDetailFragment);
+            mFragmentManager.popBackStack();
+        }
         if (mHomeFragment != null) transaction.hide(mHomeFragment);
         if (mSplitFragment != null) transaction.hide(mSplitFragment);
         if (mQuickSplitFragment != null) transaction.hide(mQuickSplitFragment);
@@ -114,6 +127,10 @@ public class MainPresenter implements MainContract.Presenter {
         }
         if (mFriendDetailFragment != null){
             transaction.remove(mFriendDetailFragment);
+            mFragmentManager.popBackStack();
+        }
+        if (mListDetailFragment != null){
+            transaction.remove(mListDetailFragment);
             mFragmentManager.popBackStack();
         }
         if (mHomeFragment != null) transaction.hide(mHomeFragment);
@@ -144,6 +161,11 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.remove(mFriendDetailFragment);
             mFragmentManager.popBackStack();
         }
+        if (mListDetailFragment != null){
+            transaction.remove(mListDetailFragment);
+            mFragmentManager.popBackStack();
+        }
+
         if (mHomeFragment != null) transaction.hide(mHomeFragment);
         if (mSpendFragment != null) transaction.hide(mSpendFragment);
         if (mSplitFragment != null) transaction.hide(mSplitFragment);
@@ -213,6 +235,38 @@ public class MainPresenter implements MainContract.Presenter {
 
         mAddListFragment = new AddListFragment();
         transaction.add(R.id.fullPagePlaceHolder, mAddListFragment, Constants.ADD_LIST);
+        transaction.commit();
+    }
+
+    @Override
+    public void transToListDetailPage(Event event) {
+        mView.setToolBarTitle("");
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (mHomeFragment != null && !mHomeFragment.isHidden()) {
+            transaction.hide(mHomeFragment);
+            transaction.addToBackStack(Constants.HOME);
+        }
+        if (mSpendFragment != null && !mSpendFragment.isHidden()) {
+            transaction.hide(mSpendFragment);
+            transaction.addToBackStack(Constants.SPEND);
+        }
+        if (mSplitFragment != null && !mSplitFragment.isHidden()) {
+            transaction.hide(mSplitFragment);
+            transaction.addToBackStack(Constants.SPLIT);
+        }
+        if (mQuickSplitFragment != null && !mQuickSplitFragment.isHidden()) {
+            transaction.hide(mQuickSplitFragment);
+            transaction.addToBackStack(Constants.QUICK);
+        }
+        if (mFriendDetailFragment != null && !mFriendDetailFragment.isHidden()){
+            transaction.hide(mFriendDetailFragment);
+            transaction.addToBackStack(Constants.FRIEND_DETAIL);
+        }
+
+
+        mListDetailFragment = new ListDetailFragment();
+        mListDetailFragment.setEvent(event);
+        transaction.add(R.id.fullPagePlaceHolder, mListDetailFragment, Constants.LIST_DETAIL);
         transaction.commit();
     }
 

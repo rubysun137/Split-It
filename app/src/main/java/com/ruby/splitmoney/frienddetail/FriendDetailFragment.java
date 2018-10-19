@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.FriendDetailAdapter;
 import com.ruby.splitmoney.objects.Event;
@@ -53,6 +55,8 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
     private Context mContext;
     private double mBalanceMoney;
     private ImageView mFriendDetailImage;
+    private ImageView mWhoOweImage;
+    private ImageView mOweWhoImage;
 
     public FriendDetailFragment() {
         // Required empty public constructor
@@ -76,6 +80,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mNotBalancedLayout = view.findViewById(R.id.money_is_not_balance_linear_layout);
         mNoListLayout = view.findViewById(R.id.no_list_linear_layout);
         mFriendDetailImage = view.findViewById(R.id.friend_detail_user_image);
+
 
         mNameTitle.setText(mFriendName);
         mNameBig.setText(mFriendName);
@@ -119,13 +124,23 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
 
                 mDialogWhoOwe = view.findViewById(R.id.dialog_who_owe);
                 mDialogOweWho = view.findViewById(R.id.dialog_owe_who);
+                mWhoOweImage = view.findViewById(R.id.who_owe_image);
+                mOweWhoImage = view.findViewById(R.id.owe_who_image);
                 mSettleMoney = view.findViewById(R.id.settle_money_edit_text);
 
                 if (mBalanceMoney > 0) {
+                    if(mFriend.getImage()!=null)
+                    Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mWhoOweImage);
+                    if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null)
+                    Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mOweWhoImage);
                     mDialogWhoOwe.setText(mFriendName);
                     mDialogOweWho.setText("你");
                     mSettleMoney.setText(String.valueOf(mBalanceMoney));
                 } else if (mBalanceMoney < 0) {
+                    if(mFriend.getImage()!=null)
+                        Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mOweWhoImage);
+                    if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null)
+                        Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mWhoOweImage);
                     mDialogWhoOwe.setText("你");
                     mDialogOweWho.setText(mFriendName);
                     mSettleMoney.setText(String.valueOf(0 - mBalanceMoney));
@@ -172,6 +187,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
             for (Double money : moneyList) {
                 mBalanceMoney += money;
             }
+            mBalanceMoney = ((double) Math.round(mBalanceMoney * 100) / 100);
             if (mBalanceMoney > 0) {
                 mNoListLayout.setVisibility(View.GONE);
                 mNotBalancedLayout.setVisibility(View.VISIBLE);
@@ -196,5 +212,10 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
             }
         }
 
+    }
+
+    @Override
+    public void setListDetailPage(Event event) {
+        ((MainActivity) getActivity()).showListDetailPage(event);
     }
 }

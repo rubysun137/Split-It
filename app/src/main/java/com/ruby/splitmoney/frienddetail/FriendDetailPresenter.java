@@ -153,6 +153,7 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                                                     for (Double money : mMoneyList) {
                                                         balanceMoney += money;
                                                     }
+                                                    balanceMoney = ((double) Math.round(balanceMoney * 100) / 100);
                                                     mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(mFriend.getUid()).update("money", balanceMoney);
                                                     mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mUser.getUid()).update("money", 0 - balanceMoney);
                                                 }
@@ -172,13 +173,13 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
     }
 
     @Override
-    public void setSettleUpToFirebase(Double settleMoney, final Double balanceMoney) {
+    public void setSettleUpToFirebase(Double settleMoney, Double balanceMoney) {
         mBalanceMoney = balanceMoney;
         mSettleMoney = settleMoney;
         Calendar calendar = Calendar.getInstance();
         String format = String.valueOf(calendar.get(Calendar.YEAR)) + "/" + String.valueOf(calendar.get(Calendar.MONTH) + 1) + "/" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
 
-        Event event = new Event("結清帳務", "", "", mSettleMoney, format, new Date(System.currentTimeMillis()));
+        Event event = new Event("結清帳務", "", "", mSettleMoney, format, new Date(System.currentTimeMillis()),true);
         mFirestore.collection("events").add(event).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -196,8 +197,8 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                 if (mBalanceMoney > 0) {
                     //他欠我錢  還錢
                     //update user money
-                    batch.update(refUserMoney,"money", mBalanceMoney - mSettleMoney);
-                    batch.update(refFriendMoney,"money", mSettleMoney - mBalanceMoney);
+                    batch.update(refUserMoney,"money", (double) Math.round((mBalanceMoney - mSettleMoney) * 100) / 100);
+                    batch.update(refFriendMoney,"money", (double) Math.round((mSettleMoney - mBalanceMoney) * 100) / 100);
                     //set event
                     Map<String, Double> map = new HashMap<>();
                     map.put("owe", mSettleMoney);
@@ -209,8 +210,8 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                 } else if (mBalanceMoney < 0) {
                     //我欠他錢 還錢
                     //update user money
-                    batch.update(refUserMoney,"money", mBalanceMoney + mSettleMoney);
-                    batch.update(refUserMoney,"money", 0 - (mBalanceMoney + mSettleMoney));
+                    batch.update(refUserMoney,"money", (double) Math.round((mBalanceMoney + mSettleMoney) * 100) / 100);
+                    batch.update(refUserMoney,"money", (double) Math.round((0 - (mBalanceMoney + mSettleMoney)) * 100) / 100);
                     //set event
                     Map<String, Double> map = new HashMap<>();
                     map.put("owe", 0.0);
@@ -226,5 +227,10 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                 batch.commit();
             }
         });
+    }
+
+    @Override
+    public void transToListDetailPage(Event event) {
+        mView.setListDetailPage(event);
     }
 }

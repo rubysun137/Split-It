@@ -3,12 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorDrawer</item>
+        <item name="colorPrimary">@color/blueDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/blueLight</item>
         <item name="colorSecondary">@android:color/white</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:color">@color/colorDrawer</item>
+        <item name="android:color">@color/blueDark</item>
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/chinese_one</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -24,6 +24,13 @@
     </style>
 
     <style name="OverlayPrimaryColorDefault">
+        <item name="colorPrimary">@color/blueDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/blueLight</item>
+        <item name="android:color">@color/blueDark</item>
+    </style>
+
+    <style name="OverlayPrimaryColorOld">
         <item name="colorPrimary">@color/colorDrawer</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

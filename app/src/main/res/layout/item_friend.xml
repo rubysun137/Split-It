@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,10 +27,11 @@
 
         <TextView
             android:id="@+id/friend_name_text"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="16dp"
+            android:layout_weight="1"
             android:text="恩涵"
             app:fontFamily="@font/chinese_one" />
 
@@ -40,7 +41,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="24dp"
-            android:layout_weight="1"
             android:gravity="end"
             android:text="- 100 元"
             android:textColor="@color/moneyRed" />

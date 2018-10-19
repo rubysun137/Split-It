@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -56,6 +57,7 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
     private Context mContext;
     private View mDialogView;
     private Dialog mDialog;
+    private FrameLayout mBackgroundLayout;
 
 
     public SplitFragment() {
@@ -118,8 +120,22 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
         });
         mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
+        mBackgroundLayout = view.findViewById(R.id.fab_background);
+        mBackgroundLayout.setOnClickListener(this);
+
         mFab = view.findViewById(R.id.fab);
-        mFab.setClosedOnTouchOutside(true);
+        mFab.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    mBackgroundLayout.setVisibility(View.VISIBLE);
+                } else {
+                    mBackgroundLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+//        mFab.setOnMenuButtonClickListener(this);
+//        mFab.setClosedOnTouchOutside(true);
 
         mAddListFab = view.findViewById(R.id.fab_add_list);
         mAddFriendFab = view.findViewById(R.id.fab_add_friend);
@@ -144,6 +160,7 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
         switch (v.getId()) {
             case R.id.fab_add_list:
                 mFab.close(false);
+                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 ((MainActivity) getActivity()).showAddListPage();
                 break;
             case R.id.fab_add_friend:
@@ -154,14 +171,20 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
                 mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
                 mDialogView.findViewById(R.id.send_friend_email).setOnClickListener(this);
                 mFab.close(true);
+                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
             case R.id.fab_add_group:
                 mFab.close(true);
+                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
             case R.id.send_friend_email:
                 EditText mail = mDialogView.findViewById(R.id.add_friend_email);
                 String friendEmail = mail.getText().toString();
-                mPresenter.searchForFriend(friendEmail,mDialog.getContext());
+                mPresenter.searchForFriend(friendEmail, mDialog.getContext());
+                break;
+            case R.id.fab_background:
+                mFab.close(true);
+                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
         }
     }
@@ -169,11 +192,11 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
     @Override
     public void closeAddFriendDialog(String name) {
         mDialog.dismiss();
-        Toast.makeText(mContext, "已成功加 "+name+" 為好友", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "已成功加 " + name + " 為好友", Toast.LENGTH_SHORT).show();
     }
 
-    public void transToFriendPage(boolean friendPage){
-        if(friendPage){
+    public void transToFriendPage(boolean friendPage) {
+        if (friendPage) {
             mPager.setCurrentItem(1);
         }
     }

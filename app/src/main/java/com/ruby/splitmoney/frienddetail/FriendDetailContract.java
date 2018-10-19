@@ -14,6 +14,8 @@ public interface FriendDetailContract {
 
         void showEvents(List<Event> events,List<Double> moneyList,Map<Event,Double> map);
 
+        void setListDetailPage(Event event);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -21,5 +23,7 @@ public interface FriendDetailContract {
         void loadEvents(Friend friend);
 
         void setSettleUpToFirebase(Double money,Double balanceMoney);
+
+        void transToListDetailPage(Event event);
     }
 }

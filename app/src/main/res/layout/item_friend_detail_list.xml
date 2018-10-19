@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:paddingBottom="5dp"
     android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     tools:background="?colorPrimary">
 
 
@@ -21,36 +19,36 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
-            app:srcCompat="@drawable/floder_green" />
+            app:srcCompat="@drawable/file" />
 
         <TextView
             android:id="@+id/split_list_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:gravity="start"
-            android:text="生日慶生" />
+            android:text="                                  生日慶生" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/friend_detail_list_balance_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="你借出"
-                android:textAlignment="center" />
+                android:gravity="end"
+                android:text="你借出"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,6 +59,7 @@
                     android:id="@+id/friend_detail_list_dollar_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="end"
                     android:text="$ " />
 
                 <TextView
@@ -68,7 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="100"
+                    android:gravity="end"
+                    android:text="1000000"
                     app:fontFamily="@font/chinese_one" />
             </LinearLayout>
 
