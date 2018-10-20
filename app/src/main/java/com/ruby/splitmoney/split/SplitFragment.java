@@ -176,6 +176,7 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
             case R.id.fab_add_group:
                 mFab.close(true);
                 mBackgroundLayout.setVisibility(View.INVISIBLE);
+                ((MainActivity) getActivity()).showAddGroupPage();
                 break;
             case R.id.send_friend_email:
                 EditText mail = mDialogView.findViewById(R.id.add_friend_email);

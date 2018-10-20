@@ -36,8 +36,10 @@
 
                 <TextView
                     android:id="@+id/friend_detail_friend_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:text="Ruby Sun"
                     android:textColor="@android:color/white"
                     android:textSize="30dp"
@@ -57,8 +59,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
+                        android:singleLine="true"
+                        android:maxWidth="100dp"
                         android:gravity="center"
-                        android:text="Ruby Sun"
+                        android:text="Ruby  Sun"
                         app:fontFamily="@font/chinese_one" />
 
                     <TextView
@@ -73,6 +77,8 @@
                         android:id="@+id/friend_detail_owe_who"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:maxWidth="100dp"
+                        android:singleLine="true"
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="你"

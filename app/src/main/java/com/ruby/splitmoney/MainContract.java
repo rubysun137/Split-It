@@ -28,6 +28,8 @@ public interface MainContract {
 
         void transToAddListPage();
 
+        void transToAddGroupPage();
+
         void transToListDetailPage(Event event);
 
     }

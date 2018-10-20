@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.ruby.splitmoney.addgroup.AddGroupFragment;
 import com.ruby.splitmoney.addlist.AddListFragment;
 import com.ruby.splitmoney.frienddetail.FriendDetailFragment;
 import com.ruby.splitmoney.home.HomeFragment;
@@ -25,6 +26,7 @@ public class MainPresenter implements MainContract.Presenter {
     private QuickSplitFragment mQuickSplitFragment;
     private FriendDetailFragment mFriendDetailFragment;
     private AddListFragment mAddListFragment;
+    private AddGroupFragment mAddGroupFragment;
     private ListDetailFragment mListDetailFragment;
 
     public MainPresenter(MainContract.View view, FragmentManager fragmentManager) {
@@ -49,6 +51,8 @@ public class MainPresenter implements MainContract.Presenter {
         mAddListFragment = (AddListFragment) mFragmentManager.findFragmentByTag(Constants.ADD_LIST);
         if (mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL) != null) ;
         mListDetailFragment = (ListDetailFragment) mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL);
+        if (mFragmentManager.findFragmentByTag(Constants.ADD_GROUP) != null) ;
+        mAddGroupFragment = (AddGroupFragment) mFragmentManager.findFragmentByTag(Constants.ADD_GROUP);
 
     }
 
@@ -235,6 +239,32 @@ public class MainPresenter implements MainContract.Presenter {
 
         mAddListFragment = new AddListFragment();
         transaction.add(R.id.fullPagePlaceHolder, mAddListFragment, Constants.ADD_LIST);
+        transaction.commit();
+    }
+
+    @Override
+    public void transToAddGroupPage() {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (mHomeFragment != null && !mHomeFragment.isHidden()) {
+            transaction.hide(mHomeFragment);
+            transaction.addToBackStack(Constants.HOME);
+        }
+        if (mSpendFragment != null && !mSpendFragment.isHidden()) {
+            transaction.hide(mSpendFragment);
+            transaction.addToBackStack(Constants.SPEND);
+        }
+        if (mSplitFragment != null && !mSplitFragment.isHidden()) {
+            transaction.hide(mSplitFragment);
+            transaction.addToBackStack(Constants.SPLIT);
+        }
+        if (mQuickSplitFragment != null && !mQuickSplitFragment.isHidden()) {
+            transaction.hide(mQuickSplitFragment);
+            transaction.addToBackStack(Constants.QUICK);
+        }
+
+
+        mAddGroupFragment = new AddGroupFragment();
+        transaction.add(R.id.fullPagePlaceHolder, mAddGroupFragment, Constants.ADD_GROUP);
         transaction.commit();
     }
 

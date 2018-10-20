@@ -107,9 +107,12 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
                 if (mMoneyList.get(position) < 0) {
                     mBalanceType.setText("朋友還你");
                     mBalanceMoney.setText(String.valueOf(0 - mMoneyList.get(position)));
+                    setColor(android.R.color.white);
+
                 } else if (mMoneyList.get(position) > 0) {
                     mBalanceType.setText("妳還朋友");
                     mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
+                    setColor(android.R.color.white);
                 }
             }else {
                 if (mMoneyList.get(position) < 0) {
@@ -123,6 +126,7 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
                 } else {
                     mBalanceType.setText("你借出");
                     mBalanceMoney.setText(String.valueOf(0));
+                    setColor(android.R.color.white);
                 }
             }
         }

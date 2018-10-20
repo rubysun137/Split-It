@@ -32,7 +32,7 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:gravity="start"
-            android:text="                                  生日慶生" />
+            android:text="生日慶生" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"

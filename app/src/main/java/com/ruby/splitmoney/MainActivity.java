@@ -228,6 +228,10 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mPresenter.transToAddListPage();
     }
 
+    public void showAddGroupPage() {
+        mPresenter.transToAddGroupPage();
+    }
+
     public void switchPage(String pageName) {
         switch (pageName) {
             case Constants.SPLIT:
