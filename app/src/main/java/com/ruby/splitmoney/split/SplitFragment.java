@@ -95,11 +95,6 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
             }
         });
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            boolean friendPage = bundle.getBoolean("friendPage");
-            transToFriendPage(friendPage);
-        }
 
         mTabLayout = view.findViewById(R.id.tabLayout);
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -145,6 +140,12 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
         mAddListFab.setOnClickListener(this);
         mAddFriendFab.setOnClickListener(this);
         mAddGroupFab.setOnClickListener(this);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            boolean friendPage = bundle.getBoolean("friendPage");
+            transToFriendPage(friendPage);
+        }
 
         return view;
     }

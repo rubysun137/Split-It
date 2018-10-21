@@ -105,15 +105,17 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
                 }
                 if (mFriendNameList.get(position).getImage() != null) {
                     Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
-                }else{
+                } else {
                     Glide.with(mContext).load(R.drawable.user2).into(mImage);
                 }
                 mName.setText(mFriendNameList.get(position).getName());
-                mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
                 if (mFriendNameList.get(position).getMoney() > 0) {
+                    String text = "+" + mFriendNameList.get(position).getMoney();
+                    mMoney.setText(text);
                     mMoney.setTextColor(getColor(mContext, R.color.moneyGreen));
                     mMoney.setVisibility(View.VISIBLE);
                 } else if (mFriendNameList.get(position).getMoney() < 0) {
+                    mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
                     mMoney.setTextColor(getColor(mContext, R.color.moneyRed));
                     mMoney.setVisibility(View.VISIBLE);
                 } else if (mFriendNameList.get(position).getMoney() == 0) {

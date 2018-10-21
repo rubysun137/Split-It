@@ -2,6 +2,8 @@ package com.ruby.splitmoney.groupdetail;
 
 import android.content.Context;
 
+import com.ruby.splitmoney.objects.Event;
+
 public class GroupDetailPresenter implements GroupDetailContract.Presenter {
 
     private GroupDetailContract.View mView;
@@ -19,4 +21,8 @@ public class GroupDetailPresenter implements GroupDetailContract.Presenter {
 
     }
 
+    @Override
+    public void setEventDetailPage(Event event) {
+        mView.showEventDetailPage(event);
+    }
 }

@@ -54,15 +54,19 @@
         android:layout_height="match_parent"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
         <TextView
             android:id="@+id/dialog_who_owe"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end"
-            android:text="A" />
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="Adfsdfsdfsdfsdfsd" />
 
         <TextView
             android:id="@+id/textView29"
@@ -70,29 +74,31 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_weight="1"
             android:gravity="center"
+            android:singleLine="true"
             android:text="付給" />
 
         <TextView
             android:id="@+id/dialog_owe_who"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:gravity="start"
-            android:text="B" />
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Bsdfsdfsdfsdfs" />
 
         <TextView
             android:id="@+id/textView34"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="end"
             android:text="NTD :" />
 
         <EditText
             android:id="@+id/settle_money_edit_text"
-            android:layout_width="100dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
@@ -108,7 +114,7 @@
             android:id="@+id/textView33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="end"
             android:text="元" />
     </LinearLayout>
 

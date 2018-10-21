@@ -295,6 +295,10 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.hide(mFriendDetailFragment);
             transaction.addToBackStack(Constants.FRIEND_DETAIL);
         }
+        if (mGroupDetailFragment != null && !mGroupDetailFragment.isHidden()) {
+            transaction.hide(mGroupDetailFragment);
+            transaction.addToBackStack(Constants.GROUP_DETAIL);
+        }
 
 
         mListDetailFragment = new ListDetailFragment();

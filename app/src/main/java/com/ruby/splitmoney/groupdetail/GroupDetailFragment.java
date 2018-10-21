@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.GroupDetailAdapter;
 import com.ruby.splitmoney.objects.Event;
@@ -141,4 +142,8 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mPresenter = presenter;
     }
 
+    @Override
+    public void showEventDetailPage(Event event) {
+        ((MainActivity)getActivity()).showListDetailPage(event);
+    }
 }

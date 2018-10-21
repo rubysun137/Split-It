@@ -76,6 +76,12 @@ public class GroupDetailAdapter extends RecyclerView.Adapter {
             mDate = itemView.findViewById(R.id.group_detail_list_date);
             mTotalMoney = itemView.findViewById(R.id.group_event_list_total_money);
             mPayByWho = itemView.findViewById(R.id.group_event_pay_by_who);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.setEventDetailPage(mEventList.get(getAdapterPosition()));
+                }
+            });
 
         }
 
