@@ -78,15 +78,15 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mContext = container.getContext();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirestore = FirebaseFirestore.getInstance();
+        mGroupName = view.findViewById(R.id.group_detail_name);
         mGroupId = getArguments().getString("id", "");
         for (Group group : GroupList.getInstance().getGroupList()) {
             if (group.getId().equals(mGroupId)) {
                 mGroup = group;
+        mGroupName.setText(mGroup.getName());
             }
         }
 
-        mGroupName = view.findViewById(R.id.group_detail_name);
-        mGroupName.setText(mGroup.getName());
 
         mMemberName = view.findViewById(R.id.member_list_text);
 
@@ -123,6 +123,7 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mExpenseFragment = new GroupExpenseFragment();
         mExpenseFragment.setGroup(mGroup);
         mBalanceFragment = new GroupBalanceFragment();
+        mBalanceFragment.setGroup(mGroup);
 
         mFragmentList.add(mExpenseFragment);
         mFragmentList.add(mBalanceFragment);
@@ -179,7 +180,7 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
 
     @Override
     public void onDestroyView() {
-        getFragmentManager().beginTransaction().remove(mExpenseFragment).remove(mBalanceFragment).commit();
+        getFragmentManager().beginTransaction().remove(mExpenseFragment).remove(mBalanceFragment).commitAllowingStateLoss();
         super.onDestroyView();
     }
 }

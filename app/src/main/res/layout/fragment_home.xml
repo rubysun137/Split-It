@@ -99,7 +99,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/home_friend_button"
+        android:id="@+id/home_group_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -109,12 +109,28 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="好友總覽"
+        android:text="群組總覽"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_page_container" />
+
+    <Button
+        android:id="@+id/home_friend_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:background="@drawable/rc_home_page_button"
+        android:clickable="true"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="好友總覽"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_group_button" />
 
     <Button
         android:id="@+id/home_list_button"

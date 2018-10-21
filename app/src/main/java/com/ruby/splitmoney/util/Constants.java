@@ -20,5 +20,8 @@ public class Constants {
     public static final String DEFAULT_THEME = "default";
     public static final String HALLOWEEN_THEME = "halloween";
 
+    //others
+    public static final String GROUP = "GROUP";
+    public static final String FRIEND = "FRIEND";
 
 }

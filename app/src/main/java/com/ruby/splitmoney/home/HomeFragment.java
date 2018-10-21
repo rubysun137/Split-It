@@ -17,6 +17,7 @@ import com.ruby.splitmoney.util.Constants;
 public class HomeFragment extends Fragment implements HomeContract.View, View.OnClickListener {
 
     private HomeContract.Presenter mPresenter;
+    private Button mGroupButton;
     private Button mFriendButton;
     private Button mListButton;
     private Button mQuickButton;
@@ -37,12 +38,14 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
         mPresenter = new HomePresenter(this);
         mPresenter.start();
 
+        mGroupButton = view.findViewById(R.id.home_group_button);
         mFriendButton = view.findViewById(R.id.home_friend_button);
         mListButton = view.findViewById(R.id.home_list_button);
         mQuickButton = view.findViewById(R.id.home_quick_button);
         mLentMoney = view.findViewById(R.id.total_lent_number);
         mBorrowedMoney = view.findViewById(R.id.total_borrowed_number);
 
+        mGroupButton.setOnClickListener(this);
         mFriendButton.setOnClickListener(this);
         mListButton.setOnClickListener(this);
         mQuickButton.setOnClickListener(this);
@@ -56,8 +59,11 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.home_group_button:
+                ((MainActivity)getActivity()).switchPage(Constants.GROUP);
+                break;
             case R.id.home_friend_button:
-                ((MainActivity)getActivity()).switchPage(Constants.SPLIT);
+                ((MainActivity)getActivity()).switchPage(Constants.FRIEND);
                 break;
             case R.id.home_list_button:
                 ((MainActivity)getActivity()).switchPage(Constants.ADD_LIST);

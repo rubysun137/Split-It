@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_friend_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/rc_dash_outline">
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -12,22 +12,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <!--tools:background="@color/welcomeColor">-->
 
         <com.gcssloop.widget.RCImageView
-            android:id="@+id/default_user_image"
+            android:id="@+id/default_member_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/user2"
             app:round_as_circle="true" />
 
         <TextView
-            android:id="@+id/friend_name_text"
+            android:id="@+id/member_name_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -37,26 +38,14 @@
             app:fontFamily="@font/chinese_one" />
 
         <TextView
-            android:id="@+id/friend_list_money"
+            android:id="@+id/member_list_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="8dp"
             android:gravity="end"
             android:text="- 100 元"
             android:textColor="@color/moneyRed" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/friend_divider"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/dash_line"
-        android:layerType="software"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 </android.support.constraint.ConstraintLayout>

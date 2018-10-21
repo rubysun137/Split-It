@@ -3,6 +3,7 @@ package com.ruby.splitmoney.adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,7 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
         private TextView mName;
         private TextView mMoney;
         private View mDivider;
+        private ConstraintLayout mLayout;
 
         public SplitFriendListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,32 +74,32 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
             mName = itemView.findViewById(R.id.friend_name_text);
             mMoney = itemView.findViewById(R.id.friend_list_money);
             mDivider = itemView.findViewById(R.id.friend_divider);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPresenter.transToFriendDetailPage(mFriendNameList.get(getAdapterPosition()).getName());
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    mPresenter.deleteFriendDialog(mFriendNameList.get(getAdapterPosition()).getUid());
-                    return true;
-                }
-            });
+            mLayout = itemView.findViewById(R.id.item_friend_layout);
         }
 
         private void bindView() {
+
             int position = getAdapterPosition();
             if (position == mFriendNameList.size()) {
-                mImage.setVisibility(View.INVISIBLE);
-                mName.setVisibility(View.INVISIBLE);
-                mMoney.setVisibility(View.INVISIBLE);
-                mDivider.setVisibility(View.INVISIBLE);
+                mLayout.setVisibility(View.INVISIBLE);
             } else {
-                mImage.setVisibility(View.VISIBLE);
-                mName.setVisibility(View.VISIBLE);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.transToFriendDetailPage(mFriendNameList.get(getAdapterPosition()).getName());
+                    }
+                });
+
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        mPresenter.deleteFriendDialog(mFriendNameList.get(getAdapterPosition()).getUid());
+                        return true;
+                    }
+                });
+
+                mLayout.setVisibility(View.VISIBLE);
                 if (position == mFriendNameList.size() - 1) {
                     mDivider.setVisibility(View.INVISIBLE);
                 } else {

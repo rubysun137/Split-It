@@ -63,17 +63,9 @@ public class GroupExpenseFragment extends Fragment implements GroupExpenseContra
         mGroupDetailAdapter = new GroupDetailAdapter(mPresenter);
         recyclerView.setAdapter(mGroupDetailAdapter);
 
-
-
+        mPresenter.setEventList(mGroup);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        setEvent();
     }
 
     @Override
@@ -89,6 +81,17 @@ public class GroupExpenseFragment extends Fragment implements GroupExpenseContra
     @Override
     public void showEventDetailPage(Event event) {
         ((MainActivity)getActivity()).showListDetailPage(event);
+    }
+
+    @Override
+    public void showEventList(List<Event> eventList) {
+        mEventList = new ArrayList<>(eventList);
+        mGroupDetailAdapter.setEvents(mEventList);
+        if (mEventList.size() == 0) {
+            mNoEventText.setVisibility(View.VISIBLE);
+        } else {
+            mNoEventText.setVisibility(View.GONE);
+        }
     }
 
     public void setEvent(){
