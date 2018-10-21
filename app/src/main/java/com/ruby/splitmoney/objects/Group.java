@@ -6,14 +6,17 @@ import java.util.List;
 public class Group {
     private String name;
     private String id;
-    private ArrayList<String> members;
-    private ArrayList<String> events;
+    private List<String> members;
+    private List<String> events;
 
-    public Group(String name, String id, ArrayList<String> members, ArrayList<String> events) {
+    public Group(String name, String id, List<String> members, List<String> events) {
         this.name = name;
         this.id = id;
         this.members = members;
         this.events = events;
+    }
+
+    public Group() {
     }
 
     public String getName() {
@@ -24,11 +27,11 @@ public class Group {
         return id;
     }
 
-    public ArrayList<String> getMembers() {
+    public List<String> getMembers() {
         return members;
     }
 
-    public ArrayList<String> getEvents() {
+    public List<String> getEvents() {
         return events;
     }
 }

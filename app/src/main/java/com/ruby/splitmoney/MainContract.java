@@ -32,5 +32,7 @@ public interface MainContract {
 
         void transToListDetailPage(Event event);
 
+        void transToGroupDetailPage(String groupId);
+
     }
 }

@@ -3,6 +3,7 @@ package com.ruby.splitmoney.addlist;
 import android.support.v4.app.FragmentManager;
 
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.objects.Group;
 import com.ruby.splitmoney.util.BasePresenter;
 import com.ruby.splitmoney.util.BaseView;
 
@@ -16,13 +17,13 @@ public interface AddListContract {
 
         void showCurrentDate(String date);
 
+        void setGroupList(List<Group> groupList);
+
     }
 
     interface Presenter extends BasePresenter {
 
         void addSplitFriendView(int position);
-
-        void setPayerSpinner();
 
         void getCurrentDate();
 
@@ -41,5 +42,9 @@ public interface AddListContract {
         int freeTotalMoney();
 
         void saveSplitResultToFirebase(String event, List<Friend> friends, String whoPays, int money, int tipPercent, String date, FragmentManager fragmentManager);
+
+        void getGroups();
+
+        void selectGroup(int position);
     }
 }

@@ -1,84 +1,75 @@
-package com.ruby.splitmoney.group;
+package com.ruby.splitmoney.util;
 
-import android.content.Context;
-
-import javax.annotation.Nullable;
-
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
-import com.ruby.splitmoney.util.GroupList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class GroupPresenter implements GroupContract.Presenter {
+import javax.annotation.Nullable;
 
-    private GroupContract.View mView;
-    private FirebaseFirestore mFirestore;
-    private FirebaseUser mUser;
-    private Context mContext;
+public class GroupList {
+    private static GroupList mInstance;
+    private List<Group> mGroupList = new ArrayList<>();
     private List<String> mGroupIdList;
-    private List<Group> mGroups;
 
 
-    public GroupPresenter(GroupContract.View view, Context context) {
-        mView = view;
-        mView.setPresenter(this);
-        mFirestore = FirebaseFirestore.getInstance();
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-        mContext = context;
-
+    public static GroupList getInstance() {
+        if (mInstance == null) {
+            synchronized (GroupList.class) {
+                if (mInstance == null) {
+                    mInstance = new GroupList();
+                    mInstance.init();
+                }
+            }
+        }
+        return mInstance;
     }
 
-
-    @Override
-    public void start() {
-        setGroupList();
+    public List<Group> getGroupList() {
+        return mGroupList;
     }
 
-    private void setGroupList() {
-        mFirestore.collection("users").document(mUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+    public void setGroupList(List<Group> groupList) {
+        mGroupList = new ArrayList<>(groupList);
+    }
+
+    public void init() {
+        FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if (documentSnapshot.contains("groups")) {
-                    mGroups = new ArrayList<>();
+                    mGroupList = new ArrayList<>();
                     mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get("groups"));
-                    mFirestore.collection("groups").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    FirebaseFirestore.getInstance().collection("groups").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                                 for (String id : mGroupIdList) {
                                     if (snapshot.getId().equals(id)) {
                                         Group group = snapshot.toObject(Group.class);
-                                        mGroups.add(group);
+                                        mGroupList.add(group);
                                     }
                                 }
                             }
-                            mView.setGroupList(mGroups);
-                            GroupList.getInstance().setGroupList(mGroups);
                         }
                     });
                 }
             }
         });
 
-    }
-
-
-    @Override
-    public void transToGroupDetailPage(String groupId) {
-        mView.setGroupDetailPage(groupId);
     }
 }

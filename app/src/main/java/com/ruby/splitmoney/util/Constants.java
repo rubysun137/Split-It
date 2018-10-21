@@ -11,6 +11,8 @@ public class Constants {
     public static final String ADD_LIST = "ADD_LIST";
     public static final String ADD_GROUP = "ADD_GROUP";
     public static final String LIST_DETAIL = "LIST_DETAIL";
+    public static final String GROUP_DETAIL = "GROUP_DETAIL";
+
 
     //SharePreference
     public static final String THEME_COLOR = "ThemeColor";

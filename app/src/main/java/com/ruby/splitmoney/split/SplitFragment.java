@@ -160,8 +160,8 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
         switch (v.getId()) {
             case R.id.fab_add_list:
                 mFab.close(false);
-                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 ((MainActivity) getActivity()).showAddListPage();
+//                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
             case R.id.fab_add_friend:
                 mDialogView = LayoutInflater.from(mContext).inflate(R.layout.dialog_add_friend, null, false);
@@ -171,12 +171,12 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
                 mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
                 mDialogView.findViewById(R.id.send_friend_email).setOnClickListener(this);
                 mFab.close(true);
-                mBackgroundLayout.setVisibility(View.INVISIBLE);
+//                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
             case R.id.fab_add_group:
-                mFab.close(true);
-                mBackgroundLayout.setVisibility(View.INVISIBLE);
+                mFab.close(false);
                 ((MainActivity) getActivity()).showAddGroupPage();
+//                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
             case R.id.send_friend_email:
                 EditText mail = mDialogView.findViewById(R.id.add_friend_email);
@@ -185,7 +185,7 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
                 break;
             case R.id.fab_background:
                 mFab.close(true);
-                mBackgroundLayout.setVisibility(View.INVISIBLE);
+//                mBackgroundLayout.setVisibility(View.INVISIBLE);
                 break;
         }
     }

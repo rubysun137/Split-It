@@ -11,13 +11,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.AddGroupAdapter;
 import com.ruby.splitmoney.adapters.AddGroupSelectAdapter;
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.objects.Group;
 import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
@@ -35,9 +42,11 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
     private List<Friend> mAddedFriends;
     private Dialog mAddMemberDialog;
     private EditText mGroupName;
+    private Button mSaveButton;
     private LinearLayout mAddMemberToList;
     private Context mContext;
     private BottomSheetDialog mBottomSheetDialog;
+    private FirebaseFirestore mFirestore;
 
 
     public AddGroupFragment() {
@@ -51,10 +60,13 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
         mPresenter = new AddGroupPresenter(this);
         mPresenter.start();
 
+        mFirestore = FirebaseFirestore.getInstance();
+
         mContext = container.getContext();
 
         mAddedFriends = new ArrayList<>();
         mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
+
 
         RecyclerView recyclerView = view.findViewById(R.id.add_group_recycler_view);
         mAddGroupAdapter = new AddGroupAdapter(mPresenter);
@@ -64,6 +76,8 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
 
 
         mGroupName = view.findViewById(R.id.add_group_name);
+        mSaveButton = view.findViewById(R.id.add_group_save_button);
+        mSaveButton.setOnClickListener(this);
         mAddMemberToList = view.findViewById(R.id.add_friend_to_group);
         mAddMemberToList.setOnClickListener(this);
 
@@ -87,7 +101,16 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
                 mBottomSheetDialog.setContentView(view);
                 mBottomSheetDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
                 mBottomSheetDialog.show();
-
+                break;
+            case R.id.add_group_save_button:
+                if(!mGroupName.getText().toString().equals("") && mAddedFriends.size()!=0){
+                   mPresenter.saveGroupData(mGroupName.getText().toString(), mAddedFriends);
+                   getFragmentManager().popBackStack();
+                }else if(mGroupName.getText().toString().equals("")){
+                    Toast.makeText(mContext, "請輸入群組名稱", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(mContext, "須至少加入一位朋友才能建立群組", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;

@@ -2,6 +2,7 @@ package com.ruby.splitmoney.group;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,10 +25,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
+import com.ruby.splitmoney.adapters.GroupListAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitPartialAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitPercentAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitResultAdapter;
+import com.ruby.splitmoney.objects.Group;
 
 import java.util.List;
 
@@ -35,6 +39,8 @@ import java.util.List;
 public class GroupFragment extends Fragment implements GroupContract.View, View.OnClickListener {
 
     private GroupContract.Presenter mPresenter;
+    private GroupListAdapter mGroupListAdapter;
+    private Context mContext;
 
 
 
@@ -47,18 +53,23 @@ public class GroupFragment extends Fragment implements GroupContract.View, View.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_group, container, false);
-
-
-        mPresenter = new GroupPresenter(this);
-
-
+        mPresenter = new GroupPresenter(this, container.getContext());
         mPresenter.start();
 
+        mContext = container.getContext();
 
 
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.group_recycler_view);
+        mGroupListAdapter = new GroupListAdapter(mPresenter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setAdapter(mGroupListAdapter);
+    }
 
     @Override
     public void onClick(View v) {
@@ -68,5 +79,15 @@ public class GroupFragment extends Fragment implements GroupContract.View, View.
     @Override
     public void setPresenter(GroupContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void setGroupList(List<Group> groups) {
+        mGroupListAdapter.setGroupList(groups);
+    }
+
+    @Override
+    public void setGroupDetailPage(String groupId) {
+        ((MainActivity)getActivity()).showGroupDetailPage(groupId);
     }
 }

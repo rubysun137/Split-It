@@ -220,6 +220,10 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mPresenter.transToFriendDetailPage(friendName);
     }
 
+    public void showGroupDetailPage(String groupId){
+        mPresenter.transToGroupDetailPage(groupId);
+    }
+
     public void showListDetailPage(Event event){
         mPresenter.transToListDetailPage(event);
     }

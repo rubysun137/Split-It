@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.ruby.splitmoney.addgroup.AddGroupFragment;
 import com.ruby.splitmoney.addlist.AddListFragment;
 import com.ruby.splitmoney.frienddetail.FriendDetailFragment;
+import com.ruby.splitmoney.groupdetail.GroupDetailFragment;
 import com.ruby.splitmoney.home.HomeFragment;
 import com.ruby.splitmoney.listdetail.ListDetailFragment;
 import com.ruby.splitmoney.objects.Event;
@@ -28,6 +29,7 @@ public class MainPresenter implements MainContract.Presenter {
     private AddListFragment mAddListFragment;
     private AddGroupFragment mAddGroupFragment;
     private ListDetailFragment mListDetailFragment;
+    private GroupDetailFragment mGroupDetailFragment;
 
     public MainPresenter(MainContract.View view, FragmentManager fragmentManager) {
         mView = view;
@@ -39,21 +41,22 @@ public class MainPresenter implements MainContract.Presenter {
     private void checkFragment() {
         if (mFragmentManager.findFragmentByTag(Constants.HOME) != null)
             mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(Constants.HOME);
-        if (mFragmentManager.findFragmentByTag(Constants.SPEND) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.SPEND) != null)
         mSpendFragment = (SpendFragment) mFragmentManager.findFragmentByTag(Constants.SPEND);
-        if (mFragmentManager.findFragmentByTag(Constants.SPLIT) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.SPLIT) != null)
         mSplitFragment = (SplitFragment) mFragmentManager.findFragmentByTag(Constants.SPLIT);
-        if (mFragmentManager.findFragmentByTag(Constants.QUICK) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.QUICK) != null)
         mQuickSplitFragment = (QuickSplitFragment) mFragmentManager.findFragmentByTag(Constants.QUICK);
-        if (mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL) != null)
         mFriendDetailFragment = (FriendDetailFragment) mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL);
-        if (mFragmentManager.findFragmentByTag(Constants.ADD_LIST) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.ADD_LIST) != null)
         mAddListFragment = (AddListFragment) mFragmentManager.findFragmentByTag(Constants.ADD_LIST);
-        if (mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL) != null)
         mListDetailFragment = (ListDetailFragment) mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL);
-        if (mFragmentManager.findFragmentByTag(Constants.ADD_GROUP) != null) ;
+        if (mFragmentManager.findFragmentByTag(Constants.ADD_GROUP) != null)
         mAddGroupFragment = (AddGroupFragment) mFragmentManager.findFragmentByTag(Constants.ADD_GROUP);
-
+        if (mFragmentManager.findFragmentByTag(Constants.GROUP_DETAIL) != null)
+        mGroupDetailFragment = (GroupDetailFragment) mFragmentManager.findFragmentByTag(Constants.GROUP_DETAIL);
     }
 
     @Override
@@ -66,15 +69,15 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("首頁");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null){
+        if (mAddListFragment != null) {
             transaction.remove(mAddListFragment);
             mFragmentManager.popBackStack();
         }
-        if (mFriendDetailFragment != null){
+        if (mFriendDetailFragment != null) {
             transaction.remove(mFriendDetailFragment);
             mFragmentManager.popBackStack();
         }
-        if (mListDetailFragment != null){
+        if (mListDetailFragment != null) {
             transaction.remove(mListDetailFragment);
             mFragmentManager.popBackStack();
         }
@@ -96,15 +99,15 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("記帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null){
+        if (mAddListFragment != null) {
             transaction.remove(mAddListFragment);
             mFragmentManager.popBackStack();
         }
-        if (mFriendDetailFragment != null){
+        if (mFriendDetailFragment != null) {
             transaction.remove(mFriendDetailFragment);
             mFragmentManager.popBackStack();
         }
-        if (mListDetailFragment != null){
+        if (mListDetailFragment != null) {
             transaction.remove(mListDetailFragment);
             mFragmentManager.popBackStack();
         }
@@ -125,15 +128,15 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("拆帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null){
+        if (mAddListFragment != null) {
             transaction.remove(mAddListFragment);
             mFragmentManager.popBackStack();
         }
-        if (mFriendDetailFragment != null){
+        if (mFriendDetailFragment != null) {
             transaction.remove(mFriendDetailFragment);
             mFragmentManager.popBackStack();
         }
-        if (mListDetailFragment != null){
+        if (mListDetailFragment != null) {
             transaction.remove(mListDetailFragment);
             mFragmentManager.popBackStack();
         }
@@ -147,7 +150,7 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.show(mSplitFragment);
         }
         Bundle bundle = new Bundle();
-        bundle.putBoolean("friendPage",transToFriend);
+        bundle.putBoolean("friendPage", transToFriend);
         mSplitFragment.setArguments(bundle);
         transaction.commit();
     }
@@ -157,15 +160,15 @@ public class MainPresenter implements MainContract.Presenter {
         mView.setToolBarTitle("快速拆帳");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
-        if (mAddListFragment != null){
+        if (mAddListFragment != null) {
             transaction.remove(mAddListFragment);
             mFragmentManager.popBackStack();
         }
-        if (mFriendDetailFragment != null){
+        if (mFriendDetailFragment != null) {
             transaction.remove(mFriendDetailFragment);
             mFragmentManager.popBackStack();
         }
-        if (mListDetailFragment != null){
+        if (mListDetailFragment != null) {
             transaction.remove(mListDetailFragment);
             mFragmentManager.popBackStack();
         }
@@ -209,7 +212,7 @@ public class MainPresenter implements MainContract.Presenter {
 
         mFriendDetailFragment = new FriendDetailFragment();
         Bundle args = new Bundle();
-        args.putString("name",friendName);
+        args.putString("name", friendName);
         mFriendDetailFragment.setArguments(args);
         transaction.add(R.id.fullPagePlaceHolder, mFriendDetailFragment, Constants.FRIEND_DETAIL);
         transaction.commit();
@@ -288,7 +291,7 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.hide(mQuickSplitFragment);
             transaction.addToBackStack(Constants.QUICK);
         }
-        if (mFriendDetailFragment != null && !mFriendDetailFragment.isHidden()){
+        if (mFriendDetailFragment != null && !mFriendDetailFragment.isHidden()) {
             transaction.hide(mFriendDetailFragment);
             transaction.addToBackStack(Constants.FRIEND_DETAIL);
         }
@@ -297,6 +300,34 @@ public class MainPresenter implements MainContract.Presenter {
         mListDetailFragment = new ListDetailFragment();
         mListDetailFragment.setEvent(event);
         transaction.add(R.id.fullPagePlaceHolder, mListDetailFragment, Constants.LIST_DETAIL);
+        transaction.commit();
+    }
+
+    @Override
+    public void transToGroupDetailPage(String groupId) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        if (mHomeFragment != null && !mHomeFragment.isHidden()) {
+            transaction.hide(mHomeFragment);
+            transaction.addToBackStack(Constants.HOME);
+        }
+        if (mSpendFragment != null && !mSpendFragment.isHidden()) {
+            transaction.hide(mSpendFragment);
+            transaction.addToBackStack(Constants.SPEND);
+        }
+        if (mSplitFragment != null && !mSplitFragment.isHidden()) {
+            transaction.hide(mSplitFragment);
+            transaction.addToBackStack(Constants.SPLIT);
+        }
+        if (mQuickSplitFragment != null && !mQuickSplitFragment.isHidden()) {
+            transaction.hide(mQuickSplitFragment);
+            transaction.addToBackStack(Constants.QUICK);
+        }
+
+        mGroupDetailFragment = new GroupDetailFragment();
+        Bundle args = new Bundle();
+        args.putString("id", groupId);
+        mGroupDetailFragment.setArguments(args);
+        transaction.add(R.id.fullPagePlaceHolder, mGroupDetailFragment, Constants.GROUP_DETAIL);
         transaction.commit();
     }
 

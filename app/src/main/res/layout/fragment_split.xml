@@ -45,7 +45,7 @@
         android:id="@+id/fab_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#b6323d60"
+        android:background="#d22d3759"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

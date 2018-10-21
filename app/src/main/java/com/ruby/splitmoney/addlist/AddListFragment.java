@@ -34,6 +34,7 @@ import com.ruby.splitmoney.adapters.SplitFreeAdapter;
 import com.ruby.splitmoney.adapters.SplitPartialAdapter;
 import com.ruby.splitmoney.adapters.SplitPercentAdapter;
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.objects.Group;
 import com.ruby.splitmoney.quicksplit.QuickSplitFragment;
 import com.ruby.splitmoney.util.FriendList;
 import com.ruby.splitmoney.util.WrapLayout;
@@ -68,7 +69,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     private TextView mCancelTextButton;
     private TextView mSaveTextButton;
     private String[] mSplitType;
-    private String mSellectSplitType;
+    private String mSelectSplitType;
     private Spinner mSplitTypeSpinner;
     private EditText mTotalMoney;
     private String mMoney;
@@ -81,6 +82,8 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     private EditText mEvent;
     private String mWhoPays;
     private List<String> mNames;
+    private Spinner mGroupSpinner;
+    private List<Group> mGroup;
 
 
     public AddListFragment() {
@@ -100,6 +103,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
 
         mPayerSpinner = view.findViewById(R.id.payer_spinner);
         mSplitTypeSpinner = view.findViewById(R.id.add_list_split_type_spinner);
+        mGroupSpinner = view.findViewById(R.id.group_spinner);
 
         mLayoutId = 0;
         mMap = new HashMap<>();
@@ -140,6 +144,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.dropdown_style, mSplitType);
         mSplitTypeSpinner.setAdapter(mSplitTypeList);
 
+        mPresenter.getGroups();
 
         mCancelTextButton = view.findViewById(R.id.add_list_cancel);
         mCancelTextButton.setOnClickListener(this);
@@ -262,6 +267,8 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 mPresenter.selectSplitType(0);
             }
         });
+
+
     }
 
     @Override
@@ -295,13 +302,13 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 getFragmentManager().popBackStack();
                 break;
             case R.id.add_list_save:
-                if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString())!=0 && !mEvent.getText().toString().equals("")) {
+                if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString()) != 0 && !mEvent.getText().toString().equals("")) {
                     mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString(), getFragmentManager());
-                } else if(mAddedFriends.size() == 0){
+                } else if (mAddedFriends.size() == 0) {
                     Toast.makeText(getContext(), "至少需選擇一位朋友參與拆帳", Toast.LENGTH_SHORT).show();
-                }else if(mEvent.getText().toString().equals("")){
+                } else if (mEvent.getText().toString().equals("")) {
                     Toast.makeText(getContext(), "請輸入拆帳標題", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(getContext(), "請輸入拆帳金額", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -374,9 +381,9 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         });
         mNotAddFriends.remove(position);
         mLayoutId++;
-        if (mNotAddFriends.size() == 0) {
-            mAddMemberIcon.setVisibility(View.GONE);
-        }
+//        if (mNotAddFriends.size() == 0) {
+//            mAddMemberIcon.setVisibility(View.GONE);
+//        }
 
         refreshPayerSpinner();
         changeToEvenSplitType();
@@ -390,7 +397,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 mNames.add(friend.getName());
             }
         }
-        mPayerSpinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.dropdown_style, mNames));
+        mPayerSpinner.setAdapter(new ArrayAdapter<>(mContext, R.layout.dropdown_style, mNames));
         mPayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -408,6 +415,52 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     @Override
     public void showCurrentDate(String date) {
         mPickDate.setText(date);
+    }
+
+    @Override
+    public void setGroupList(List<Group> groupList) {
+        mGroup = new ArrayList<>(groupList);
+        List<String> groupNames = new ArrayList<>();
+        groupNames.add("無");
+        for (Group group : mGroup) {
+            groupNames.add(group.getName());
+        }
+        mGroupSpinner.setAdapter(new ArrayAdapter<>(mContext, R.layout.dropdown_style, groupNames));
+        mGroupSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.selectGroup(position);
+                mAddMemberLayout.removeViews(2,mAddedFriends.size());
+                if (position != 0) {
+                    mAddedFriends = new ArrayList<>();
+                    mNotAddFriends = new ArrayList<>();
+                    List<String> memberIdList = new ArrayList<>(mGroup.get(position - 1).getMembers());
+                    List<Friend> friends = FriendList.getInstance().getFriendList();
+                    for (String memberid : memberIdList) {
+                        for (int i = 0; i < friends.size(); i++) {
+                            if (friends.get(i).getUid().equals(memberid)) {
+                                mNotAddFriends.add(friends.get(i));
+                            }
+                        }
+
+                    }
+                    Collections.sort(mNotAddFriends, new Comparator<Friend>() {
+                        @Override
+                        public int compare(Friend o1, Friend o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
+                }else{
+                    mAddedFriends = new ArrayList<>();
+                    mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mPresenter.selectGroup(0);
+            }
+        });
     }
 
     private int parseInt(String s) {
