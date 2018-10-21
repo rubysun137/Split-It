@@ -60,6 +60,11 @@
         <item name="android:shadowRadius">10</item>
     </style>
 
+    <style name="GroupTabLayoutText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/chinese_one</item>
+    </style>
+
     <style name="FloatingButtonLabel" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">20sp</item>
         <item name="android:shadowColor">@android:color/white</item>

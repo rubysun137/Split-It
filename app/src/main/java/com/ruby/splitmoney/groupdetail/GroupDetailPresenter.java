@@ -21,8 +21,8 @@ public class GroupDetailPresenter implements GroupDetailContract.Presenter {
 
     }
 
-    @Override
-    public void setEventDetailPage(Event event) {
-        mView.showEventDetailPage(event);
-    }
+//    @Override
+//    public void setEventDetailPage(Event event) {
+//        mView.showEventDetailPage(event);
+//    }
 }

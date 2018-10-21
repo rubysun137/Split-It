@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.groupdetail.GroupDetailContract;
+import com.ruby.splitmoney.groupexpense.GroupExpenseContract;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class GroupDetailAdapter extends RecyclerView.Adapter {
 
-    private GroupDetailContract.Presenter mPresenter;
+    private GroupExpenseContract.Presenter mPresenter;
     private Friend mFriend;
     private FirebaseUser mUser;
     private FirebaseFirestore mFirestore;
@@ -36,7 +37,7 @@ public class GroupDetailAdapter extends RecyclerView.Adapter {
     }
 
 
-    public GroupDetailAdapter(GroupDetailContract.Presenter presenter) {
+    public GroupDetailAdapter(GroupExpenseContract.Presenter presenter) {
         mPresenter = presenter;
         mEventList = new ArrayList<>();
         mMoneyList = new ArrayList<>();

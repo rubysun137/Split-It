@@ -3,7 +3,12 @@ package com.ruby.splitmoney.groupdetail;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +27,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.GroupDetailAdapter;
+import com.ruby.splitmoney.friend.FriendFragment;
+import com.ruby.splitmoney.group.GroupFragment;
+import com.ruby.splitmoney.groupbalance.GroupBalanceFragment;
+import com.ruby.splitmoney.groupexpense.GroupExpenseFragment;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
@@ -47,9 +56,13 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
     private List<Friend> mGroupMembers;
     private FirebaseUser mUser;
     private FirebaseFirestore mFirestore;
-    private GroupDetailAdapter mGroupDetailAdapter;
     private List<Event> mEventList;
     private TextView mNoEventText;
+    private ViewPager mPager;
+    private TabLayout mTabLayout;
+    private List<Fragment> mFragmentList;
+    private GroupExpenseFragment mExpenseFragment;
+    private GroupBalanceFragment mBalanceFragment;
 
 
     public GroupDetailFragment() {
@@ -77,10 +90,10 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
 
         mMemberName = view.findViewById(R.id.member_list_text);
 
-        mNoEventText = view.findViewById(R.id.no_event_text);
+
 
         mGroupMembers = new ArrayList<>();
-        mEventList = new ArrayList<>();
+//        mEventList = new ArrayList<>();
         Friend memberMe = new Friend(mUser.getEmail(),mUser.getUid(),mUser.getDisplayName(),null,mUser.getPhotoUrl().toString());
         mGroupMembers.add(memberMe);
         for (Friend friend : FriendList.getInstance().getFriendList()) {
@@ -105,28 +118,49 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
             }
         }
 
-        RecyclerView recyclerView = view.findViewById(R.id.group_detail_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mGroupDetailAdapter = new GroupDetailAdapter(mPresenter);
-        recyclerView.setAdapter(mGroupDetailAdapter);
 
-        mFirestore.collection("events").whereEqualTo("group",mGroup.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mFragmentList = new ArrayList<>();
+        mExpenseFragment = new GroupExpenseFragment();
+        mExpenseFragment.setGroup(mGroup);
+        mBalanceFragment = new GroupBalanceFragment();
+
+        mFragmentList.add(mExpenseFragment);
+        mFragmentList.add(mBalanceFragment);
+
+        Log.d("FragmentList", "onCreateView:  " +mFragmentList.size() );
+        mPager = view.findViewById(R.id.group_view_pager_holder);
+
+        mPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                Log.d("GET EVENT NUMBER!!!", "onEvent: "+queryDocumentSnapshots.size());
-                mEventList = new ArrayList<>();
-                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
-                    mEventList.add(snapshot.toObject(Event.class));
-                }
-                Log.d("EVENT NUMBER!!!", "onEvent: "+mEventList.size());
-                mGroupDetailAdapter.setEvents(mEventList);
-                if(mEventList.size()==0){
-                    mNoEventText.setVisibility(View.VISIBLE);
-                }else{
-                    mNoEventText.setVisibility(View.GONE);
-                }
+            public Fragment getItem(int position) {
+                return mFragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragmentList.size();
             }
         });
+
+        mTabLayout = view.findViewById(R.id.tab_layout);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        mPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
 
         return view;
     }
@@ -142,8 +176,10 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mPresenter = presenter;
     }
 
+
     @Override
-    public void showEventDetailPage(Event event) {
-        ((MainActivity)getActivity()).showListDetailPage(event);
+    public void onDestroyView() {
+        getFragmentManager().beginTransaction().remove(mExpenseFragment).remove(mBalanceFragment).commit();
+        super.onDestroyView();
     }
 }
