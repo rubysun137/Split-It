@@ -178,8 +178,13 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
         mSettleMoney = settleMoney;
         Calendar calendar = Calendar.getInstance();
         String format = String.valueOf(calendar.get(Calendar.YEAR)) + "/" + String.valueOf(calendar.get(Calendar.MONTH) + 1) + "/" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-
-        Event event = new Event("結清帳務", "", "", mSettleMoney, format, new Date(System.currentTimeMillis()),true);
+        String whoPay;
+        if(mBalanceMoney > 0){
+            whoPay = mFriend.getName();
+        }else {
+            whoPay = mUser.getDisplayName();
+        }
+        Event event = new Event("結清帳務", "", "", mSettleMoney, format, new Date(System.currentTimeMillis()),true, whoPay);
         mFirestore.collection("events").add(event).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {

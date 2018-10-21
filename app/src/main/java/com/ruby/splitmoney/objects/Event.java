@@ -10,8 +10,9 @@ public class Event {
     private String name;
     private Date time;
     private boolean settleUp;
+    private String payBy;
 
-    public Event(String name, String id, String group, double money, String date, Date time, boolean settleUp) {
+    public Event(String name, String id, String group, double money, String date, Date time, boolean settleUp, String payBy) {
         this.date = date;
         this.group = group;
         this.id = id;
@@ -19,6 +20,7 @@ public class Event {
         this.name = name;
         this.time = time;
         this.settleUp = settleUp;
+        this.payBy = payBy;
     }
 
 
@@ -51,5 +53,9 @@ public class Event {
 
     public boolean isSettleUp() {
         return settleUp;
+    }
+
+    public String getPayBy() {
+        return payBy;
     }
 }

@@ -171,7 +171,13 @@ public class AddListPresenter implements AddListContract.Presenter {
         if (mGroupPosition != 0) {
             mGroupId = mGroups.get(mGroupPosition - 1).getId();
         }
-        Event event = new Event(eventName, "", mGroupId, mAddTipMoney, date, new Date(System.currentTimeMillis()), false);
+        String payBy;
+        if(whoPays.equals("你")){
+            payBy = mUser.getDisplayName();
+        }else{
+            payBy = whoPays;
+        }
+        Event event = new Event(eventName, "", mGroupId, mAddTipMoney, date, new Date(System.currentTimeMillis()), false, payBy);
         mFirestore.collection("events").add(event).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -379,6 +385,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                 mCountFree.add(i, 0.0);
                             }
                         }
+
 
                         mPayOweMap = new HashMap<>();
                         for (int i = 0; i < mFriendList.size(); i++) {

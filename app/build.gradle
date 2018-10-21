@@ -20,10 +20,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.ruby.splitmoney"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.0-alpha-3"
+        versionCode 4
+        versionName "1.0.0-alpha-4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
