@@ -43,7 +43,6 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     private EditText mTotalMember;
     private CheckBox mSelfCheck;
     private EditText mFeePercent;
-    private TextView mNextPage;
     private TextView mPrePage;
     private ConstraintLayout mKeyInPage;
     private ConstraintLayout mResultPage;
@@ -54,7 +53,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     private QuickSplitPercentAdapter mPercentAdapter;
     private String mMoney;
     private String mMember;
-    private boolean mIsNotEqual;
+    private boolean mIsPartialEqual;
     private TextView mEqualNumber;
     private LinearLayout mEqualPage;
     private LinearLayout mUnequalPage;
@@ -71,15 +70,15 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quick_split, container, false);
 
-        mIsNotEqual = false;
+        mIsPartialEqual = false;
         mIsPercent = false;
 
         mPresenter = new QuickSplitPresenter(this);
 
         mKeyInPage = view.findViewById(R.id.quick_split_first_page);
         mResultPage = view.findViewById(R.id.quick_split_second_page);
-
-        mPresenter.start();
+        mResultPage.setVisibility(View.GONE);
+        mPrePage = view.findViewById(R.id.previous_page_text_view);
 
         mSpinner = view.findViewById(R.id.split_type_spinner);
         mSellectSplitType = "";
@@ -87,8 +86,6 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mTotalMember = view.findViewById(R.id.people_edit_text);
         mSelfCheck = view.findViewById(R.id.self_check_box);
         mFeePercent = view.findViewById(R.id.fee_edit_text);
-        mNextPage = view.findViewById(R.id.next_page_text_view);
-        mPrePage = view.findViewById(R.id.previous_page_text_view);
         mEqualNumber = view.findViewById(R.id.equal_split_number);
         mEqualPage = view.findViewById(R.id.quick_equal_split);
         mEqualPage.setVisibility(View.GONE);
@@ -96,11 +93,13 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mUnequalPage.setVisibility(View.GONE);
         mPercentPage = view.findViewById(R.id.quick_percent_split);
         mPercentPage.setVisibility(View.GONE);
-        mSplitType = new String[]{"全部均分", "部份均分", "比例分攤"};
+        mSplitType = new String[]{"拆帳方式","全部均分", "部份均分", "比例分攤"};
         ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
         mSplitTypeList.setDropDownViewResource(R.layout.dropdown_style);
         mSpinner.setAdapter(mSplitTypeList);
-
+//        mNextPage.setOnClickListener(this);
+        mPrePage.setOnClickListener(this);
+        mPresenter.start();
 
         return view;
     }
@@ -112,74 +111,77 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.selectSplitType(position);
-                switch (position) {
-                    default:
-                    case 0:
-                        break;
-                    case 1:
-                        mMoney = mTotalMoney.getText().toString();
-                        mMember = mTotalMember.getText().toString();
+                    mPresenter.selectSplitType(position);
+                    switch (position) {
+                        default:
+                        case 0:
+                            break;
+                        case 1:
+                            goToNextPage();
+                            break;
+                        case 2:
+                            mMoney = mTotalMoney.getText().toString();
+                            mMember = mTotalMember.getText().toString();
 
-                        if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
-                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+                            if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
+                                mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 
-                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                            mPartialAdapter = new QuickSplitPartialAdapter(mMoney, mMember, mPresenter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(mPartialAdapter);
+                                RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+                                mPartialAdapter = new QuickSplitPartialAdapter(mMoney, mMember, mPresenter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                recyclerView.setAdapter(mPartialAdapter);
 
-                            mDialogPartial = new AlertDialog.Builder(getContext())
-                                    .setView(mDialogView)
-                                    .setCancelable(false)
-                                    .show();
-                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+                                mDialogPartial = new AlertDialog.Builder(getContext())
+                                        .setView(mDialogView)
+                                        .setCancelable(false)
+                                        .show();
+                                mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                                mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
-                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+                                TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+                                TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
 
-                            correct.setOnClickListener(QuickSplitFragment.this);
-                            cancel.setOnClickListener(QuickSplitFragment.this);
-                        } else {
-                            mSpinner.setSelection(0);
-                            Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
-                            mPresenter.selectSplitType(0);
-                        }
-                        break;
-                    case 2:
-                        mMoney = mTotalMoney.getText().toString();
-                        mMember = mTotalMember.getText().toString();
+                                correct.setOnClickListener(QuickSplitFragment.this);
+                                cancel.setOnClickListener(QuickSplitFragment.this);
+                            } else {
+                                mSpinner.setSelection(0);
+                                Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
+                                mPresenter.selectSplitType(0);
+                            }
+                            break;
+                        case 3:
+                            mMoney = mTotalMoney.getText().toString();
+                            mMember = mTotalMember.getText().toString();
 
-                        if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
-                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+                            if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
+                                mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 
-                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                            mPercentAdapter = new QuickSplitPercentAdapter(mMoney, mMember, mPresenter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(mPercentAdapter);
+                                RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+                                mPercentAdapter = new QuickSplitPercentAdapter(mMoney, mMember, mPresenter);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                                recyclerView.setAdapter(mPercentAdapter);
 
-                            mDialogPartial = new AlertDialog.Builder(getContext())
-                                    .setView(mDialogView)
-                                    .setCancelable(false)
-                                    .show();
-                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+                                mDialogPartial = new AlertDialog.Builder(getContext())
+                                        .setView(mDialogView)
+                                        .setCancelable(false)
+                                        .show();
+                                mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                                mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
-                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+                                TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+                                TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
 
-                            correct.setOnClickListener(QuickSplitFragment.this);
-                            cancel.setOnClickListener(QuickSplitFragment.this);
-                            mIsPercent = true;
-                        } else {
-                            mSpinner.setSelection(0);
-                            Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
-                            mPresenter.selectSplitType(0);
-                        }
-                        break;
+                                correct.setOnClickListener(QuickSplitFragment.this);
+                                cancel.setOnClickListener(QuickSplitFragment.this);
+                                mIsPercent = true;
+                            } else {
+                                mSpinner.setSelection(0);
+                                Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
+                                mPresenter.selectSplitType(0);
+                            }
+                            break;
+                    }
 
-                }
             }
 
             @Override
@@ -196,8 +198,8 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (mIsNotEqual) {
-                    mIsNotEqual = false;
+                if (mIsPartialEqual) {
+                    mIsPartialEqual = false;
                     mSpinner.setSelection(0);
                 }
             }
@@ -207,8 +209,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
 
             }
         });
-        mNextPage.setOnClickListener(this);
-        mPrePage.setOnClickListener(this);
+
     }
 
     @Override
@@ -218,14 +219,15 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
 
     @Override
     public void showFirstPage() {
-        mKeyInPage.setVisibility(View.VISIBLE);
         mResultPage.setVisibility(View.GONE);
+        mTotalMember.setText("");
+        mTotalMoney.setText("");
+        mFeePercent.setText("");
+        mSpinner.setSelection(0);
     }
 
     @Override
     public void showSecondPage() {
-
-        mKeyInPage.setVisibility(View.GONE);
         mResultPage.setVisibility(View.VISIBLE);
         mEqualPage.setVisibility(View.GONE);
         mUnequalPage.setVisibility(View.GONE);
@@ -269,22 +271,17 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
                     }
                 }
                 mDialogPartial.dismiss();
-                mIsNotEqual = true;
+                mIsPartialEqual = true;
                 mIsPercent = false;
+                goToNextPage();
                 break;
             case R.id.dialog_cancel_text:
                 mDialogPartial.dismiss();
                 mSpinner.setSelection(0);
                 mIsPercent = false;
                 break;
-            case R.id.next_page_text_view:
-                int money = parseInt(mTotalMoney.getText().toString());
-                int member = parseInt(mTotalMember.getText().toString());
-                int percent = parseInt(mFeePercent.getText().toString());
-                mPresenter.passValue(money, member, percent);
-                mPresenter.toSecondPage();
-                break;
             case R.id.previous_page_text_view:
+
                 mPresenter.toFirstPage();
             default:
                 break;
@@ -297,5 +294,13 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         } else {
             return Integer.parseInt(s);
         }
+    }
+
+    private void goToNextPage(){
+                int money = parseInt(mTotalMoney.getText().toString());
+                int member = parseInt(mTotalMember.getText().toString());
+                int percent = parseInt(mFeePercent.getText().toString());
+                mPresenter.passValue(money, member, percent);
+                mPresenter.toSecondPage();
     }
 }

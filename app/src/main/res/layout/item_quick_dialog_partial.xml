@@ -6,19 +6,17 @@
     android:layout_height="wrap_content"
     android:background="?colorPrimary"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp">
+    android:focusableInTouchMode="true">
 
 
     <EditText
         android:id="@+id/partial_quick_split_member_edit_text"
         android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:backgroundTint="@android:color/transparent"
         android:ellipsize="end"
-        android:gravity="center|start"
+        android:gravity="start"
         android:inputType="text"
         android:maxLines="1"
         android:text="成員10"
@@ -32,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="4dp"
         android:text="分攤$"
         app:layout_constraintBottom_toBottomOf="@+id/partial_quick_split_member_edit_text"
         app:layout_constraintStart_toEndOf="@+id/partial_quick_split_member_edit_text"
@@ -51,14 +50,14 @@
     <EditText
         android:id="@+id/partial_quick_split_add_money"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="?colorAccent"
         android:ems="10"
-        android:maxLength="7"
         android:gravity="end"
         android:inputType="number"
+        android:maxLength="7"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/textView31"
         app:layout_constraintEnd_toEndOf="parent"

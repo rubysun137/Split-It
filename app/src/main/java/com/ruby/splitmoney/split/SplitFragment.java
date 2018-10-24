@@ -200,6 +200,8 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
     public void transToFriendPage(boolean friendPage) {
         if (friendPage) {
             mPager.setCurrentItem(1);
+        }else {
+            mPager.setCurrentItem(0);
         }
     }
 }

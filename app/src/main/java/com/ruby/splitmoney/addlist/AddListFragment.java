@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.AddSplitMemberAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitPartialAdapter;
@@ -84,6 +85,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     private List<String> mNames;
     private Spinner mGroupSpinner;
     private List<Group> mGroup;
+    private ImageView mFriendImage;
 
 
     public AddListFragment() {
@@ -109,11 +111,13 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mMap = new HashMap<>();
         mAddMemberLayout = view.findViewById(R.id.add_list_member_linearlayout);
         mAddMemberIcon = view.findViewById(R.id.add_list_plus);
+        //加號可按
         mAddMemberIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemNameLayout = (ConstraintLayout) LayoutInflater.from(mContext).inflate(R.layout.item_member_name, mAddMemberLayout, false);
                 mFriendName = mItemNameLayout.findViewById(R.id.add_member_user_name);
+                mFriendImage = mItemNameLayout.findViewById(R.id.add_member_user_image);
 
                 View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_list_member, null, false);
 
@@ -345,6 +349,11 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     public void showSplitFriendView(int position) {
         mFriendDialog.dismiss();
         mFriendName.setText(mNotAddFriends.get(position).getName());
+        if(mNotAddFriends.get(position).getImage()!=null){
+            Glide.with(mContext).load(String.valueOf(mNotAddFriends.get(position).getImage())).into(mFriendImage);
+        }else{
+            mFriendImage.setImageResource(R.drawable.user2);
+        }
         mItemNameLayout.setId(mLayoutId);
         mMap.put(mLayoutId, mNotAddFriends.get(position).getUid());
         mItemNameLayout.setOnClickListener(new View.OnClickListener() {

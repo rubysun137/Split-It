@@ -21,27 +21,28 @@
             android:id="@+id/add_member_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="150dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginStart="4dp"
-            android:text="Split Split Split Split"
-            android:singleLine="true"
+            android:layout_marginEnd="10dp"
             android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:singleLine="true"
+            android:text="Split Split Split Split"
             app:fontFamily="@font/chinese_one"
             app:layout_constraintBottom_toBottomOf="@+id/add_member_user_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/add_member_user_image"
             app:layout_constraintTop_toTopOf="@+id/add_member_user_image" />
 
-        <ImageView
+        <com.gcssloop.widget.RCImageView
             android:id="@+id/add_member_user_image"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_margin="3dp"
+            android:src="@drawable/user2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/user2" />
+            app:round_as_circle="true" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

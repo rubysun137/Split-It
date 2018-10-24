@@ -66,7 +66,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void transToHome() {
-        mView.setToolBarTitle("首頁");
+        mView.setToolBarTitle("Split It");
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         if (mAddListFragment != null) {
@@ -148,6 +148,7 @@ public class MainPresenter implements MainContract.Presenter {
             transaction.add(R.id.main_activity_placeholder, mSplitFragment, Constants.SPLIT);
         } else {
             transaction.show(mSplitFragment);
+            mSplitFragment.transToFriendPage(transToFriend);
         }
         Bundle bundle = new Bundle();
         bundle.putBoolean("friendPage", transToFriend);

@@ -45,12 +45,12 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
         mView.showSecondPage();
         switch (mSplitType) {
             default:
-            case 0:
+            case 1:
                 double money = mTotalMoney * (1 + ((double) mFeePercentage / 100)) / mTotalMember;
                 money = (double) Math.round(money * 100) / 100;
                 mView.showEqualResult(money);
                 break;
-            case 1:
+            case 2:
                 int moneyUnequal = mTotalMoney;
                 mCountExtra = new ArrayList<>();
 
@@ -69,7 +69,7 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
 
                 break;
-            case 2:
+            case 3:
                 mCountShared = new ArrayList<>();
                 int sharedRate = 0;
 

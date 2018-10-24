@@ -36,7 +36,8 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="快速拆帳"
-        app:fontFamily="@font/chinese_one"/>
+        android:textSize="20sp"
+        app:fontFamily="@font/chinese_one" />
 
     <FrameLayout
         android:id="@+id/fullPagePlaceHolder"

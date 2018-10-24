@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="首頁"
+                    android:text="主頁面"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 

@@ -20,7 +20,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.ruby.splitmoney"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 4
         versionName "1.0.0-alpha-4"

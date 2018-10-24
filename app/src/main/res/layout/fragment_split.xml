@@ -18,7 +18,8 @@
         app:tabIndicatorColor="#caffffff"
         app:tabRippleColor="@null"
         app:tabTextAppearance="@style/TabLayoutText"
-        app:tabTextColor="@android:color/white">
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="#d6d6d6">
 
         <android.support.design.widget.TabItem
             android:layout_width="match_parent"

@@ -68,8 +68,8 @@ public class GroupBalancePresenter implements GroupBalanceContract.Presenter {
                                 if (documentSnapshot.exists()) {
                                     double money = 0.0;
                                     money = money + documentSnapshot.getDouble("pay")- documentSnapshot.getDouble("owe");
-
-                                    mBalanceMoney.put(memberId, mBalanceMoney.get(memberId) + money);
+                                    money = (double) Math.round((mBalanceMoney.get(memberId) + money)*100)/100;
+                                    mBalanceMoney.put(memberId, money);
                                     Log.d("MAP!!!!!", "onSuccess: "+ mBalanceMoney.get(memberId));
                                     Log.d("MAP!!!!!", "onSuccess: "+ memberId);
                                     mView.updateBalance(mBalanceMoney);

@@ -50,8 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|start"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:foregroundGravity="center_vertical|center"
                 android:gravity="center_vertical|start"
                 android:orientation="horizontal">
@@ -91,7 +91,7 @@
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:background="?colorAccent" />
 
             <android.support.constraint.ConstraintLayout
@@ -104,51 +104,53 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="標題 :"
+                    android:text="標題 "
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/payer_spinner" />
 
                 <EditText
                     android:id="@+id/split_event"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginStart="8dp"
                     android:backgroundTint="?colorAccent"
                     android:ems="10"
                     android:fontFamily="@font/chinese_one"
                     android:inputType="text"
+                    android:paddingTop="0dp"
                     android:textAlignment="textStart"
                     android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView16"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView16"
-                    app:layout_constraintTop_toTopOf="@+id/textView16" />
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
                 <TextView
                     android:id="@+id/textView17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="群組 :"
+                    android:text="群組 "
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/group_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginStart="8dp"
                     android:backgroundTint="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView17"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView17"
-                    app:layout_constraintTop_toTopOf="@+id/textView17" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
 
                 <TextView
@@ -156,23 +158,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="付款人 :"
+                    android:text="付款人 "
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView17" />
+                    app:layout_constraintTop_toBottomOf="@+id/group_spinner" />
 
                 <Spinner
                     android:id="@+id/payer_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginStart="16dp"
                     android:backgroundTint="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView18"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView18"
-                    app:layout_constraintTop_toTopOf="@+id/textView18" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
 
                 <TextView
@@ -180,106 +182,89 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="NTD :"
+                    android:text="金額"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                    app:layout_constraintTop_toBottomOf="@+id/split_event" />
 
                 <EditText
                     android:id="@+id/add_list_split_money"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="?colorAccent"
                     android:ems="10"
                     android:fontFamily="@font/chinese_one"
+                    android:hint="NTD"
                     android:inputType="number"
                     android:maxLength="7"
+                    android:paddingTop="0dp"
                     android:textAlignment="textStart"
                     android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView12"
-                    app:layout_constraintEnd_toStartOf="@+id/textView13"
-                    app:layout_constraintStart_toEndOf="@+id/textView12"
-                    app:layout_constraintTop_toTopOf="@+id/textView12" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/chinese_one"
-                    android:text="元"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView12"
+                    android:textColorHint="#edd9d9d9"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView12" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
                 <TextView
                     android:id="@+id/textView19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="服務費 :"
+                    android:text="服務費 "
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView24" />
+                    app:layout_constraintTop_toBottomOf="@+id/add_list_split_money" />
 
                 <EditText
                     android:id="@+id/split_tip_percent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="?colorAccent"
                     android:ems="10"
-                    android:maxLength="3"
                     android:fontFamily="@font/chinese_one"
+                    android:hint="%"
                     android:inputType="numberSigned"
+                    android:maxLength="3"
+                    android:paddingTop="0dp"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView19"
-                    app:layout_constraintEnd_toStartOf="@+id/textView20"
-                    app:layout_constraintStart_toEndOf="@+id/textView19"
-                    app:layout_constraintTop_toTopOf="@+id/textView19" />
-
-                <TextView
-                    android:id="@+id/textView20"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="24dp"
-                    android:fontFamily="@font/chinese_one"
-                    android:text="%"
-                    app:layout_constraintBottom_toBottomOf="@+id/split_tip_percent"
+                    android:textColorHint="#edd9d9d9"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/split_tip_percent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
                 <TextView
                     android:id="@+id/textView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="日期 :"
+                    android:text="日期 "
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                    app:layout_constraintTop_toBottomOf="@+id/add_list_split_type_spinner" />
 
                 <TextView
                     android:id="@+id/add_list_pick_day"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
                     android:fontFamily="@font/chinese_one"
                     android:text="2018/10/01"
                     android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView21"
                     app:layout_constraintEnd_toStartOf="@+id/add_list_calendar_icon"
-                    app:layout_constraintStart_toEndOf="@+id/textView21"
-                    app:layout_constraintTop_toTopOf="@+id/textView21" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
                 <ImageView
                     android:id="@+id/add_list_calendar_icon"
@@ -305,7 +290,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21"
+                    app:layout_constraintTop_toBottomOf="@+id/add_list_pick_day"
                     app:round_corner="20dp"
                     app:stroke_color="@android:color/white"
                     app:stroke_width="2dp" />
@@ -327,23 +312,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="拆帳方式 :"
+                    android:text="拆帳方式 "
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                    app:layout_constraintTop_toBottomOf="@+id/split_tip_percent" />
 
                 <Spinner
                     android:id="@+id/add_list_split_type_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
-                    android:layout_marginStart="16dp"
                     android:backgroundTint="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView24"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView24"
-                    app:layout_constraintTop_toTopOf="@+id/textView24" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -354,6 +339,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/rc_button_hollow"
         android:gravity="center"
         android:orientation="horizontal"
@@ -364,24 +351,26 @@
         <TextView
             android:id="@+id/add_list_cancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/chinese_one"
+            android:gravity="center"
             android:text="取消"
             android:textAlignment="center" />
 
         <View
             android:id="@+id/divider3"
-            android:layout_width="2dp"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="?colorAccent" />
 
         <TextView
             android:id="@+id/add_list_save"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/chinese_one"
+            android:gravity="center"
             android:text="儲存"
             android:textAlignment="center" />
     </LinearLayout>

@@ -11,7 +11,8 @@
     <color name="moneyRed">#fe6767</color>
     <color name="moneyGreen">#66bb82</color>
     <color name="blueLight">#94c4ff</color>
-    <color name="blueDark">#465483</color>
+    <color name="blueDark">#2e4b81</color>
+    <!--<color name="blueDark">#465483</color>-->
 
     <color name="halloweenPrimary">#778f9b</color>
     <color name="halloweenPrimaryDark">#4a626d</color>
