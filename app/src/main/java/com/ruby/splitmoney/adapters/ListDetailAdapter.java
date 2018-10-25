@@ -28,22 +28,18 @@ import java.util.List;
 
 public class ListDetailAdapter extends RecyclerView.Adapter {
 
-    private Event mEvent;
     private List<DocumentSnapshot> mSnapshots;
     private Context mContext;
     private FirebaseUser mUser;
 
-    public ListDetailAdapter(Event event) {
-        mEvent = event;
+    public ListDetailAdapter() {
         mSnapshots = new ArrayList<>();
-        FirebaseFirestore.getInstance().collection("events").document(mEvent.getId()).collection("members").orderBy("pay", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                mSnapshots = queryDocumentSnapshots.getDocuments();
-                notifyDataSetChanged();
-            }
-        });
         mUser = FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    public void setSnapshots(List<DocumentSnapshot> snapshots) {
+        mSnapshots = snapshots;
+        notifyDataSetChanged();
     }
 
     @NonNull

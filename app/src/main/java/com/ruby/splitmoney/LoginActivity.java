@@ -133,7 +133,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if(!mIsLoading) {
+        if (!mIsLoading) {
             mSignInLayout.setVisibility(View.VISIBLE);
             mLoadingLayout.setVisibility(View.GONE);
             mNameLayout.setVisibility(View.GONE);
@@ -163,7 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                         mFirebaseUser.getDisplayName();
@@ -177,7 +177,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startActivity(intent);
                     finish();
                     mIsLoading = false;
-                }else{
+                } else {
                     Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式", Toast.LENGTH_SHORT).show();
                     mSignInLayout.setVisibility(View.VISIBLE);
                     mLoadingLayout.setVisibility(View.GONE);
@@ -228,15 +228,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.send_friend_email:
                 EditText mail = mDialogView.findViewById(R.id.add_friend_email);
                 String friendEmail = mail.getText().toString();
-                if(friendEmail.equals("")){
+                if (friendEmail.equals("")) {
                     friendEmail = "wrong";
                 }
                 FirebaseAuth.getInstance().sendPasswordResetEmail(friendEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "已傳送密碼重置信件到 Email", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             Toast.makeText(LoginActivity.this, "Email 輸入錯誤", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -244,8 +244,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.sendButton:
                 //hide keyboard
-                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                if (getCurrentFocus().getWindowToken() != null) {
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
                 if (!"".equals(email) && !"".equals(password)) {

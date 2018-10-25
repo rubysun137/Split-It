@@ -1,7 +1,10 @@
 package com.ruby.splitmoney.groupbalance;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -10,7 +13,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.objects.Event;
+import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
 
 import java.util.ArrayList;
@@ -30,9 +35,11 @@ public class GroupBalancePresenter implements GroupBalanceContract.Presenter {
     List<String> mEventIdList;
     List<String> mMemberIdList;
     Map<String, Double> mBalanceMoney;
+    private Context mContext;
 
 
     public GroupBalancePresenter(GroupBalanceContract.View view, Context context) {
+        mContext = context;
         mView = view;
         mView.setPresenter(this);
         mFirestore = FirebaseFirestore.getInstance();
@@ -84,4 +91,11 @@ public class GroupBalancePresenter implements GroupBalanceContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void deleteEvent(int position, List<Friend> friendList, List<Double> moneyList) {
+        mView.showDeleteEventDialog(position,friendList,moneyList);
+    }
+
+
 }

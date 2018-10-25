@@ -299,7 +299,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                 }
                             }
                         }else{
-
+                            setGroupEvent();
                         }
 
 
@@ -370,7 +370,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                 }
                             }
                         }else{
-
+                            setGroupEvent();
                         }
 
                         break;
@@ -434,7 +434,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                 }
                             }
                         }else{
-
+                            setGroupEvent();
                         }
                         break;
                 }

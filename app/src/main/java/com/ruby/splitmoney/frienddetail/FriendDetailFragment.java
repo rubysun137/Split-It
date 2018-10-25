@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,10 +43,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
     private TextView mClearBalance;
     private TextView mWhoOwe;
     private TextView mOweWho;
-    private TextView mDialogWhoOwe;
-    private TextView mDialogOweWho;
     private TextView mOweMoney;
-    private EditText mSettleMoney;
     private List<Friend> mFriendList;
     private Friend mFriend;
     private LinearLayout mBalancedLayout;
@@ -55,8 +53,12 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
     private Context mContext;
     private double mBalanceMoney;
     private ImageView mFriendDetailImage;
+    private TextView mDialogWhoOwe;
+    private TextView mDialogOweWho;
     private ImageView mWhoOweImage;
     private ImageView mOweWhoImage;
+    private EditText mSettleMoney;
+    private ProgressBar mProgressBar;
 
     public FriendDetailFragment() {
         // Required empty public constructor
@@ -80,6 +82,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mNotBalancedLayout = view.findViewById(R.id.money_is_not_balance_linear_layout);
         mNoListLayout = view.findViewById(R.id.no_list_linear_layout);
         mFriendDetailImage = view.findViewById(R.id.friend_detail_user_image);
+        mProgressBar = view.findViewById(R.id.friend_detail_progress_bar);
 
 
         mNameTitle.setText(mFriendName);
@@ -89,6 +92,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mBalancedLayout.setVisibility(View.GONE);
         mNoListLayout.setVisibility(View.GONE);
         mClearBalance.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
         mClearBalance.setOnClickListener(this);
         mFriendList = new ArrayList<>(FriendList.getInstance().getFriendList());
         for (Friend friend : mFriendList) {
@@ -175,7 +179,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
 
     @Override
     public void showEvents(List<Event> events, List<Double> moneyList, Map<Event, Double> map) {
-
+        mProgressBar.setVisibility(View.GONE);
         if (events.size() == 0) {
             mNoListLayout.setVisibility(View.VISIBLE);
             mNotBalancedLayout.setVisibility(View.GONE);

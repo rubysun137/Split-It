@@ -79,21 +79,25 @@
 
         <TextView
             android:id="@+id/textView30"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:text="筆帳務需支付你"
             app:layout_constraintBottom_toBottomOf="@+id/total_lent_number"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/total_lent_number"
             app:layout_constraintTop_toTopOf="@+id/total_lent_number" />
 
         <TextView
             android:id="@+id/textView27"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:text="筆帳務須向朋友結清"
             app:layout_constraintBottom_toBottomOf="@+id/total_borrowed_number"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/total_borrowed_number"
             app:layout_constraintTop_toTopOf="@+id/total_borrowed_number" />
     </android.support.constraint.ConstraintLayout>

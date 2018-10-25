@@ -83,7 +83,7 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         for (Group group : GroupList.getInstance().getGroupList()) {
             if (group.getId().equals(mGroupId)) {
                 mGroup = group;
-        mGroupName.setText(mGroup.getName());
+                mGroupName.setText(mGroup.getName());
             }
         }
 
@@ -91,10 +91,15 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mMemberName = view.findViewById(R.id.member_list_text);
 
 
-
         mGroupMembers = new ArrayList<>();
 //        mEventList = new ArrayList<>();
-        Friend memberMe = new Friend(mUser.getEmail(),mUser.getUid(),mUser.getDisplayName(),null,mUser.getPhotoUrl().toString());
+        String picture;
+        if (mUser.getPhotoUrl() == null) {
+            picture = null;
+        } else {
+            picture = mUser.getPhotoUrl().toString();
+        }
+        Friend memberMe = new Friend(mUser.getEmail(), mUser.getUid(), mUser.getDisplayName(), null, picture);
         mGroupMembers.add(memberMe);
         for (Friend friend : FriendList.getInstance().getFriendList()) {
             for (String memberId : mGroup.getMembers()) {
@@ -111,9 +116,9 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         });
 
         for (int i = 0; i < mGroupMembers.size(); i++) {
-            if(i==0){
+            if (i == 0) {
                 mMemberName.setText(mGroupMembers.get(i).getName());
-            }else{
+            } else {
                 mMemberName.append(", " + mGroupMembers.get(i).getName());
             }
         }
@@ -128,7 +133,7 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mFragmentList.add(mExpenseFragment);
         mFragmentList.add(mBalanceFragment);
 
-        Log.d("FragmentList", "onCreateView:  " +mFragmentList.size() );
+        Log.d("FragmentList", "onCreateView:  " + mFragmentList.size());
         mPager = view.findViewById(R.id.group_view_pager_holder);
 
         mPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {

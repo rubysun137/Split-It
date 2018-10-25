@@ -21,6 +21,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="24dp"
+            android:padding="4dp"
             app:srcCompat="@drawable/group" />
 
         <TextView

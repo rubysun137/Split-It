@@ -94,24 +94,6 @@ public class GroupExpenseFragment extends Fragment implements GroupExpenseContra
         }
     }
 
-    public void setEvent(){
-        mFirestore.collection("events").whereEqualTo("group", mGroup.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                Log.d("GET EVENT NUMBER!!!", "onEvent: " + queryDocumentSnapshots.size());
-                mEventList = new ArrayList<>();
-                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                    mEventList.add(snapshot.toObject(Event.class));
-                }
-                Log.d("EVENT NUMBER!!!", "onEvent: " + mEventList.size());
-                mGroupDetailAdapter.setEvents(mEventList);
-                if (mEventList.size() == 0) {
-                    mNoEventText.setVisibility(View.VISIBLE);
-                } else {
-                    mNoEventText.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
+
 
 }

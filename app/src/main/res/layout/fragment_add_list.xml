@@ -198,11 +198,9 @@
                     android:backgroundTint="?colorAccent"
                     android:ems="10"
                     android:fontFamily="@font/chinese_one"
-                    android:hint="NTD"
                     android:inputType="number"
                     android:maxLength="7"
                     android:paddingTop="0dp"
-                    android:textAlignment="textStart"
                     android:textColor="@android:color/white"
                     android:textColorHint="#edd9d9d9"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -230,7 +228,6 @@
                     android:backgroundTint="?colorAccent"
                     android:ems="10"
                     android:fontFamily="@font/chinese_one"
-                    android:hint="%"
                     android:inputType="numberSigned"
                     android:maxLength="3"
                     android:paddingTop="0dp"
@@ -330,6 +327,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="元"
+                    app:layout_constraintEnd_toEndOf="@+id/add_list_split_money"
+                    app:layout_constraintTop_toTopOf="@+id/add_list_split_money" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="%"
+                    app:layout_constraintEnd_toEndOf="@+id/split_tip_percent"
+                    app:layout_constraintTop_toTopOf="@+id/split_tip_percent" />
+
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
@@ -341,6 +356,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rc_button_hollow"
         android:gravity="center"
         android:orientation="horizontal"

@@ -12,9 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,6 +43,7 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
     private FirebaseFirestore mFirestore;
     private List<String> mMemberId;
     private String mPayId;
+    private ProgressBar mProgressBar;
 
     public void setEvent(Event event) {
         mEvent = event;
@@ -63,6 +67,8 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
         mTotalMoney = view.findViewById(R.id.list_detail_total_money);
         mDate = view.findViewById(R.id.list_detail_date);
         mDeleteButton = view.findViewById(R.id.delete_list_button);
+        mProgressBar = view.findViewById(R.id.list_detail_progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         mTitle.setText(mEvent.getName());
         mTotalMoney.setText(String.valueOf(mEvent.getMoney()));
@@ -70,12 +76,13 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
 
 
         RecyclerView recyclerView = view.findViewById(R.id.list_detail_recycler_view);
-        mListDetailAdapter = new ListDetailAdapter(mEvent);
+        mListDetailAdapter = new ListDetailAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mListDetailAdapter);
 
         mDeleteButton.setOnClickListener(this);
 
+        mPresenter.getListMessage(mEvent);
 
         return view;
     }
@@ -106,16 +113,24 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
                                 mPayId = snapshot.getId();
                             }
                         }
+                        if (mEvent.getGroup().equals("")) {
+                            //刪除 event list
+                            for (String id : mMemberId) {
+                                if (!id.equals(mPayId)) {
+                                    mFirestore.collection("users").document(mPayId).collection("friends").document(id).update("events", FieldValue.arrayRemove(mEvent.getId()));
+                                    mFirestore.collection("users").document(id).collection("friends").document(mPayId).update("events", FieldValue.arrayRemove(mEvent.getId()));
+                                }
+                            }
+                        } else {
+                            //刪除 group list
+                            mFirestore.collection("groups").document(mEvent.getGroup()).update("events", FieldValue.arrayRemove(mEvent.getId()));
+                        }
+                        //刪除 event
+                        mFirestore.collection("events").document(mEvent.getId()).delete();
+                        mDialog.dismiss();
+                        getFragmentManager().popBackStack();
                     }
                 });
-                //TODO 刪除 event list 有錯
-                for (String id : mMemberId) {
-                    mFirestore.collection("users").document(mPayId).collection("friends").document(id).delete();
-                    mFirestore.collection("users").document(id).collection("friends").document(mPayId).delete();
-                }
-                //刪除 event
-                mFirestore.collection("events").document(mEvent.getId()).delete();
-                mDialog.dismiss();
             }
         });
 
@@ -130,5 +145,11 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
     @Override
     public void setPresenter(ListDetailContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void showListMessage(List<DocumentSnapshot> snapshots) {
+        mProgressBar.setVisibility(View.GONE);
+        mListDetailAdapter.setSnapshots(snapshots);
     }
 }
