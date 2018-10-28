@@ -26,7 +26,7 @@
             android:ellipsize="end"
             android:maxWidth="150dp"
             android:singleLine="true"
-            android:text="Split Split Split Split"
+            tools:text="Split Split Split Split"
             app:fontFamily="@font/chinese_one"
             app:layout_constraintBottom_toBottomOf="@+id/add_member_user_image"
             app:layout_constraintEnd_toEndOf="parent"

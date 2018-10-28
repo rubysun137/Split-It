@@ -112,7 +112,7 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
                 }
                 mName.setText(mFriendNameList.get(position).getName());
                 if (mFriendNameList.get(position).getMoney() > 0) {
-                    String text = "+" + mFriendNameList.get(position).getMoney();
+                    String text = mContext.getString(R.string.plus) + mFriendNameList.get(position).getMoney();
                     mMoney.setText(text);
                     mMoney.setTextColor(getColor(mContext, R.color.moneyGreen));
                     mMoney.setVisibility(View.VISIBLE);

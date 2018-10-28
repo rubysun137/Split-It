@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
@@ -93,11 +94,11 @@ public class ListDetailAdapter extends RecyclerView.Adapter {
         }
 
         private void setString(String name) {
-            if (mSnapshots.get(mPosition).getDouble("pay") != 0.0) {
-                String description = "由 "+name + " 支付 $" + mSnapshots.get(mPosition).getDouble("pay") + "\n含分攤費用 $" + mSnapshots.get(mPosition).getDouble("owe");
+            if (mSnapshots.get(mPosition).getDouble(Constants.PAY) != 0.0) {
+                String description = mContext.getString(R.string.let) + " " + name + " " + mContext.getString(R.string.paying) + " " + mContext.getString(R.string.dollar_sign) + mSnapshots.get(mPosition).getDouble(Constants.PAY) + "\n" + mContext.getString(R.string.include_shared_money) + mSnapshots.get(mPosition).getDouble(Constants.OWE);
                 mDescription.setText(description);
             } else {
-                String description = name + " 應分攤 $" + mSnapshots.get(mPosition).getDouble("owe");
+                String description = name + " " + mContext.getString(R.string.should_share) + mSnapshots.get(mPosition).getDouble(Constants.OWE);
                 mDescription.setText(description);
             }
 

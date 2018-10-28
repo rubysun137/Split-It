@@ -11,6 +11,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Group;
+import com.ruby.splitmoney.util.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -40,6 +41,7 @@ public class GroupExpensePresenter implements GroupExpenseContract.Presenter {
     public void start() {
 
     }
+
     @Override
     public void setEventDetailPage(Event event) {
         mView.showEventDetailPage(event);
@@ -47,7 +49,7 @@ public class GroupExpensePresenter implements GroupExpenseContract.Presenter {
 
     @Override
     public void setEventList(Group group) {
-        mFirestore.collection("events").whereEqualTo("group", group.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mFirestore.collection(Constants.EVENTS).whereEqualTo(Constants.GROUP, group.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 Log.d("GET EVENT NUMBER!!!", "onEvent: " + queryDocumentSnapshots.size());

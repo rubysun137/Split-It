@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.ListDetailAdapter;
 import com.ruby.splitmoney.objects.Event;
+import com.ruby.splitmoney.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,11 +103,11 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
 
             @Override
             public void onClick(View v) {
-                mFirestore.collection("events").document(mEvent.getId()).collection("members").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                mFirestore.collection(Constants.EVENTS).document(mEvent.getId()).collection(Constants.MEMBERS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                            if (snapshot.getDouble("pay") == 0.0) {
+                            if (snapshot.getDouble(Constants.PAY) == 0.0) {
 
                                 mMemberId.add(snapshot.getId());
                             } else {
@@ -117,16 +118,16 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
                             //刪除 event list
                             for (String id : mMemberId) {
                                 if (!id.equals(mPayId)) {
-                                    mFirestore.collection("users").document(mPayId).collection("friends").document(id).update("events", FieldValue.arrayRemove(mEvent.getId()));
-                                    mFirestore.collection("users").document(id).collection("friends").document(mPayId).update("events", FieldValue.arrayRemove(mEvent.getId()));
+                                    mFirestore.collection(Constants.USERS).document(mPayId).collection(Constants.FRIENDS).document(id).update(Constants.EVENTS, FieldValue.arrayRemove(mEvent.getId()));
+                                    mFirestore.collection(Constants.USERS).document(id).collection(Constants.FRIENDS).document(mPayId).update(Constants.EVENTS, FieldValue.arrayRemove(mEvent.getId()));
                                 }
                             }
                         } else {
                             //刪除 group list
-                            mFirestore.collection("groups").document(mEvent.getGroup()).update("events", FieldValue.arrayRemove(mEvent.getId()));
+                            mFirestore.collection(Constants.GROUPS).document(mEvent.getGroup()).update(Constants.EVENTS, FieldValue.arrayRemove(mEvent.getId()));
                         }
                         //刪除 event
-                        mFirestore.collection("events").document(mEvent.getId()).delete();
+                        mFirestore.collection(Constants.EVENTS).document(mEvent.getId()).delete();
                         mDialog.dismiss();
                         getFragmentManager().popBackStack();
                     }

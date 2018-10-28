@@ -15,7 +15,7 @@
         android:layout_marginTop="4dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="刪除好友"
+        android:text="@string/delete_friend_title"
         android:textAlignment="center"
         android:textSize="25sp" />
 
@@ -27,7 +27,7 @@
         android:layout_marginBottom="24dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="請問確定要刪除好友嗎?"
+        android:text="@string/delete_friend_content"
         android:textAlignment="center" />
 
     <LinearLayout
@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textSize="20sp" />
 
         <View
@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="確定"
+            android:text="@string/ok"
             android:textSize="20sp" />
 
     </LinearLayout>

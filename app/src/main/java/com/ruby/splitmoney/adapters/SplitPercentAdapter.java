@@ -1,5 +1,6 @@
 package com.ruby.splitmoney.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -22,19 +23,20 @@ public class SplitPercentAdapter extends RecyclerView.Adapter {
     private AddListContract.Presenter mPresenter;
     private List<Friend> mFriends;
     private int mTotalMoney;
+    private Context mContext;
 
     public SplitPercentAdapter(String money, List<Friend> friends, AddListContract.Presenter presenter) {
         mTotalMoney = Integer.parseInt(money);
         mFriends = new ArrayList<>(friends);
         mPresenter = presenter;
-        mPresenter.setListSize(mFriends.size()+1);
+        mPresenter.setListSize(mFriends.size() + 1);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_percent,parent,false);
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_percent, parent, false);
+        mContext = parent.getContext();
         return new SplitPercentViewHolder(view);
     }
 
@@ -45,10 +47,10 @@ public class SplitPercentAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mFriends.size()+1;
+        return mFriends.size() + 1;
     }
 
-    private class SplitPercentViewHolder extends RecyclerView.ViewHolder{
+    private class SplitPercentViewHolder extends RecyclerView.ViewHolder {
         private TextView mMember;
         private EditText mSharedMoney;
         private int mPosition;
@@ -59,16 +61,16 @@ public class SplitPercentAdapter extends RecyclerView.Adapter {
             mMember = itemView.findViewById(R.id.partial_split_percent_member);
             mSharedMoney = itemView.findViewById(R.id.partial_split_percent_share_money);
             mStringList = new ArrayList<>();
-            for(int i = 0;i<=mFriends.size();i++){
-                mStringList.add(i,"");
+            for (int i = 0; i <= mFriends.size(); i++) {
+                mStringList.add(i, "");
             }
         }
 
         private void bindView() {
             mPosition = getAdapterPosition();
-            if(mPosition==0){
-                mMember.setText("你");
-            }else {
+            if (mPosition == 0) {
+                mMember.setText(mContext.getString(R.string.you));
+            } else {
                 mMember.setText(mFriends.get(mPosition - 1).getName());
             }
             mSharedMoney.addTextChangedListener(new TextWatcher() {
@@ -80,12 +82,12 @@ public class SplitPercentAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    mStringList.set(mPosition,mSharedMoney.getText().toString());
+                    mStringList.set(mPosition, mSharedMoney.getText().toString());
                     String share = mSharedMoney.getText().toString();
-                    if(share.equals("")){
+                    if (share.equals("")) {
                         share = "0";
                     }
-                    mPresenter.addSharedMoneyList(mPosition,Integer.valueOf(share));
+                    mPresenter.addSharedMoneyList(mPosition, Integer.valueOf(share));
                 }
 
                 @Override

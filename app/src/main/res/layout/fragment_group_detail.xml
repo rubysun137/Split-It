@@ -20,7 +20,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
-            android:text="Guan-Hong, Justin, Ken, Paula, Roger, Ruby, Sabina, Sandy, Wun-Bin, "
+            tools:text="Guan-Hong, Justin, Ken, Paula, Roger, Ruby, Sabina, Sandy, Wun-Bin, "
             android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:paddingTop="8dp"
-            android:text="安卓班日常"
+            tools:text="安卓班日常"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,12 +56,12 @@
             <android.support.design.widget.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="花費" />
+                android:text="@string/expense" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="結算" />
+                android:text="@string/balance" />
         </android.support.design.widget.TabLayout>
     </android.support.constraint.ConstraintLayout>
 

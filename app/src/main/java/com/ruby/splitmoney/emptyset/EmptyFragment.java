@@ -17,8 +17,6 @@ public class EmptyFragment extends Fragment implements EmptyContract.View, View.
     private Context mContext;
 
 
-
-
     public EmptyFragment() {
         // Required empty public constructor
     }

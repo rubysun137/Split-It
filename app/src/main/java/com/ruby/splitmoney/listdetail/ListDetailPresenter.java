@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.objects.Event;
+import com.ruby.splitmoney.util.Constants;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ListDetailPresenter implements ListDetailContract.Presenter {
 
     @Override
     public void getListMessage(Event event) {
-        FirebaseFirestore.getInstance().collection("events").document(event.getId()).collection("members").orderBy("pay", Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        FirebaseFirestore.getInstance().collection(Constants.EVENTS).document(event.getId()).collection(Constants.MEMBERS).orderBy(Constants.PAY, Query.Direction.DESCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 mSnapshots = queryDocumentSnapshots.getDocuments();

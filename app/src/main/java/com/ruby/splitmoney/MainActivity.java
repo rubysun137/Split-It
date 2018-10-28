@@ -1,18 +1,15 @@
 package com.ruby.splitmoney;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,9 +20,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,8 +32,6 @@ import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class MainActivity extends BaseActivity implements MainContract.View,
         View.OnClickListener {
@@ -220,11 +213,11 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         mPresenter.transToFriendDetailPage(friendName);
     }
 
-    public void showGroupDetailPage(String groupId){
+    public void showGroupDetailPage(String groupId) {
         mPresenter.transToGroupDetailPage(groupId);
     }
 
-    public void showListDetailPage(Event event){
+    public void showListDetailPage(Event event) {
         mPresenter.transToListDetailPage(event);
     }
 
@@ -238,14 +231,14 @@ public class MainActivity extends BaseActivity implements MainContract.View,
 
     public void switchPage(String pageName) {
         switch (pageName) {
-            case Constants.GROUP:
+            case Constants.GROUP_PAGE:
                 mPresenter.transToSplit(false);
                 break;
-            case Constants.FRIEND:
+            case Constants.FRIEND_PAGE:
                 mPresenter.transToSplit(true);
                 break;
             case Constants.ADD_LIST:
-                FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).collection("friends").orderBy("name", Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                FirebaseFirestore.getInstance().collection(Constants.USERS).document(mFirebaseUser.getUid()).collection(Constants.FRIENDS).orderBy(Constants.NAME, Query.Direction.ASCENDING).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         List<Friend> friends = new ArrayList<>();

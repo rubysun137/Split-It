@@ -62,7 +62,7 @@
             android:fontFamily="@font/robusta"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:text=" Split It! "
+            android:text="@string/split_it"
             android:textSize="36sp"
             app:layout_constraintBottom_toTopOf="@+id/sign_in_layout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/re_login_item"
                     android:ems="10"
-                    android:hint="帳號 / Email"
+                    android:hint="@string/login_email"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/re_login_item"
                     android:ems="10"
-                    android:hint="密碼"
+                    android:hint="@string/login_password"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
                     app:fontFamily="@font/chinese_one" />
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/re_login_item"
                     android:ems="10"
-                    android:hint="暱稱"
+                    android:hint="@string/login_nick_name"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
                     app:fontFamily="@font/chinese_one" />
@@ -160,7 +160,7 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="40dp"
                 android:paddingBottom="10dp"
-                android:text="登入"
+                android:text="@string/login_login"
                 app:fontFamily="@font/chinese_one" />
 
             <TextView
@@ -173,7 +173,7 @@
                 android:paddingTop="10dp"
                 android:paddingEnd="40dp"
                 android:paddingBottom="10dp"
-                android:text="註冊"
+                android:text="@string/login_registration"
                 android:textAlignment="center"
                 android:visibility="gone"
                 app:fontFamily="@font/chinese_one" />
@@ -190,9 +190,10 @@
             android:layout_marginBottom="24dp"
             android:background="@drawable/rc_google_login_button"
             android:clickable="true"
+            android:focusable="true"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="Google 登入"
+            android:text="@string/google_login"
             android:textAlignment="center"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -206,7 +207,7 @@
             android:padding="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="註冊"
+            android:text="@string/login_registration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_layout" />
 
@@ -217,7 +218,7 @@
             android:padding="8dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="登入"
+            android:text="@string/login_login"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_layout" />
@@ -230,7 +231,7 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="忘記密碼"
+            android:text="@string/forget_password"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_in_layout" />
 

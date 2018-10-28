@@ -41,7 +41,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
     private String mSellectSplitType;
     private EditText mTotalMoney;
     private EditText mTotalMember;
-    private CheckBox mSelfCheck;
+    //    private CheckBox mSelfCheck;
     private EditText mFeePercent;
     private TextView mPrePage;
     private ConstraintLayout mKeyInPage;
@@ -84,7 +84,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mSellectSplitType = "";
         mTotalMoney = view.findViewById(R.id.quick_split_money_edit_text);
         mTotalMember = view.findViewById(R.id.people_edit_text);
-        mSelfCheck = view.findViewById(R.id.self_check_box);
+//        mSelfCheck = view.findViewById(R.id.self_check_box);
         mFeePercent = view.findViewById(R.id.fee_edit_text);
         mEqualNumber = view.findViewById(R.id.equal_split_number);
         mEqualPage = view.findViewById(R.id.quick_equal_split);
@@ -93,7 +93,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mUnequalPage.setVisibility(View.GONE);
         mPercentPage = view.findViewById(R.id.quick_percent_split);
         mPercentPage.setVisibility(View.GONE);
-        mSplitType = new String[]{"拆帳方式","全部均分", "部份均分", "比例分攤"};
+        mSplitType = new String[]{"拆帳方式", "全部均分", "部份均分", "比例分攤"};
         ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
         mSplitTypeList.setDropDownViewResource(R.layout.dropdown_style);
         mSpinner.setAdapter(mSplitTypeList);
@@ -111,76 +111,76 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    mPresenter.selectSplitType(position);
-                    switch (position) {
-                        default:
-                        case 0:
-                            break;
-                        case 1:
-                            goToNextPage();
-                            break;
-                        case 2:
-                            mMoney = mTotalMoney.getText().toString();
-                            mMember = mTotalMember.getText().toString();
+                mPresenter.selectSplitType(position);
+                switch (position) {
+                    default:
+                    case 0:
+                        break;
+                    case 1:
+                        goToNextPage();
+                        break;
+                    case 2:
+                        mMoney = mTotalMoney.getText().toString();
+                        mMember = mTotalMember.getText().toString();
 
-                            if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
-                                mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+                        if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
+                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 
-                                RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                                mPartialAdapter = new QuickSplitPartialAdapter(mMoney, mMember, mPresenter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(mPartialAdapter);
+                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+                            mPartialAdapter = new QuickSplitPartialAdapter(mMoney, mMember, mPresenter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mPartialAdapter);
 
-                                mDialogPartial = new AlertDialog.Builder(getContext())
-                                        .setView(mDialogView)
-                                        .setCancelable(false)
-                                        .show();
-                                mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                                mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+                            mDialogPartial = new AlertDialog.Builder(getContext())
+                                    .setView(mDialogView)
+                                    .setCancelable(false)
+                                    .show();
+                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
-                                TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                                TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
 
-                                correct.setOnClickListener(QuickSplitFragment.this);
-                                cancel.setOnClickListener(QuickSplitFragment.this);
-                            } else {
-                                mSpinner.setSelection(0);
-                                Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
-                                mPresenter.selectSplitType(0);
-                            }
-                            break;
-                        case 3:
-                            mMoney = mTotalMoney.getText().toString();
-                            mMember = mTotalMember.getText().toString();
+                            correct.setOnClickListener(QuickSplitFragment.this);
+                            cancel.setOnClickListener(QuickSplitFragment.this);
+                        } else {
+                            mSpinner.setSelection(0);
+                            Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
+                            mPresenter.selectSplitType(0);
+                        }
+                        break;
+                    case 3:
+                        mMoney = mTotalMoney.getText().toString();
+                        mMember = mTotalMember.getText().toString();
 
-                            if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
-                                mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+                        if (!mMoney.equals("") && !mMember.equals("") && !mMoney.equals("0") && !mMember.equals("0")) {
+                            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 
-                                RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                                mPercentAdapter = new QuickSplitPercentAdapter(mMoney, mMember, mPresenter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                                recyclerView.setAdapter(mPercentAdapter);
+                            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+                            mPercentAdapter = new QuickSplitPercentAdapter(mMoney, mMember, mPresenter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(mPercentAdapter);
 
-                                mDialogPartial = new AlertDialog.Builder(getContext())
-                                        .setView(mDialogView)
-                                        .setCancelable(false)
-                                        .show();
-                                mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                                mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+                            mDialogPartial = new AlertDialog.Builder(getContext())
+                                    .setView(mDialogView)
+                                    .setCancelable(false)
+                                    .show();
+                            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+                            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
 
-                                TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                                TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+                            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+                            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
 
-                                correct.setOnClickListener(QuickSplitFragment.this);
-                                cancel.setOnClickListener(QuickSplitFragment.this);
-                                mIsPercent = true;
-                            } else {
-                                mSpinner.setSelection(0);
-                                Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
-                                mPresenter.selectSplitType(0);
-                            }
-                            break;
-                    }
+                            correct.setOnClickListener(QuickSplitFragment.this);
+                            cancel.setOnClickListener(QuickSplitFragment.this);
+                            mIsPercent = true;
+                        } else {
+                            mSpinner.setSelection(0);
+                            Toast.makeText(getContext(), "金額與人數不可為 0 ", Toast.LENGTH_LONG).show();
+                            mPresenter.selectSplitType(0);
+                        }
+                        break;
+                }
 
             }
 
@@ -274,6 +274,15 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
                 mIsPartialEqual = true;
                 mIsPercent = false;
                 goToNextPage();
+
+
+//                if (mIsPercent && mPresenter.isSharedListEmpty()) {
+//
+//                } else {
+//
+//                }
+
+
                 break;
             case R.id.dialog_cancel_text:
                 mDialogPartial.dismiss();
@@ -296,11 +305,11 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         }
     }
 
-    private void goToNextPage(){
-                int money = parseInt(mTotalMoney.getText().toString());
-                int member = parseInt(mTotalMember.getText().toString());
-                int percent = parseInt(mFeePercent.getText().toString());
-                mPresenter.passValue(money, member, percent);
-                mPresenter.toSecondPage();
+    private void goToNextPage() {
+        int money = parseInt(mTotalMoney.getText().toString());
+        int member = parseInt(mTotalMember.getText().toString());
+        int percent = parseInt(mFeePercent.getText().toString());
+        mPresenter.passValue(money, member, percent);
+        mPresenter.toSecondPage();
     }
 }

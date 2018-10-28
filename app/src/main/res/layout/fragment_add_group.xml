@@ -23,7 +23,7 @@
             android:layout_marginTop="24dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:text="新增群組"
+            android:text="@string/add_group"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="群組名稱"
+        android:text="@string/group_name"
         android:textColor="?colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
@@ -66,7 +66,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:maxLines="1"
-        android:hint="請輸入群組名稱"
+        android:hint="@string/enter_group_name"
         android:textColor="@android:color/white"
         android:textColorHint="#edd9d9d9"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="群組成員"
+        android:text="@string/group_member"
         android:textColor="?colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_group_name" />
@@ -107,12 +107,12 @@
 
         <TextView
             android:id="@+id/textView36"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:paddingStart="12dp"
-            android:text="增加好友進入群組" />
+            android:text="@string/add_friend_to_new_group" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -140,10 +140,11 @@
         android:paddingTop="8dp"
         android:paddingEnd="25dp"
         android:paddingBottom="8dp"
-        android:text="儲存"
+        android:text="@string/save"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
 </android.support.constraint.ConstraintLayout>

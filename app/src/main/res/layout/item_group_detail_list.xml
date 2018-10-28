@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="防彈寶貝們出道" />
+                tools:text="防彈寶貝們出道" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     android:id="@+id/group_event_pay_by_who"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="由 Ruby 付款"
+                    tools:text="由 Ruby 付款"
                     android:textColor="@color/lightGray"
                     android:textSize="14sp" />
 
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="$ " />
+                    android:text="@string/dollar_sign" />
 
                 <TextView
                     android:id="@+id/group_event_list_total_money"
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="end"
-                    android:text="1000000"
+                    tools:text="1000000"
                     app:fontFamily="@font/chinese_one" />
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="2013年6月13日"
+                tools:text="2013年6月13日"
                 android:textColor="@color/lightGray"
                 android:textSize="14sp" />
 

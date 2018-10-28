@@ -61,7 +61,7 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
 
                 for (int i = 0; i < mTotalMember; i++) {
                     double math = (((double) moneyUnequal / mTotalMember) + mExtraMoney.get(i)) * (1 + ((double) mFeePercentage / 100));
-                    math = ((double) Math.round(math * 100)/100);
+                    math = ((double) Math.round(math * 100) / 100);
                     mCountExtra.add(i, math);
                 }
 
@@ -82,7 +82,7 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
                 for (int i = 0; i < mTotalMember; i++) {
                     if (mSharedMoney.get(i) != 0) {
                         double math = ((moneyShared * mSharedMoney.get(i)) * (1 + ((double) mFeePercentage / 100)));
-                        math = ((double) Math.round(math * 100)/100);
+                        math = ((double) Math.round(math * 100) / 100);
                         mCountShared.add(i, math);
                     } else {
                         mCountShared.add(i, 0.0);
@@ -123,8 +123,8 @@ public class QuickSplitPresenter implements QuickSplitContract.Presenter {
         mSharedMoney = Arrays.asList(members);
 
         mMemberNames = new ArrayList<>();
-        for(int i = 0;i<totalMember;i++){
-            mMemberNames.add(i,"成員"+(i+ 1));
+        for (int i = 0; i < totalMember; i++) {
+            mMemberNames.add(i, "成員" + (i + 1));
         }
     }
 

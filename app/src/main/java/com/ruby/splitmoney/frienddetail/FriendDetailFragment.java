@@ -26,6 +26,7 @@ import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.FriendDetailAdapter;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
         mPresenter = new FriendDetailPresenter(this);
         mPresenter.start();
         mContext = container.getContext();
-        mFriendName = getArguments().getString("name", "Friend");
+        mFriendName = getArguments().getString(Constants.NAME, "Friend");
 
         mNameTitle = view.findViewById(R.id.friend_detail_friend_title);
         mNameBig = view.findViewById(R.id.friend_detail_friend_name);
@@ -133,17 +134,17 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                 mSettleMoney = view.findViewById(R.id.settle_money_edit_text);
 
                 if (mBalanceMoney > 0) {
-                    if(mFriend.getImage()!=null)
-                    Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mWhoOweImage);
-                    if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null)
-                    Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mOweWhoImage);
+                    if (mFriend.getImage() != null)
+                        Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mWhoOweImage);
+                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+                        Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mOweWhoImage);
                     mDialogWhoOwe.setText(mFriendName);
                     mDialogOweWho.setText("你");
                     mSettleMoney.setText(String.valueOf(mBalanceMoney));
                 } else if (mBalanceMoney < 0) {
-                    if(mFriend.getImage()!=null)
+                    if (mFriend.getImage() != null)
                         Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mOweWhoImage);
-                    if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()!=null)
+                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
                         Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mWhoOweImage);
                     mDialogWhoOwe.setText("你");
                     mDialogOweWho.setText(mFriendName);

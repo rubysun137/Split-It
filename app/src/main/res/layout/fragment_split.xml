@@ -24,12 +24,12 @@
         <android.support.design.widget.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="群組" />
+            android:text="@string/group" />
 
         <android.support.design.widget.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="好友" />
+            android:text="@string/friend" />
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
@@ -81,7 +81,7 @@
             app:fab_colorNormal="#3dffffff"
             app:fab_colorPressed="#85ffffff"
             app:fab_hideAnimation="@anim/fab_scale_down"
-            app:fab_label="新增好友"
+            app:fab_label="@string/add_friend"
             app:fab_shadowColor="@android:color/transparent"
             app:fontFamily="@font/chinese_one"
             app:fab_showAnimation="@anim/fab_scale_up" />
@@ -93,7 +93,7 @@
             android:src="@drawable/ic_add_group"
             app:fab_colorNormal="#3dffffff"
             app:fab_colorPressed="#85ffffff"
-            app:fab_label="新增群組"
+            app:fab_label="@string/add_group"
             app:fab_shadowColor="@android:color/transparent"
             app:fontFamily="@font/chinese_one"/>
 
@@ -104,7 +104,7 @@
             android:src="@drawable/ic_add_file"
             app:fab_colorNormal="#3dffffff"
             app:fab_colorPressed="#85ffffff"
-            app:fab_label="新增拆帳清單"
+            app:fab_label="@string/add_list"
             app:fab_shadowColor="@android:color/transparent"
             app:fontFamily="@font/chinese_one" />
 

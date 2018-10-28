@@ -19,7 +19,7 @@
         android:gravity="start"
         android:inputType="text"
         android:maxLines="1"
-        android:text="成員10"
+        tools:text="成員10"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="4dp"
-        android:text="分攤$"
+        android:text="@string/share"
         app:layout_constraintBottom_toBottomOf="@+id/partial_quick_split_member_edit_text"
         app:layout_constraintStart_toEndOf="@+id/partial_quick_split_member_edit_text"
         app:layout_constraintTop_toTopOf="@+id/partial_quick_split_member_edit_text" />
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="+"
+        android:text="@string/plus"
         app:layout_constraintBottom_toBottomOf="@+id/partial_quick_spit_average_money"
         app:layout_constraintStart_toEndOf="@+id/partial_quick_spit_average_money"
         app:layout_constraintTop_toTopOf="@+id/partial_quick_spit_average_money" />

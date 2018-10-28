@@ -30,7 +30,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:includeFontPadding="false"
-            android:text="總覽"
+            android:text="@string/overview"
             android:textSize="30sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:text="尚有"
+            android:text="@string/still_have"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="0"
+            tools:text="0"
             app:layout_constraintBottom_toBottomOf="@+id/textView14"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="@+id/textView14" />
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="0"
+            tools:text="0"
             app:layout_constraintBottom_toBottomOf="@+id/textView28"
             app:layout_constraintStart_toEndOf="@+id/textView28"
             app:layout_constraintTop_toTopOf="@+id/textView28" />
@@ -72,7 +72,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp"
-            android:text="朋友尚有"
+            android:text="@string/friend_still_have"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:text="筆帳務需支付你"
+            android:text="@string/need_to_pay_you"
             app:layout_constraintBottom_toBottomOf="@+id/total_lent_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/total_lent_number"
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:text="筆帳務須向朋友結清"
+            android:text="@string/you_need_to_pay"
             app:layout_constraintBottom_toBottomOf="@+id/total_borrowed_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/total_borrowed_number"
@@ -113,13 +113,14 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="群組總覽"
+        android:text="@string/group_overview"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_list_button" />
+        app:layout_constraintTop_toBottomOf="@+id/home_list_button"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/home_friend_button"
@@ -132,13 +133,14 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="好友總覽"
+        android:text="@string/friend_overview"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_group_button" />
+        app:layout_constraintTop_toBottomOf="@+id/home_group_button"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/home_list_button"
@@ -150,12 +152,13 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="新增拆帳清單"
+        android:text="@string/add_list"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_quick_button" />
+        app:layout_constraintTop_toBottomOf="@+id/home_quick_button"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/home_quick_button"
@@ -167,12 +170,13 @@
         android:clickable="true"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
-        android:text="快速拆帳"
+        android:text="@string/quick_split_page"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_page_container" />
+        app:layout_constraintTop_toBottomOf="@+id/home_page_container"
+        android:focusable="true" />
 
 </android.support.constraint.ConstraintLayout>
 

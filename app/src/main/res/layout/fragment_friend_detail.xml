@@ -37,12 +37,12 @@
                 <TextView
                     android:id="@+id/friend_detail_friend_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Ruby Sun"
+                    tools:text="Ruby Sun"
                     android:textColor="@android:color/white"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     android:textStyle="bold"
                     app:fontFamily="@font/chinese_one" />
 
@@ -62,7 +62,7 @@
                         android:gravity="center"
                         android:maxWidth="100dp"
                         android:singleLine="true"
-                        android:text="Ruby  Sun"
+                        tools:text="Ruby  Sun"
                         app:fontFamily="@font/chinese_one" />
 
                     <TextView
@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
-                        android:text="欠"
+                        android:text="@string/owe"
                         app:fontFamily="@font/chinese_one" />
 
                     <TextView
@@ -81,7 +81,7 @@
                         android:gravity="center"
                         android:maxWidth="100dp"
                         android:singleLine="true"
-                        android:text="你"
+                        tools:text="你"
                         app:fontFamily="@font/chinese_one" />
 
                     <TextView
@@ -97,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="元"
+                        android:text="@string/yen"
                         app:fontFamily="@font/chinese_one" />
                 </LinearLayout>
 
@@ -113,7 +113,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="帳務結清" />
+                        android:text="@string/has_settled_up" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -128,7 +128,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="無帳務關係" />
+                        android:text="@string/no_event" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -170,9 +170,9 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="Ruby Sun Ruby Sun Ruby Sun Ruby Sun Ruby Sun Ruby Sun"
+        tools:text="Ruby Sun"
         android:textColor="@android:color/white"
-        android:textSize="25dp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:dependTargetY="-206dp"
         app:dependType="y"
@@ -193,7 +193,7 @@
         android:elevation="10dp"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="結清帳務"
+        android:text="@string/settle_up"
         app:fontFamily="@font/chinese_one"
         app:layout_behavior="com.zoonref.SimpleViewBehavior" />
 

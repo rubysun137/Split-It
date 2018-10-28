@@ -34,6 +34,7 @@ import com.ruby.splitmoney.groupexpense.GroupExpenseFragment;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
+import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.FriendList;
 import com.ruby.splitmoney.util.GroupList;
 
@@ -79,7 +80,7 @@ public class GroupDetailFragment extends Fragment implements GroupDetailContract
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirestore = FirebaseFirestore.getInstance();
         mGroupName = view.findViewById(R.id.group_detail_name);
-        mGroupId = getArguments().getString("id", "");
+        mGroupId = getArguments().getString(Constants.ID, "");
         for (Group group : GroupList.getInstance().getGroupList()) {
             if (group.getId().equals(mGroupId)) {
                 mGroup = group;

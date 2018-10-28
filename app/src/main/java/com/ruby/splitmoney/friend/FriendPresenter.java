@@ -27,6 +27,7 @@ import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.App;
+import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class FriendPresenter implements FriendContract.Presenter {
     }
 
     private void setFriendList() {
-        mFirestore.collection("users").document(mUser.getUid()).collection("friends").orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).orderBy(Constants.NAME, Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 mFriends = new ArrayList<>();
@@ -93,8 +94,8 @@ public class FriendPresenter implements FriendContract.Presenter {
         view.findViewById(R.id.dialog_positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(friendUid).delete();
-                mFirestore.collection("users").document(friendUid).collection("friends").document(mUser.getUid()).delete();
+                mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection("friends").document(friendUid).delete();
+                mFirestore.collection(Constants.USERS).document(friendUid).collection("friends").document(mUser.getUid()).delete();
                 mDialog.dismiss();
             }
         });

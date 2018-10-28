@@ -19,7 +19,7 @@ public class AddSplitMemberAdapter extends RecyclerView.Adapter {
     private AddListContract.Presenter mPresenter;
     private List<Friend> mFriends;
 
-    public AddSplitMemberAdapter(AddListContract.Presenter presenter,List<Friend> friends) {
+    public AddSplitMemberAdapter(AddListContract.Presenter presenter, List<Friend> friends) {
         mPresenter = presenter;
         mFriends = friends;
     }
@@ -27,7 +27,7 @@ public class AddSplitMemberAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_list_member,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_list_member, parent, false);
 
         return new AddSplitMemberViewHolder(view);
     }
@@ -42,7 +42,7 @@ public class AddSplitMemberAdapter extends RecyclerView.Adapter {
         return mFriends.size();
     }
 
-    private class AddSplitMemberViewHolder extends RecyclerView.ViewHolder{
+    private class AddSplitMemberViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mName;
 
@@ -57,7 +57,7 @@ public class AddSplitMemberAdapter extends RecyclerView.Adapter {
             });
         }
 
-        private void bindView (){
+        private void bindView() {
             mName.setText(mFriends.get(getAdapterPosition()).getName());
         }
     }

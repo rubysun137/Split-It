@@ -118,7 +118,7 @@ public class GroupBalanceAdapter extends RecyclerView.Adapter {
                 mMoney.setText(String.valueOf(mMoneyList.get(mPosition)));
                 mMoney.setTextColor(getColor(mContext, R.color.moneyRed));
             } else {
-                mMoney.setText("帳務結清");
+                mMoney.setText(R.string.has_settled_up);
                 mMoney.setTextColor(getColor(mContext, R.color.lightGray));
             }
 

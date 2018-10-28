@@ -30,7 +30,7 @@ public class GroupDetailAdapter extends RecyclerView.Adapter {
     private List<Double> mMoneyList;
     private Context mContext;
 
-    public void setEvents(List<Event> events){
+    public void setEvents(List<Event> events) {
         mEventList = new ArrayList<>(events);
         notifyDataSetChanged();
 
@@ -91,7 +91,7 @@ public class GroupDetailAdapter extends RecyclerView.Adapter {
             mTitle.setText(mEventList.get(position).getName());
             mDate.setText(mEventList.get(position).getDate());
             mTotalMoney.setText(String.valueOf(mEventList.get(position).getMoney()));
-            String payMan = "由 "+mEventList.get(position).getPayBy()+" 付款";
+            String payMan = mContext.getString(R.string.let) + " " + mEventList.get(position).getPayBy() + " " + mContext.getString(R.string.payed);
             mPayByWho.setText(payMan);
         }
 

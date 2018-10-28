@@ -33,8 +33,8 @@
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:layout_weight="1"
-            android:text="恩涵"
-            app:fontFamily="@font/chinese_one" />
+            app:fontFamily="@font/chinese_one"
+            tools:text="恩涵" />
 
         <TextView
             android:id="@+id/friend_list_money"
@@ -43,7 +43,7 @@
             android:layout_gravity="center"
             android:layout_marginEnd="24dp"
             android:gravity="end"
-            android:text="- 100 元"
+            tools:text="- 100 元"
             android:textColor="@color/moneyRed" />
     </LinearLayout>
 

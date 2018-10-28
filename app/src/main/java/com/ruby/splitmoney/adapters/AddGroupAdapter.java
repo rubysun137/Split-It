@@ -91,10 +91,10 @@ public class AddGroupAdapter extends RecyclerView.Adapter {
                                 mDialog.dismiss();
                             }
                         });
-                    }else{
-                        Toast.makeText(mContext, "不能把自己移出群組啦~", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, R.string.can_not_delete_yourself, Toast.LENGTH_SHORT).show();
                     }
-                        return true;
+                    return true;
                 }
             });
 

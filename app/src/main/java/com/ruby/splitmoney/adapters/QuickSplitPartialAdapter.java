@@ -37,7 +37,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
         }
         mMemberList = new ArrayList<>();
         for(int i = 0;i<mTotalMember;i++){
-            mMemberList.add(i,"成員"+(i+ 1));
+            mMemberList.add(i, "成員"+(i+ 1));
         }
 
     }

@@ -172,9 +172,9 @@ public class AddListPresenter implements AddListContract.Presenter {
             mGroupId = mGroups.get(mGroupPosition - 1).getId();
         }
         String payBy;
-        if(whoPays.equals("你")){
+        if (whoPays.equals("你")) {
             payBy = mUser.getDisplayName();
-        }else{
+        } else {
             payBy = whoPays;
         }
         Event event = new Event(eventName, "", mGroupId, mAddTipMoney, date, new Date(System.currentTimeMillis()), false, payBy);
@@ -190,7 +190,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                         mMoney = mAddTipMoney / mFriendList.size();
                         mMoney = (double) Math.round(mMoney * 100) / 100;
                         mPayOweMap = new HashMap<>();
-                        for (final Friend friend : mFriendList) {
+                        for (Friend friend : mFriendList) {
                             if (friend.getName().equals(mWhoPays)) {
                                 //付款人
                                 mPayOweMap.put("pay", mAddTipMoney);
@@ -205,7 +205,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                             }
                         }
 
-                        if(mGroupPosition==0) {
+                        if (mGroupPosition == 0) {
                             for (final Friend f : mFriendList) {
                                 //建 event list
                                 if (!f.getName().equals(mWhoPays)) {
@@ -234,7 +234,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                     });
                                 }
                             }
-                        }else{
+                        } else {
                             setGroupEvent();
                         }
 
@@ -298,7 +298,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                     });
                                 }
                             }
-                        }else{
+                        } else {
                             setGroupEvent();
                         }
 
@@ -369,7 +369,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                     });
                                 }
                             }
-                        }else{
+                        } else {
                             setGroupEvent();
                         }
 
@@ -433,7 +433,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                     });
                                 }
                             }
-                        }else{
+                        } else {
                             setGroupEvent();
                         }
                         break;
@@ -444,7 +444,7 @@ public class AddListPresenter implements AddListContract.Presenter {
     }
 
     private void setGroupEvent() {
-        mFirestore.collection("groups").document(mGroupId).update("events",FieldValue.arrayUnion(mEventId));
+        mFirestore.collection("groups").document(mGroupId).update("events", FieldValue.arrayUnion(mEventId));
     }
 
     @Override

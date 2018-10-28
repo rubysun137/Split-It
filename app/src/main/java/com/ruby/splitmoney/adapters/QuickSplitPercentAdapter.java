@@ -33,8 +33,8 @@ public class QuickSplitPercentAdapter extends RecyclerView.Adapter {
             mMoneyList.add(i, "");
         }
         mMemberList = new ArrayList<>();
-        for(int i = 0;i<mTotalMember;i++){
-            mMemberList.add(i,"成員"+(i+ 1));
+        for (int i = 0; i < mTotalMember; i++) {
+            mMemberList.add(i, "成員" + (i + 1));
         }
     }
 
@@ -81,8 +81,8 @@ public class QuickSplitPercentAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String member = mMemberNumber.getText().toString();
-                    mMemberList.set(mPosition,member);
-                    mPresenter.addMemberNameList(mPosition,member);
+                    mMemberList.set(mPosition, member);
+                    mPresenter.addMemberNameList(mPosition, member);
                 }
 
                 @Override

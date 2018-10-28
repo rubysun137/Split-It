@@ -5,11 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -41,6 +40,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.objects.User;
 import com.ruby.splitmoney.util.BaseActivity;
+import com.ruby.splitmoney.util.Constants;
 
 import java.util.Objects;
 
@@ -170,7 +170,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         mFirebaseUser.getEmail();
                         mFirebaseUser.getUid();
                         User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), String.valueOf(mFirebaseUser.getPhotoUrl()));
-                        FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
+                        FirebaseFirestore.getInstance().collection(Constants.USERS).document(mFirebaseUser.getUid()).set(user);
 
                     }
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -301,7 +301,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
                                 } else {
-                                    Log.w("SighUp ", "SighUpWithEmail:failure", task.getException());
+                                    Log.d("SighUp ", "SighUpWithEmail:failure", task.getException());
                                     mSignInLayout.setVisibility(View.VISIBLE);
                                     mLoadingLayout.setVisibility(View.GONE);
                                     Toast.makeText(LoginActivity.this, "註冊失敗，請重新註冊!",
@@ -333,7 +333,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 finish();
                 mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                 User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), null);
-                FirebaseFirestore.getInstance().collection("users").document(mFirebaseUser.getUid()).set(user);
+                FirebaseFirestore.getInstance().collection(Constants.USERS).document(mFirebaseUser.getUid()).set(user);
             }
         });
     }

@@ -25,13 +25,13 @@ public class QuickSplitResultAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quick_split_result,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_quick_split_result, parent, false);
         return new QuickSplitPartialResultViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((QuickSplitPartialResultViewHolder)holder).bindView();
+        ((QuickSplitPartialResultViewHolder) holder).bindView();
 
     }
 
@@ -40,7 +40,7 @@ public class QuickSplitResultAdapter extends RecyclerView.Adapter {
         return mResults.size();
     }
 
-    private class QuickSplitPartialResultViewHolder extends RecyclerView.ViewHolder{
+    private class QuickSplitPartialResultViewHolder extends RecyclerView.ViewHolder {
         private TextView mMember;
         private TextView mNumber;
         private int mPosition;
@@ -51,10 +51,10 @@ public class QuickSplitResultAdapter extends RecyclerView.Adapter {
             mNumber = itemView.findViewById(R.id.partial_split_result_number);
         }
 
-        private void bindView(){
+        private void bindView() {
             mPosition = getAdapterPosition();
             mMember.setText(mMembers.get(mPosition));
-            Log.d("TAG  ", "bindView: "+mResults);
+            Log.d("TAG  ", "bindView: " + mResults);
             mNumber.setText(String.valueOf(mResults.get(mPosition)));
         }
     }

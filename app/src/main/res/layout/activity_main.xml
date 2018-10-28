@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="主頁面"
+                    android:text="@string/main_page"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="記帳頁面"
+                    android:text="@string/spend_page"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 
@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="拆帳頁面"
+                    android:text="@string/split_page"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="快速拆帳"
+                    android:text="@string/quick_split_page"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 
@@ -148,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="7sp"
-                    android:text="切換主題"
+                    android:text="@string/change_style"
                     android:textColor="@color/click_text_color"
                     app:fontFamily="@font/chinese_one" />
 
@@ -179,7 +179,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="7sp"
-                        android:text="登出"
+                        android:text="@string/logout"
                         android:textColor="@color/click_text_color"
                         app:fontFamily="@font/chinese_one" />
 

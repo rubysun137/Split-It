@@ -15,7 +15,7 @@
         android:layout_marginTop="4dp"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:text="結清帳務"
+        android:text="@string/settle_up"
         android:textAlignment="center"
         android:textSize="25sp" />
 
@@ -69,7 +69,7 @@
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:singleLine="true"
-            android:text="付給"
+            android:text="@string/pay"
             app:layout_constraintBottom_toBottomOf="@+id/dialog_who_owe"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.49"
@@ -86,7 +86,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="Bsdfsdfsdfsdfs"
+            tools:text="Bsdfsdfsdfsdfs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView29"
             app:layout_constraintTop_toBottomOf="@+id/owe_who_image" />
@@ -101,7 +101,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:text="A"
+            tools:text="A"
             app:layout_constraintEnd_toStartOf="@+id/textView29"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/who_owe_image" />
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
             android:gravity="end"
-            android:text="元"
+            android:text="@string/yen"
             app:layout_constraintBottom_toBottomOf="@+id/settle_money_edit_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/settle_money_edit_text" />
@@ -152,7 +152,7 @@
             android:gravity="center"
             android:includeFontPadding="false"
             android:padding="8dp"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textSize="20sp" />
 
         <View
@@ -169,7 +169,7 @@
             android:gravity="center"
             android:includeFontPadding="false"
             android:padding="8dp"
-            android:text="確定"
+            android:text="@string/ok"
             android:textSize="20sp" />
 
     </LinearLayout>

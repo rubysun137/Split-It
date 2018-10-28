@@ -48,13 +48,13 @@ public class GroupList {
     }
 
     public void init() {
-        FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        FirebaseFirestore.getInstance().collection(Constants.USERS).document(FirebaseAuth.getInstance().getCurrentUser().getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.contains("groups")) {
+                if (documentSnapshot.contains(Constants.GROUPS)) {
                     mGroupList = new ArrayList<>();
-                    mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get("groups"));
-                    FirebaseFirestore.getInstance().collection("groups").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get(Constants.GROUPS));
+                    FirebaseFirestore.getInstance().collection(Constants.GROUPS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {

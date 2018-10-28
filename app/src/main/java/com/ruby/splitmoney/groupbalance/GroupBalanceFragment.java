@@ -44,8 +44,6 @@ public class GroupBalanceFragment extends Fragment implements GroupBalanceContra
     private EditText mSettleMoney;
 
 
-
-
     public GroupBalanceFragment() {
         // Required empty public constructor
     }

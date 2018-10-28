@@ -1,5 +1,6 @@
 package com.ruby.splitmoney.adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -23,6 +24,7 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
     private int mTotalMoney;
     private List<Friend> mFriends;
     private int mPartialMoney;
+    private Context mContext;
 
     public SplitPartialAdapter(String money, List<Friend> friends, AddListContract.Presenter presenter) {
         mTotalMoney = Integer.parseInt(money);
@@ -35,7 +37,7 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dialog_partial, parent, false);
-
+        mContext = parent.getContext();
         return new SplitPartialViewHolder(view);
     }
 
@@ -71,7 +73,7 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
         private void bindView() {
             mPosition = getAdapterPosition();
             if(mPosition==0){
-                mMember.setText("你");
+                mMember.setText(mContext.getString(R.string.you));
             }else {
                 mMember.setText(mFriends.get(mPosition - 1).getName());
             }

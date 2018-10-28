@@ -80,7 +80,7 @@ public class GroupExpenseFragment extends Fragment implements GroupExpenseContra
 
     @Override
     public void showEventDetailPage(Event event) {
-        ((MainActivity)getActivity()).showListDetailPage(event);
+        ((MainActivity) getActivity()).showListDetailPage(event);
     }
 
     @Override
@@ -93,7 +93,6 @@ public class GroupExpenseFragment extends Fragment implements GroupExpenseContra
             mNoEventText.setVisibility(View.GONE);
         }
     }
-
 
 
 }

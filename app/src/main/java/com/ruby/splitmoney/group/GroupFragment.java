@@ -43,8 +43,6 @@ public class GroupFragment extends Fragment implements GroupContract.View, View.
     private Context mContext;
 
 
-
-
     public GroupFragment() {
         // Required empty public constructor
     }
@@ -88,6 +86,6 @@ public class GroupFragment extends Fragment implements GroupContract.View, View.
 
     @Override
     public void setGroupDetailPage(String groupId) {
-        ((MainActivity)getActivity()).showGroupDetailPage(groupId);
+        ((MainActivity) getActivity()).showGroupDetailPage(groupId);
     }
 }

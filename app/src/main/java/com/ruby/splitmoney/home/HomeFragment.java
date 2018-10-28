@@ -25,8 +25,6 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
     private TextView mBorrowedMoney;
 
 
-
-
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -51,25 +49,24 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
         mQuickButton.setOnClickListener(this);
 
 
-
         return view;
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.home_group_button:
-                ((MainActivity)getActivity()).switchPage(Constants.GROUP);
+                ((MainActivity) getActivity()).switchPage(Constants.GROUP_PAGE);
                 break;
             case R.id.home_friend_button:
-                ((MainActivity)getActivity()).switchPage(Constants.FRIEND);
+                ((MainActivity) getActivity()).switchPage(Constants.FRIEND_PAGE);
                 break;
             case R.id.home_list_button:
-                ((MainActivity)getActivity()).switchPage(Constants.ADD_LIST);
+                ((MainActivity) getActivity()).switchPage(Constants.ADD_LIST);
                 break;
             case R.id.home_quick_button:
-                ((MainActivity)getActivity()).switchPage(Constants.QUICK);
+                ((MainActivity) getActivity()).switchPage(Constants.QUICK);
                 break;
         }
 

@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
+import com.ruby.splitmoney.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +51,13 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
             mFriendUid.add(friend.getUid());
         }
         Group group = new Group(groupName, "", mFriendUid, null);
-        mFirestore.collection("groups").add(group).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        mFirestore.collection(Constants.GROUPS).add(group).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 String groupId = documentReference.getId();
-                mFirestore.collection("groups").document(groupId).update("id", groupId);
+                mFirestore.collection(Constants.GROUPS).document(groupId).update(Constants.ID, groupId);
                 for (String uid : mFriendUid) {
-                    mFirestore.collection("users").document(uid).update("groups",FieldValue.arrayUnion(groupId));
+                    mFirestore.collection(Constants.USERS).document(uid).update(Constants.GROUPS, FieldValue.arrayUnion(groupId));
                 }
             }
         });
@@ -65,19 +66,19 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
     }
 
     private void addGroupFriend(List<Friend> friends) {
-        for(Friend friend : friends){
+        for (Friend friend : friends) {
             friend.setMoney(0.0);
         }
-        for(int i = 0; i < friends.size(); i++){
-            for(int j=i+1; j<friends.size(); j++){
+        for (int i = 0; i < friends.size(); i++) {
+            for (int j = i + 1; j < friends.size(); j++) {
                 final Friend friendA = friends.get(i);
                 final Friend friendB = friends.get(j);
-                mFirestore.collection("users").document(friends.get(i).getUid()).collection("friends").document(friends.get(j).getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                mFirestore.collection(Constants.USERS).document(friends.get(i).getUid()).collection(Constants.FRIENDS).document(friends.get(j).getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                      if(!documentSnapshot.exists()){
-                          addFriend(friendA,friendB);
-                      }
+                        if (!documentSnapshot.exists()) {
+                            addFriend(friendA, friendB);
+                        }
                     }
                 });
             }
@@ -85,7 +86,7 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
     }
 
     private void addFriend(Friend aFriend, Friend bFriend) {
-       mFirestore.collection("users").document(aFriend.getUid()).collection("friends").document(bFriend.getUid()).set(bFriend);
-       mFirestore.collection("users").document(bFriend.getUid()).collection("friends").document(aFriend.getUid()).set(aFriend);
+        mFirestore.collection(Constants.USERS).document(aFriend.getUid()).collection(Constants.FRIENDS).document(bFriend.getUid()).set(bFriend);
+        mFirestore.collection(Constants.USERS).document(bFriend.getUid()).collection(Constants.FRIENDS).document(aFriend.getUid()).set(aFriend);
     }
 }

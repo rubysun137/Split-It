@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ruby.splitmoney.util.Constants;
 
 import javax.annotation.Nullable;
 
@@ -33,19 +34,19 @@ public class HomePresenter implements HomeContract.Presenter {
     public void showTotal() {
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirestore = FirebaseFirestore.getInstance();
-        mFirestore.collection("users").document(mUser.getUid()).collection("friends").addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 int lentMoney = 0;
                 int borrowedMoney = 0;
-                for(QueryDocumentSnapshot snapshot : queryDocumentSnapshots){
-                    if(snapshot.getDouble("money")>0){
+                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    if (snapshot.getDouble(Constants.MONEY) > 0) {
                         lentMoney++;
-                    }else if(snapshot.getDouble("money")<0){
+                    } else if (snapshot.getDouble(Constants.MONEY) < 0) {
                         borrowedMoney++;
                     }
                 }
-                mView.showTotal(lentMoney,borrowedMoney);
+                mView.showTotal(lentMoney, borrowedMoney);
             }
         });
     }

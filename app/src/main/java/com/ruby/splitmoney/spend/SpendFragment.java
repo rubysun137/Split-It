@@ -34,7 +34,6 @@ public class SpendFragment extends Fragment implements SpendContract.View {
     }
 
 
-
     @Override
     public void setPresenter(SpendContract.Presenter presenter) {
         mPresenter = presenter;

@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="快速拆帳"
+        android:text="@string/quick_split_page"
         android:textSize="20sp"
         app:fontFamily="@font/chinese_one" />
 

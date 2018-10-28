@@ -31,7 +31,7 @@
             android:layout_margin="16dp"
             android:layout_weight="1"
             android:gravity="start"
-            android:text="Android" />
+            tools:text="Android" />
 
         <LinearLayout
             android:id="@+id/group_balance"
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="你借出" />
+                tools:text="你借出" />
 
             <LinearLayout
                 android:id="@+id/group_money"
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:text="$ " />
+                    android:text="@string/dollar_sign" />
 
                 <TextView
                     android:id="@+id/group_list_balance_money"
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="end"
-                    android:text="1000000"
+                    tools:text="1000000"
                     app:fontFamily="@font/chinese_one" />
             </LinearLayout>
 

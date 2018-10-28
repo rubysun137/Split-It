@@ -17,6 +17,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.objects.Group;
+import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.GroupList;
 
 import java.util.ArrayList;
@@ -49,13 +50,13 @@ public class GroupPresenter implements GroupContract.Presenter {
     }
 
     private void setGroupList() {
-        mFirestore.collection("users").document(mUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        mFirestore.collection(Constants.USERS).document(mUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.contains("groups")) {
+                if (documentSnapshot.contains(Constants.GROUPS)) {
                     mGroups = new ArrayList<>();
-                    mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get("groups"));
-                    mFirestore.collection("groups").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get(Constants.GROUPS));
+                    mFirestore.collection(Constants.GROUPS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {

@@ -26,8 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/chinese_one"
-            android:text="新增清單"
-            android:textSize="20dp"
+            android:text="@string/add_list"
+            android:textSize="20sp"
             tools:layout_editor_absoluteX="80dp"
             tools:layout_editor_absoluteY="30dp" />
     </android.support.v7.widget.Toolbar>
@@ -66,7 +66,7 @@
                     android:paddingTop="6dp"
                     android:paddingEnd="4dp"
                     android:paddingBottom="4dp"
-                    android:text=" 人員 :" />
+                    android:text="@string/add_list_member" />
 
                 <TextView
                     android:id="@+id/textView11"
@@ -77,7 +77,7 @@
                     android:paddingTop="6dp"
                     android:paddingEnd="4dp"
                     android:paddingBottom="4dp"
-                    android:text=" 你 和" />
+                    android:text="@string/add_list_you" />
 
                 <ImageView
                     android:id="@+id/add_list_plus"
@@ -96,7 +96,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1">
 
                 <TextView
@@ -106,7 +106,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="標題 "
+                    android:text="@string/title"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/payer_spinner" />
@@ -136,7 +136,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="群組 "
+                    android:text="@string/group"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -160,7 +160,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="付款人 "
+                    android:text="@string/payer"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/group_spinner" />
@@ -184,7 +184,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="金額"
+                    android:text="@string/amount"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/split_event" />
@@ -214,7 +214,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="服務費 "
+                    android:text="@string/tip"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/add_list_split_money" />
@@ -245,7 +245,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="日期 "
+                    android:text="@string/date"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/add_list_split_type_spinner" />
@@ -257,7 +257,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="2018/10/01"
+                    tools:text="2018/10/01"
                     android:textAlignment="center"
                     app:layout_constraintEnd_toStartOf="@+id/add_list_calendar_icon"
                     app:layout_constraintStart_toStartOf="parent"
@@ -297,7 +297,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/chinese_one"
-                    android:text="上傳收據"
+                    android:text="@string/upload_receipt"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                     app:layout_constraintEnd_toEndOf="@+id/imageView3"
@@ -311,7 +311,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/chinese_one"
-                    android:text="拆帳方式 "
+                    android:text="@string/split_type"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/split_tip_percent" />
@@ -332,7 +332,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="元"
+                    android:text="@string/yen"
                     app:layout_constraintEnd_toEndOf="@+id/add_list_split_money"
                     app:layout_constraintTop_toTopOf="@+id/add_list_split_money" />
 
@@ -341,7 +341,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="%"
+                    android:text="@string/percent"
                     app:layout_constraintEnd_toEndOf="@+id/split_tip_percent"
                     app:layout_constraintTop_toTopOf="@+id/split_tip_percent" />
 
@@ -371,7 +371,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/chinese_one"
             android:gravity="center"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textAlignment="center" />
 
         <View
@@ -387,7 +387,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/chinese_one"
             android:gravity="center"
-            android:text="儲存"
+            android:text="@string/ok"
             android:textAlignment="center" />
     </LinearLayout>
 

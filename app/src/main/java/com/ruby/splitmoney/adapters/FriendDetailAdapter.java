@@ -39,7 +39,7 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
     private List<Double> mMoneyList;
     private Context mContext;
 
-    public void setEvents(List<Event> events, List<Double> moneyList){
+    public void setEvents(List<Event> events, List<Double> moneyList) {
         mMoneyList = new ArrayList<>(moneyList);
         mEventList = new ArrayList<>(events);
         notifyDataSetChanged();
@@ -86,7 +86,7 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
             mTitle = itemView.findViewById(R.id.split_list_name);
             mBalanceType = itemView.findViewById(R.id.friend_detail_list_balance_type);
             mBalanceMoney = itemView.findViewById(R.id.friend_detail_list_balance_money);
-            mDollarSign =itemView.findViewById(R.id.friend_detail_list_dollar_sign);
+            mDollarSign = itemView.findViewById(R.id.friend_detail_list_dollar_sign);
 
         }
 
@@ -103,38 +103,38 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
                 }
             });
             mTitle.setText(mEventList.get(position).getName());
-            if(mEventList.get(position).isSettleUp()){
+            if (mEventList.get(position).isSettleUp()) {
                 if (mMoneyList.get(position) < 0) {
-                    mBalanceType.setText("朋友還你");
+                    mBalanceType.setText(R.string.friend_pay_back);
                     mBalanceMoney.setText(String.valueOf(0 - mMoneyList.get(position)));
                     setColor(android.R.color.white);
 
                 } else if (mMoneyList.get(position) > 0) {
-                    mBalanceType.setText("妳還朋友");
+                    mBalanceType.setText(R.string.you_pay_back);
                     mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
                     setColor(android.R.color.white);
                 }
-            }else {
+            } else {
                 if (mMoneyList.get(position) < 0) {
-                    mBalanceType.setText("你應還");
+                    mBalanceType.setText(R.string.you_should_pay);
                     mBalanceMoney.setText(String.valueOf(0 - mMoneyList.get(position)));
                     setColor(R.color.moneyRed);
                 } else if (mMoneyList.get(position) > 0) {
-                    mBalanceType.setText("你借出");
+                    mBalanceType.setText(R.string.you_lent);
                     mBalanceMoney.setText(String.valueOf(mMoneyList.get(position)));
                     setColor(R.color.moneyGreen);
                 } else {
-                    mBalanceType.setText("你借出");
+                    mBalanceType.setText(R.string.you_lent);
                     mBalanceMoney.setText(String.valueOf(0));
                     setColor(android.R.color.white);
                 }
             }
         }
 
-        private void setColor(int color){
+        private void setColor(int color) {
             mBalanceType.setTextColor(getColor(mContext, color));
-            mBalanceMoney.setTextColor(getColor(mContext,color));
-            mDollarSign.setTextColor(getColor(mContext,color));
+            mBalanceMoney.setTextColor(getColor(mContext, color));
+            mDollarSign.setTextColor(getColor(mContext, color));
         }
     }
 }

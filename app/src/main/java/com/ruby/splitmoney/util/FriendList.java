@@ -42,8 +42,8 @@ public class FriendList {
     }
 
     public void init() {
-        FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("friends")
-                .orderBy("name").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore.getInstance().collection(Constants.USERS).document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection(Constants.FRIENDS)
+                .orderBy(Constants.NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -52,7 +52,7 @@ public class FriendList {
                         friends.add(document.toObject(Friend.class));
                     }
                     mFriendList = new ArrayList<>(friends);
-                    Log.d("FriendList", "onComplete: "+friends.size());
+                    Log.d("FriendList", "onComplete: " + friends.size());
 
                 }
             }

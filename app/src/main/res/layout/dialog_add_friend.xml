@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/re_login_item"
             android:ems="10"
-            android:hint="請輸入 Email"
+            android:hint="@string/enter_email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textAlignment="textStart"

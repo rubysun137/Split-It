@@ -67,7 +67,6 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
         mAddedFriends = new ArrayList<>();
         mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
 
-
         RecyclerView recyclerView = view.findViewById(R.id.add_group_recycler_view);
         mAddGroupAdapter = new AddGroupAdapter(mPresenter);
         mAddGroupAdapter.setFriendList(mAddedFriends);
@@ -103,13 +102,13 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
                 mBottomSheetDialog.show();
                 break;
             case R.id.add_group_save_button:
-                if(!mGroupName.getText().toString().equals("") && mAddedFriends.size()!=0){
-                   mPresenter.saveGroupData(mGroupName.getText().toString(), mAddedFriends);
-                   getFragmentManager().popBackStack();
-                }else if(mGroupName.getText().toString().equals("")){
-                    Toast.makeText(mContext, "請輸入群組名稱", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(mContext, "須至少加入一位朋友才能建立群組", Toast.LENGTH_SHORT).show();
+                if (!mGroupName.getText().toString().equals("") && mAddedFriends.size() != 0) {
+                    mPresenter.saveGroupData(mGroupName.getText().toString(), mAddedFriends);
+                    getFragmentManager().popBackStack();
+                } else if (mGroupName.getText().toString().equals("")) {
+                    Toast.makeText(mContext, R.string.enter_group_name, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(mContext, R.string.need_a_friend_to_create_group, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -123,7 +122,7 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
     }
 
     @Override
-    public void changeToAddedFriendList(Friend friend,int position) {
+    public void changeToAddedFriendList(Friend friend, int position) {
         mBottomSheetDialog.dismiss();
         mAddedFriends.add(friend);
 //        Collections.sort(mAddedFriends, new Comparator<Friend>() {

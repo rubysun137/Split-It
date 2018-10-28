@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
+import com.ruby.splitmoney.util.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,22 +70,22 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
         mMap = new HashMap<>();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mFirestore = FirebaseFirestore.getInstance();
-        mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(mFriend.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.contains("events")) {
-                    mEventIdList = new ArrayList<>((List<String>) documentSnapshot.get("events"));
-                    mFirestore.collection("events").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                if (documentSnapshot.contains(Constants.EVENTS)) {
+                    mEventIdList = new ArrayList<>((List<String>) documentSnapshot.get(Constants.EVENTS));
+                    mFirestore.collection(Constants.EVENTS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                                 mEventList = new ArrayList<>();
                                 mMoneyList = new ArrayList<>();
                                 mMap = new HashMap<>();
                                 for (String id : mEventIdList) {
                                     if (document.getId().equals(id)) {
                                         final Event event = document.toObject(Event.class);
-                                        document.getReference().collection("members").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        document.getReference().collection(Constants.MEMBERS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                             @Override
                                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                                 boolean payByFriend = false;
@@ -95,10 +96,10 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                                                     Log.d("CHANGE!!!!", "onSuccess: WHY???????? mEventList.size()" + mEventList.size());
                                                     Log.d("CHANGE!!!!", "onSuccess: WHY???????? mMoneyList.size()" + mMoneyList.size());
                                                     Log.d("CHANGE!!!!", "onSuccess: WHY???????? documentSnapshot" + documentSnapshot.getId());
-                                                    documentSnapshot.contains("members");
-                                                    double moneyBalance = documentSnapshot.getDouble("owe");
+                                                    documentSnapshot.contains(Constants.MEMBERS);
+                                                    double moneyBalance = documentSnapshot.getDouble(Constants.OWE);
                                                     if (documentSnapshot.getId().equals(mFriend.getUid())) {
-                                                        if (documentSnapshot.getDouble("pay") != 0.0) {
+                                                        if (documentSnapshot.getDouble(Constants.PAY) != 0.0) {
                                                             payByFriend = true;
                                                             oweFriend = moneyBalance;
                                                         } else {
@@ -154,8 +155,8 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                                                         balanceMoney += money;
                                                     }
                                                     balanceMoney = ((double) Math.round(balanceMoney * 100) / 100);
-                                                    mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(mFriend.getUid()).update("money", balanceMoney);
-                                                    mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mUser.getUid()).update("money", 0 - balanceMoney);
+                                                    mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid()).update(Constants.MONEY, balanceMoney);
+                                                    mFirestore.collection(Constants.USERS).document(mFriend.getUid()).collection(Constants.FRIENDS).document(mUser.getUid()).update(Constants.MONEY, 0 - balanceMoney);
                                                 }
                                             }
                                         });
@@ -179,56 +180,56 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
         Calendar calendar = Calendar.getInstance();
         String format = String.valueOf(calendar.get(Calendar.YEAR)) + "/" + String.valueOf(calendar.get(Calendar.MONTH) + 1) + "/" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
         String whoPay;
-        if(mBalanceMoney > 0){
+        if (mBalanceMoney > 0) {
             whoPay = mFriend.getName();
-        }else {
+        } else {
             whoPay = mUser.getDisplayName();
         }
-        Event event = new Event("結清帳務", "", "", mSettleMoney, format, new Date(System.currentTimeMillis()),true, whoPay);
-        mFirestore.collection("events").add(event).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        Event event = new Event("結清帳務", "", "", mSettleMoney, format, new Date(System.currentTimeMillis()), true, whoPay);
+        mFirestore.collection(Constants.EVENTS).add(event).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 WriteBatch batch = mFirestore.batch();
                 String mEventId = documentReference.getId();
-                DocumentReference refEventId = mFirestore.collection("events").document(mEventId);
-                        batch.update(refEventId,"id", mEventId);
-                DocumentReference refUserMoney = mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(mFriend.getUid());
-                DocumentReference refFriendMoney = mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mUser.getUid());
-                DocumentReference refEventUser = mFirestore.collection("events").document(mEventId).collection("members").document(mUser.getUid());
-                DocumentReference refEventFriend = mFirestore.collection("events").document(mEventId).collection("members").document(mFriend.getUid());
-                DocumentReference refUserEvent = mFirestore.collection("users").document(mUser.getUid()).collection("friends").document(mFriend.getUid());
-                DocumentReference refFriendEvent = mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mUser.getUid());
+                DocumentReference refEventId = mFirestore.collection(Constants.EVENTS).document(mEventId);
+                batch.update(refEventId, Constants.ID, mEventId);
+                DocumentReference refUserMoney = mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid());
+                DocumentReference refFriendMoney = mFirestore.collection(Constants.USERS).document(mFriend.getUid()).collection(Constants.FRIENDS).document(mUser.getUid());
+                DocumentReference refEventUser = mFirestore.collection(Constants.EVENTS).document(mEventId).collection(Constants.MEMBERS).document(mUser.getUid());
+                DocumentReference refEventFriend = mFirestore.collection(Constants.EVENTS).document(mEventId).collection(Constants.MEMBERS).document(mFriend.getUid());
+                DocumentReference refUserEvent = mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid());
+                DocumentReference refFriendEvent = mFirestore.collection(Constants.USERS).document(mFriend.getUid()).collection(Constants.FRIENDS).document(mUser.getUid());
 
                 if (mBalanceMoney > 0) {
                     //他欠我錢  還錢
                     //update user money
-                    batch.update(refUserMoney,"money", (double) Math.round((mBalanceMoney - mSettleMoney) * 100) / 100);
-                    batch.update(refFriendMoney,"money", (double) Math.round((mSettleMoney - mBalanceMoney) * 100) / 100);
+                    batch.update(refUserMoney, Constants.MONEY, (double) Math.round((mBalanceMoney - mSettleMoney) * 100) / 100);
+                    batch.update(refFriendMoney, Constants.MONEY, (double) Math.round((mSettleMoney - mBalanceMoney) * 100) / 100);
                     //set event
                     Map<String, Double> map = new HashMap<>();
-                    map.put("owe", mSettleMoney);
-                    map.put("pay", 0.0);
-                    batch.set(refEventUser,map);
-                    map.put("owe", 0.0);
-                    map.put("pay", mSettleMoney);
-                    batch.set(refEventFriend,map);
+                    map.put(Constants.OWE, mSettleMoney);
+                    map.put(Constants.PAY, 0.0);
+                    batch.set(refEventUser, map);
+                    map.put(Constants.OWE, 0.0);
+                    map.put(Constants.PAY, mSettleMoney);
+                    batch.set(refEventFriend, map);
                 } else if (mBalanceMoney < 0) {
                     //我欠他錢 還錢
                     //update user money
-                    batch.update(refUserMoney,"money", (double) Math.round((mBalanceMoney + mSettleMoney) * 100) / 100);
-                    batch.update(refUserMoney,"money", (double) Math.round((0 - (mBalanceMoney + mSettleMoney)) * 100) / 100);
+                    batch.update(refUserMoney, Constants.MONEY, (double) Math.round((mBalanceMoney + mSettleMoney) * 100) / 100);
+                    batch.update(refUserMoney, Constants.MONEY, (double) Math.round((0 - (mBalanceMoney + mSettleMoney)) * 100) / 100);
                     //set event
                     Map<String, Double> map = new HashMap<>();
-                    map.put("owe", 0.0);
-                    map.put("pay", mSettleMoney);
-                    batch.set(refEventUser,map);
-                    map.put("owe", mSettleMoney);
-                    map.put("pay", 0.0);
-                    batch.set(refEventFriend,map);
+                    map.put(Constants.OWE, 0.0);
+                    map.put(Constants.PAY, mSettleMoney);
+                    batch.set(refEventUser, map);
+                    map.put(Constants.OWE, mSettleMoney);
+                    map.put(Constants.PAY, 0.0);
+                    batch.set(refEventFriend, map);
                 }
                 //update user event
-                batch.update(refUserEvent,"events", FieldValue.arrayUnion(mEventId));
-                batch.update(refFriendEvent,"events", FieldValue.arrayUnion(mEventId));
+                batch.update(refUserEvent, Constants.EVENTS, FieldValue.arrayUnion(mEventId));
+                batch.update(refFriendEvent, Constants.EVENTS, FieldValue.arrayUnion(mEventId));
                 batch.commit();
             }
         });

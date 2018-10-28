@@ -19,7 +19,7 @@
         android:gravity="center|start"
         android:inputType="text"
         android:maxLines="1"
-        android:text="成員10"
+        tools:text="成員10"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="4dp"
-        android:text="分攤比例"
+        android:text="@string/split_percent"
         app:layout_constraintBottom_toBottomOf="@+id/partial_quick_split_percent_member"
         app:layout_constraintStart_toEndOf="@+id/partial_quick_split_percent_member"
         app:layout_constraintTop_toTopOf="@+id/partial_quick_split_percent_member" />

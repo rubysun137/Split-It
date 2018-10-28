@@ -17,7 +17,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="成員10"
+        tools:text="成員10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
         android:layout_marginStart="8dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:text="NTD :"
+        android:text="@string/ntd_dollar"
         app:layout_constraintBottom_toBottomOf="@+id/split_free_member"
         app:layout_constraintStart_toEndOf="@+id/split_free_member"
         app:layout_constraintTop_toTopOf="@+id/split_free_member" />
