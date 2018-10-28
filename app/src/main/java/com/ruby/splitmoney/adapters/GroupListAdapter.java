@@ -1,7 +1,6 @@
 package com.ruby.splitmoney.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,18 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ruby.splitmoney.R;
-import com.ruby.splitmoney.friend.FriendContract;
 import com.ruby.splitmoney.group.GroupContract;
-import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
-import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.support.v4.content.ContextCompat.getColor;
 
 public class GroupListAdapter extends RecyclerView.Adapter {
 

@@ -41,9 +41,8 @@ public class FriendList {
         mFriendList = new ArrayList<>(friendList);
     }
 
-    public void init() {
-        FirebaseFirestore.getInstance().collection(Constants.USERS).document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection(Constants.FRIENDS)
-                .orderBy(Constants.NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void init() {
+        FirebaseFirestore.getInstance().collection(Constants.USERS).document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection(Constants.FRIENDS).orderBy(Constants.NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {

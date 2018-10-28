@@ -41,7 +41,9 @@ public class AddListPresenter implements AddListContract.Presenter {
 
     private AddListContract.View mView;
     private Calendar mCalendar;
-    private int mYear, mMonth, mDay;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
     private List<Integer> mExtraMoney;
     private List<Integer> mSharedMoney;
     private List<Integer> mFreeMoney;

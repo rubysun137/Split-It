@@ -39,24 +39,33 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     private void checkFragment() {
-        if (mFragmentManager.findFragmentByTag(Constants.HOME) != null)
+        if (mFragmentManager.findFragmentByTag(Constants.HOME) != null) {
             mHomeFragment = (HomeFragment) mFragmentManager.findFragmentByTag(Constants.HOME);
-        if (mFragmentManager.findFragmentByTag(Constants.SPEND) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.SPEND) != null) {
             mSpendFragment = (SpendFragment) mFragmentManager.findFragmentByTag(Constants.SPEND);
-        if (mFragmentManager.findFragmentByTag(Constants.SPLIT) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.SPLIT) != null) {
             mSplitFragment = (SplitFragment) mFragmentManager.findFragmentByTag(Constants.SPLIT);
-        if (mFragmentManager.findFragmentByTag(Constants.QUICK) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.QUICK) != null) {
             mQuickSplitFragment = (QuickSplitFragment) mFragmentManager.findFragmentByTag(Constants.QUICK);
-        if (mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL) != null) {
             mFriendDetailFragment = (FriendDetailFragment) mFragmentManager.findFragmentByTag(Constants.FRIEND_DETAIL);
-        if (mFragmentManager.findFragmentByTag(Constants.ADD_LIST) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.ADD_LIST) != null) {
             mAddListFragment = (AddListFragment) mFragmentManager.findFragmentByTag(Constants.ADD_LIST);
-        if (mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL) != null) {
             mListDetailFragment = (ListDetailFragment) mFragmentManager.findFragmentByTag(Constants.LIST_DETAIL);
-        if (mFragmentManager.findFragmentByTag(Constants.ADD_GROUP) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.ADD_GROUP) != null) {
             mAddGroupFragment = (AddGroupFragment) mFragmentManager.findFragmentByTag(Constants.ADD_GROUP);
-        if (mFragmentManager.findFragmentByTag(Constants.GROUP_DETAIL) != null)
+        }
+        if (mFragmentManager.findFragmentByTag(Constants.GROUP_DETAIL) != null) {
             mGroupDetailFragment = (GroupDetailFragment) mFragmentManager.findFragmentByTag(Constants.GROUP_DETAIL);
+        }
     }
 
     @Override

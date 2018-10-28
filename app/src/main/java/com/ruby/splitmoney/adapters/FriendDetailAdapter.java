@@ -10,24 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.frienddetail.FriendDetailContract;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
-import com.ruby.splitmoney.util.App;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import static android.support.v4.content.ContextCompat.getColor;
 
 public class FriendDetailAdapter extends RecyclerView.Adapter {
 
@@ -132,9 +125,9 @@ public class FriendDetailAdapter extends RecyclerView.Adapter {
         }
 
         private void setColor(int color) {
-            mBalanceType.setTextColor(getColor(mContext, color));
-            mBalanceMoney.setTextColor(getColor(mContext, color));
-            mDollarSign.setTextColor(getColor(mContext, color));
+            mBalanceType.setTextColor(ContextCompat.getColor(mContext, color));
+            mBalanceMoney.setTextColor(ContextCompat.getColor(mContext, color));
+            mDollarSign.setTextColor(ContextCompat.getColor(mContext, color));
         }
     }
 }

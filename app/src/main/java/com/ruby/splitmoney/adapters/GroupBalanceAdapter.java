@@ -3,6 +3,7 @@ package com.ruby.splitmoney.adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.support.v4.content.ContextCompat.getColor;
 
 public class GroupBalanceAdapter extends RecyclerView.Adapter {
 
@@ -113,13 +113,13 @@ public class GroupBalanceAdapter extends RecyclerView.Adapter {
             if (mMoneyList.get(mPosition) > 0) {
                 String text = "+" + mMoneyList.get(mPosition);
                 mMoney.setText(text);
-                mMoney.setTextColor(getColor(mContext, R.color.moneyGreen));
+                mMoney.setTextColor(ContextCompat.getColor(mContext, R.color.moneyGreen));
             } else if (mMoneyList.get(mPosition) < 0) {
                 mMoney.setText(String.valueOf(mMoneyList.get(mPosition)));
-                mMoney.setTextColor(getColor(mContext, R.color.moneyRed));
+                mMoney.setTextColor(ContextCompat.getColor(mContext, R.color.moneyRed));
             } else {
                 mMoney.setText(R.string.has_settled_up);
-                mMoney.setTextColor(getColor(mContext, R.color.lightGray));
+                mMoney.setTextColor(ContextCompat.getColor(mContext, R.color.lightGray));
             }
 
             //TODO 長按結算功能

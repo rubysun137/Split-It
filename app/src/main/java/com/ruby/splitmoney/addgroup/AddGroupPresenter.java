@@ -85,8 +85,8 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
         }
     }
 
-    private void addFriend(Friend aFriend, Friend bFriend) {
-        mFirestore.collection(Constants.USERS).document(aFriend.getUid()).collection(Constants.FRIENDS).document(bFriend.getUid()).set(bFriend);
-        mFirestore.collection(Constants.USERS).document(bFriend.getUid()).collection(Constants.FRIENDS).document(aFriend.getUid()).set(aFriend);
+    private void addFriend(Friend friendA, Friend friendB) {
+        mFirestore.collection(Constants.USERS).document(friendA.getUid()).collection(Constants.FRIENDS).document(friendB.getUid()).set(friendB);
+        mFirestore.collection(Constants.USERS).document(friendB.getUid()).collection(Constants.FRIENDS).document(friendA.getUid()).set(friendA);
     }
 }

@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.addlist;
 
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -140,8 +139,8 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mSplitTypeSpinner.setOnItemSelectedListener(mItemSelectedListener);
 
         mSplitType = new String[]{"全部均分", "部份均分", "比例分攤", "任意分配"};
-        ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(mContext, R.layout.dropdown_style, mSplitType);
-        mSplitTypeSpinner.setAdapter(mSplitTypeList);
+        ArrayAdapter<String> splitTypeList = new ArrayAdapter<>(mContext, R.layout.dropdown_style, mSplitType);
+        mSplitTypeSpinner.setAdapter(splitTypeList);
 
     }
 

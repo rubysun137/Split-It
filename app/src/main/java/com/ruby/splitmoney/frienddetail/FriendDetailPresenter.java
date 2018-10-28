@@ -190,13 +190,13 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 WriteBatch batch = mFirestore.batch();
-                String mEventId = documentReference.getId();
-                DocumentReference refEventId = mFirestore.collection(Constants.EVENTS).document(mEventId);
-                batch.update(refEventId, Constants.ID, mEventId);
+                String eventId = documentReference.getId();
+                DocumentReference refEventId = mFirestore.collection(Constants.EVENTS).document(eventId);
+                batch.update(refEventId, Constants.ID, eventId);
                 DocumentReference refUserMoney = mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid());
                 DocumentReference refFriendMoney = mFirestore.collection(Constants.USERS).document(mFriend.getUid()).collection(Constants.FRIENDS).document(mUser.getUid());
-                DocumentReference refEventUser = mFirestore.collection(Constants.EVENTS).document(mEventId).collection(Constants.MEMBERS).document(mUser.getUid());
-                DocumentReference refEventFriend = mFirestore.collection(Constants.EVENTS).document(mEventId).collection(Constants.MEMBERS).document(mFriend.getUid());
+                DocumentReference refEventUser = mFirestore.collection(Constants.EVENTS).document(eventId).collection(Constants.MEMBERS).document(mUser.getUid());
+                DocumentReference refEventFriend = mFirestore.collection(Constants.EVENTS).document(eventId).collection(Constants.MEMBERS).document(mFriend.getUid());
                 DocumentReference refUserEvent = mFirestore.collection(Constants.USERS).document(mUser.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid());
                 DocumentReference refFriendEvent = mFirestore.collection(Constants.USERS).document(mFriend.getUid()).collection(Constants.FRIENDS).document(mUser.getUid());
 
@@ -228,8 +228,8 @@ public class FriendDetailPresenter implements FriendDetailContract.Presenter {
                     batch.set(refEventFriend, map);
                 }
                 //update user event
-                batch.update(refUserEvent, Constants.EVENTS, FieldValue.arrayUnion(mEventId));
-                batch.update(refFriendEvent, Constants.EVENTS, FieldValue.arrayUnion(mEventId));
+                batch.update(refUserEvent, Constants.EVENTS, FieldValue.arrayUnion(eventId));
+                batch.update(refFriendEvent, Constants.EVENTS, FieldValue.arrayUnion(eventId));
                 batch.commit();
             }
         });

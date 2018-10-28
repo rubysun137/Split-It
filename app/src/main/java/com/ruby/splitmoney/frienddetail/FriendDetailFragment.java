@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.frienddetail;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -134,18 +133,22 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                 mSettleMoney = view.findViewById(R.id.settle_money_edit_text);
 
                 if (mBalanceMoney > 0) {
-                    if (mFriend.getImage() != null)
+                    if (mFriend.getImage() != null) {
                         Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mWhoOweImage);
-                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+                    }
+                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null) {
                         Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mOweWhoImage);
+                    }
                     mDialogWhoOwe.setText(mFriendName);
                     mDialogOweWho.setText("你");
                     mSettleMoney.setText(String.valueOf(mBalanceMoney));
                 } else if (mBalanceMoney < 0) {
-                    if (mFriend.getImage() != null)
+                    if (mFriend.getImage() != null) {
                         Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mOweWhoImage);
-                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null)
+                    }
+                    if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null) {
                         Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mWhoOweImage);
+                    }
                     mDialogWhoOwe.setText("你");
                     mDialogOweWho.setText(mFriendName);
                     mSettleMoney.setText(String.valueOf(0 - mBalanceMoney));
@@ -169,6 +172,8 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                         mDialog.dismiss();
                     }
                 });
+                break;
+            default:
                 break;
         }
     }

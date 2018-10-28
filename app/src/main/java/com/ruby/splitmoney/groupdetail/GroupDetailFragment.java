@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.groupdetail;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;

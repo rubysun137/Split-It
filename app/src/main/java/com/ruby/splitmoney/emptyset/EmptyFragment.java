@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.emptyset;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,12 +23,10 @@ public class EmptyFragment extends Fragment implements EmptyContract.View, View.
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_empty, container, false);
         mPresenter = new EmptyPresenter(this, container.getContext());
         mPresenter.start();
+        View view = inflater.inflate(R.layout.fragment_empty, container, false);
         mContext = container.getContext();
-
-
         return view;
     }
 

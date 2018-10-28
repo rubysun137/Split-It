@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.addgroup;
 
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -59,9 +58,7 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
         View view = inflater.inflate(R.layout.fragment_add_group, container, false);
         mPresenter = new AddGroupPresenter(this);
         mPresenter.start();
-
         mFirestore = FirebaseFirestore.getInstance();
-
         mContext = container.getContext();
 
         mAddedFriends = new ArrayList<>();
@@ -72,7 +69,6 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
         mAddGroupAdapter.setFriendList(mAddedFriends);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAddGroupAdapter);
-
 
         mGroupName = view.findViewById(R.id.add_group_name);
         mSaveButton = view.findViewById(R.id.add_group_save_button);

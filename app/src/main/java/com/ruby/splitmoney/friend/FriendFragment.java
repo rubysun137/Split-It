@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.friend;
 
-
 import android.app.AlertDialog;
 import android.graphics.Canvas;
 import android.os.Bundle;

@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.group;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
