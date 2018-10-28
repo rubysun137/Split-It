@@ -1,5 +1,7 @@
 package com.ruby.splitmoney.addgroup;
 
+import android.widget.EditText;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,10 +28,9 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
         mFirestore = FirebaseFirestore.getInstance();
     }
 
-
     @Override
     public void start() {
-
+        mView.showGroupMember();
     }
 
     @Override
@@ -63,6 +64,24 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
         });
 
         addGroupFriend(friends);
+    }
+
+    @Override
+    public void addFriendToGroupClicked() {
+        mView.showAddFriendDialog();
+    }
+
+    @Override
+    public void saveButtonClicked(EditText groupName, List<Friend> addedFriend) {
+        if (!groupName.getText().toString().equals("") && addedFriend.size() != 0) {
+            saveGroupData(groupName.getText().toString(), addedFriend);
+
+            mView.popBackStack();
+        } else if (groupName.getText().toString().equals("")) {
+            mView.showNoNameMessage();
+        } else {
+            mView.showNoFriendMessage();
+        }
     }
 
     private void addGroupFriend(List<Friend> friends) {

@@ -154,6 +154,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+            } else {
+                mSignInLayout.setVisibility(View.VISIBLE);
+                mLoadingLayout.setVisibility(View.GONE);
+                mIsLoading = false;
             }
         }
     }
@@ -176,18 +180,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    mIsLoading = false;
                 } else {
                     Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式", Toast.LENGTH_SHORT).show();
                     mSignInLayout.setVisibility(View.VISIBLE);
                     mLoadingLayout.setVisibility(View.GONE);
                 }
+                mIsLoading = false;
             }
         });
     }
 
     @Override
     public void onClick(View v) {
+        Log.d("CLICK!!!!", "onClick: ");
         switch (v.getId()) {
             case R.id.google_login_button:
                 signIn();
@@ -243,6 +248,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
                 break;
             case R.id.sendButton:
+                Log.d("CLICK!!!!", "SEND! ");
                 //hide keyboard
                 if (getCurrentFocus().getWindowToken() != null) {
                     imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -251,6 +257,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
                 if (!"".equals(email) && !"".equals(password)) {
+                    Log.d("CLICK!!!!", "SEND! IN　IF !!!! is loading = " + mIsLoading);
                     if (!mIsLoading) {
                         mSignInLayout.setVisibility(View.GONE);
                         mLoadingLayout.setVisibility(View.VISIBLE);
@@ -258,6 +265,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                mIsLoading = false;
                                 if (task.isSuccessful()) {
                                     Log.d("Login ", "signInWithEmail:success");
 
@@ -272,17 +280,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     Toast.makeText(LoginActivity.this, "登入失敗，請再次確認帳號與密碼是否正確!",
                                             Toast.LENGTH_LONG).show();
                                 }
-                                mIsLoading = false;
                             }
                         });
                     }
                 } else {
+                    Log.d("CLICK!!!!", "SEND! IN　ELSE !!!!");
                     Toast.makeText(LoginActivity.this, "請輸入帳號與密碼", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.registerSendButton:
-                imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                if (getCurrentFocus().getWindowToken() != null) {
+                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
                 email = mEmail.getText().toString();
                 password = mPassword.getText().toString();
                 String name = mName.getText().toString();
@@ -296,10 +306,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Log.d("SighUp ", "signUpWithEmail:success");
-
                                     addUser();
-
-
                                 } else {
                                     Log.d("SighUp ", "SighUpWithEmail:failure", task.getException());
                                     mSignInLayout.setVisibility(View.VISIBLE);
@@ -327,7 +334,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .build();
         mFirebaseUser.updateProfile(profileChange).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(Void voidA) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

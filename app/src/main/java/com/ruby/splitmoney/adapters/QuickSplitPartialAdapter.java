@@ -32,12 +32,12 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
 //        mExtraMoney = Arrays.asList(new Integer[mTotalMember]);
         mPresenter.setListSize(mTotalMember);
         mMoneyList = new ArrayList<>();
-        for(int i = 0;i<mTotalMember;i++){
-            mMoneyList.add(i,"");
+        for (int i = 0; i < mTotalMember; i++) {
+            mMoneyList.add(i, "");
         }
         mMemberList = new ArrayList<>();
-        for(int i = 0;i<mTotalMember;i++){
-            mMemberList.add(i, "成員"+(i+ 1));
+        for (int i = 0; i < mTotalMember; i++) {
+            mMemberList.add(i, "成員" + (i + 1));
         }
 
     }
@@ -64,7 +64,7 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
     private class QuickSplitPartialViewHolder extends RecyclerView.ViewHolder {
 
         private EditText mMemberNumber;
-//        private TextView mAverageMoney;
+        //        private TextView mAverageMoney;
         private EditText mAddMoney;
         private int mPosition;
 
@@ -90,8 +90,8 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String member = mMemberNumber.getText().toString();
-                    mMemberList.set(mPosition,member);
-                    mPresenter.addMemberNameList(mPosition,member);
+                    mMemberList.set(mPosition, member);
+                    mPresenter.addMemberNameList(mPosition, member);
                 }
 
                 @Override
@@ -109,12 +109,12 @@ public class QuickSplitPartialAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    mMoneyList.set(mPosition,mAddMoney.getText().toString());
+                    mMoneyList.set(mPosition, mAddMoney.getText().toString());
                     String add = mAddMoney.getText().toString();
-                        if(add.equals("")){
-                            add = "0";
-                        }
-                    mPresenter.addExtraMoneyList(mPosition,Integer.valueOf(add));
+                    if (add.equals("")) {
+                        add = "0";
+                    }
+                    mPresenter.addExtraMoneyList(mPosition, Integer.valueOf(add));
                 }
 
                 @Override

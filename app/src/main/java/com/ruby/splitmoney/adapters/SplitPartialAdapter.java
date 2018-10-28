@@ -30,7 +30,7 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
         mTotalMoney = Integer.parseInt(money);
         mFriends = new ArrayList<>(friends);
         mPresenter = presenter;
-        mPresenter.setListSize(mFriends.size()+1);
+        mPresenter.setListSize(mFriends.size() + 1);
     }
 
     @NonNull
@@ -49,7 +49,7 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mFriends.size()+1;
+        return mFriends.size() + 1;
     }
 
     private class SplitPartialViewHolder extends RecyclerView.ViewHolder {
@@ -64,17 +64,17 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
             mMember = itemView.findViewById(R.id.partial_split_member_number);
             mAddMoney = itemView.findViewById(R.id.partial_split_add_money);
             mStringList = new ArrayList<>();
-            for(int i = 0;i<=mFriends.size();i++){
-                mStringList.add(i,"");
+            for (int i = 0; i <= mFriends.size(); i++) {
+                mStringList.add(i, "");
             }
 
         }
 
         private void bindView() {
             mPosition = getAdapterPosition();
-            if(mPosition==0){
+            if (mPosition == 0) {
                 mMember.setText(mContext.getString(R.string.you));
-            }else {
+            } else {
                 mMember.setText(mFriends.get(mPosition - 1).getName());
             }
             mAddMoney.addTextChangedListener(new TextWatcher() {
@@ -86,12 +86,12 @@ public class SplitPartialAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    mStringList.set(mPosition,mAddMoney.getText().toString());
+                    mStringList.set(mPosition, mAddMoney.getText().toString());
                     String add = mAddMoney.getText().toString();
-                        if(add.equals("")){
-                            add = "0";
-                        }
-                    mPresenter.addExtraMoneyList(mPosition,Integer.valueOf(add));
+                    if (add.equals("")) {
+                        add = "0";
+                    }
+                    mPresenter.addExtraMoneyList(mPosition, Integer.valueOf(add));
                 }
 
                 @Override

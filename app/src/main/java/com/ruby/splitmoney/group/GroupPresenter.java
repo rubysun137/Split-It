@@ -2,10 +2,6 @@ package com.ruby.splitmoney.group;
 
 import android.content.Context;
 
-import javax.annotation.Nullable;
-
-import android.util.Log;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,7 +9,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ruby.splitmoney.objects.Group;
@@ -21,8 +16,9 @@ import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.GroupList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 public class GroupPresenter implements GroupContract.Presenter {
 

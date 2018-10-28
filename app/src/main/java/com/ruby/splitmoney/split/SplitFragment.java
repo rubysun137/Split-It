@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.split;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -187,6 +186,8 @@ public class SplitFragment extends Fragment implements SplitContract.View, View.
             case R.id.fab_background:
                 mFab.close(true);
 //                mBackgroundLayout.setVisibility(View.INVISIBLE);
+                break;
+            default:
                 break;
         }
     }

@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.listdetail;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;

@@ -3,6 +3,8 @@ package com.ruby.splitmoney.addgroup;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,15 +17,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.AddGroupAdapter;
 import com.ruby.splitmoney.adapters.AddGroupSelectAdapter;
 import com.ruby.splitmoney.objects.Friend;
-import com.ruby.splitmoney.objects.Group;
 import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
@@ -46,6 +44,7 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
     private Context mContext;
     private BottomSheetDialog mBottomSheetDialog;
     private FirebaseFirestore mFirestore;
+    private RecyclerView mRecyclerView;
 
 
     public AddGroupFragment() {
@@ -55,21 +54,10 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_group, container, false);
-        mPresenter = new AddGroupPresenter(this);
-        mPresenter.start();
-        mFirestore = FirebaseFirestore.getInstance();
         mContext = container.getContext();
+        View view = inflater.inflate(R.layout.fragment_add_group, container, false);
 
-        mAddedFriends = new ArrayList<>();
-        mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
-
-        RecyclerView recyclerView = view.findViewById(R.id.add_group_recycler_view);
-        mAddGroupAdapter = new AddGroupAdapter(mPresenter);
-        mAddGroupAdapter.setFriendList(mAddedFriends);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(mAddGroupAdapter);
-
+        mRecyclerView = view.findViewById(R.id.add_group_recycler_view);
         mGroupName = view.findViewById(R.id.add_group_name);
         mSaveButton = view.findViewById(R.id.add_group_save_button);
         mSaveButton.setOnClickListener(this);
@@ -79,33 +67,25 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mFirestore = FirebaseFirestore.getInstance();
+        mAddedFriends = new ArrayList<>();
+        mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
+
+        mPresenter = new AddGroupPresenter(this);
+        mPresenter.start();
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_friend_to_group:
-                mBottomSheetDialog = new BottomSheetDialog(mContext);
-                View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_add_group_member, null);
-
-                RecyclerView recyclerView = view.findViewById(R.id.dialog_add_group_member_recycler_view);
-                recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-                mAddGroupSelectAdapter = new AddGroupSelectAdapter(mPresenter);
-                mAddGroupSelectAdapter.setFriendList(mNotAddFriends);
-                recyclerView.setAdapter(mAddGroupSelectAdapter);
-
-                mBottomSheetDialog.setContentView(view);
-                mBottomSheetDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-                mBottomSheetDialog.show();
+                mPresenter.addFriendToGroupClicked();
                 break;
             case R.id.add_group_save_button:
-                if (!mGroupName.getText().toString().equals("") && mAddedFriends.size() != 0) {
-                    mPresenter.saveGroupData(mGroupName.getText().toString(), mAddedFriends);
-                    getFragmentManager().popBackStack();
-                } else if (mGroupName.getText().toString().equals("")) {
-                    Toast.makeText(mContext, R.string.enter_group_name, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(mContext, R.string.need_a_friend_to_create_group, Toast.LENGTH_SHORT).show();
-                }
+                mPresenter.saveButtonClicked(mGroupName, mAddedFriends);
                 break;
             default:
                 break;
@@ -121,12 +101,6 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
     public void changeToAddedFriendList(Friend friend, int position) {
         mBottomSheetDialog.dismiss();
         mAddedFriends.add(friend);
-//        Collections.sort(mAddedFriends, new Comparator<Friend>() {
-//            @Override
-//            public int compare(Friend o1, Friend o2) {
-//                return o1.getName().compareTo(o2.getName());
-//            }
-//        });
         mAddGroupAdapter.setFriendList(mAddedFriends);
         mNotAddFriends.remove(position);
         mAddGroupSelectAdapter.setFriendList(mNotAddFriends);
@@ -144,5 +118,44 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
         mAddGroupSelectAdapter.setFriendList(mNotAddFriends);
         mAddedFriends.remove(position);
         mAddGroupAdapter.setFriendList(mAddedFriends);
+    }
+
+    @Override
+    public void showAddFriendDialog() {
+        mBottomSheetDialog = new BottomSheetDialog(mContext);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_add_group_member, null);
+
+        RecyclerView recyclerView = view.findViewById(R.id.dialog_add_group_member_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mAddGroupSelectAdapter = new AddGroupSelectAdapter(mPresenter);
+        mAddGroupSelectAdapter.setFriendList(mNotAddFriends);
+        recyclerView.setAdapter(mAddGroupSelectAdapter);
+
+        mBottomSheetDialog.setContentView(view);
+        mBottomSheetDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        mBottomSheetDialog.show();
+    }
+
+    @Override
+    public void showNoNameMessage() {
+        Toast.makeText(mContext, R.string.enter_group_name, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showNoFriendMessage() {
+        Toast.makeText(mContext, R.string.need_a_friend_to_create_group, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void popBackStack() {
+        getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void showGroupMember() {
+        mAddGroupAdapter = new AddGroupAdapter(mPresenter);
+        mAddGroupAdapter.setFriendList(mAddedFriends);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mAddGroupAdapter);
     }
 }

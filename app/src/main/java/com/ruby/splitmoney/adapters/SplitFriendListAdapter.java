@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.ruby.splitmoney.MainActivity;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.friend.FriendContract;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.util.FriendList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static android.support.v4.content.ContextCompat.getColor;
+
 
 public class SplitFriendListAdapter extends RecyclerView.Adapter {
 
@@ -114,11 +113,11 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
                 if (mFriendNameList.get(position).getMoney() > 0) {
                     String text = mContext.getString(R.string.plus) + mFriendNameList.get(position).getMoney();
                     mMoney.setText(text);
-                    mMoney.setTextColor(getColor(mContext, R.color.moneyGreen));
+                    mMoney.setTextColor(ContextCompat.getColor(mContext, R.color.moneyGreen));
                     mMoney.setVisibility(View.VISIBLE);
                 } else if (mFriendNameList.get(position).getMoney() < 0) {
                     mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
-                    mMoney.setTextColor(getColor(mContext, R.color.moneyRed));
+                    mMoney.setTextColor(ContextCompat.getColor(mContext, R.color.moneyRed));
                     mMoney.setVisibility(View.VISIBLE);
                 } else if (mFriendNameList.get(position).getMoney() == 0) {
                     mMoney.setVisibility(View.INVISIBLE);

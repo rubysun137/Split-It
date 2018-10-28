@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.home;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -67,6 +66,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, View.On
                 break;
             case R.id.home_quick_button:
                 ((MainActivity) getActivity()).switchPage(Constants.QUICK);
+                break;
+            default:
                 break;
         }
 

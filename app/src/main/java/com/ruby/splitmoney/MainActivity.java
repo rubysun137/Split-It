@@ -75,6 +75,8 @@ public class MainActivity extends BaseActivity implements MainContract.View,
                 getTheme().applyStyle(R.style.OverlayPrimaryColorHalloween, true);
                 mIsHalloween = true;
                 break;
+            default:
+                break;
         }
 
         setContentView(R.layout.activity_main);
@@ -167,6 +169,7 @@ public class MainActivity extends BaseActivity implements MainContract.View,
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         switch (v.getId()) {
+            default:
             case R.id.nav_home:
                 mPresenter.transToHome();
                 break;
@@ -252,6 +255,8 @@ public class MainActivity extends BaseActivity implements MainContract.View,
                 break;
             case Constants.QUICK:
                 mPresenter.transToQuickSplit();
+                break;
+            default:
                 break;
         }
     }

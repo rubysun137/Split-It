@@ -1,6 +1,5 @@
 package com.ruby.splitmoney.quicksplit;
 
-
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,8 +25,8 @@ import android.widget.Toast;
 
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.QuickSplitPartialAdapter;
-import com.ruby.splitmoney.adapters.QuickSplitResultAdapter;
 import com.ruby.splitmoney.adapters.QuickSplitPercentAdapter;
+import com.ruby.splitmoney.adapters.QuickSplitResultAdapter;
 
 import java.util.List;
 
@@ -94,9 +93,9 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
         mPercentPage = view.findViewById(R.id.quick_percent_split);
         mPercentPage.setVisibility(View.GONE);
         mSplitType = new String[]{"拆帳方式", "全部均分", "部份均分", "比例分攤"};
-        ArrayAdapter<String> mSplitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
-        mSplitTypeList.setDropDownViewResource(R.layout.dropdown_style);
-        mSpinner.setAdapter(mSplitTypeList);
+        ArrayAdapter<String> splitTypeList = new ArrayAdapter<>(container.getContext(), R.layout.item_spinner, mSplitType);
+        splitTypeList.setDropDownViewResource(R.layout.dropdown_style);
+        mSpinner.setAdapter(splitTypeList);
 //        mNextPage.setOnClickListener(this);
         mPrePage.setOnClickListener(this);
         mPresenter.start();
@@ -274,15 +273,11 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
                 mIsPartialEqual = true;
                 mIsPercent = false;
                 goToNextPage();
-
-
 //                if (mIsPercent && mPresenter.isSharedListEmpty()) {
 //
 //                } else {
 //
 //                }
-
-
                 break;
             case R.id.dialog_cancel_text:
                 mDialogPartial.dismiss();
@@ -292,6 +287,7 @@ public class QuickSplitFragment extends Fragment implements QuickSplitContract.V
             case R.id.previous_page_text_view:
 
                 mPresenter.toFirstPage();
+                break;
             default:
                 break;
         }
