@@ -67,12 +67,12 @@ public class AddGroupPresenter implements AddGroupContract.Presenter {
     }
 
     @Override
-    public void addFriendToGroupClicked() {
+    public void clickAddFriendToGroup() {
         mView.showAddFriendDialog();
     }
 
     @Override
-    public void saveButtonClicked(EditText groupName, List<Friend> addedFriend) {
+    public void clickSaveButton(EditText groupName, List<Friend> addedFriend) {
         if (!groupName.getText().toString().equals("") && addedFriend.size() != 0) {
             saveGroupData(groupName.getText().toString(), addedFriend);
 

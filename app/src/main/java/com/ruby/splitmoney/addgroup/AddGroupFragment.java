@@ -82,10 +82,10 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.View,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_friend_to_group:
-                mPresenter.addFriendToGroupClicked();
+                mPresenter.clickAddFriendToGroup();
                 break;
             case R.id.add_group_save_button:
-                mPresenter.saveButtonClicked(mGroupName, mAddedFriends);
+                mPresenter.clickSaveButton(mGroupName, mAddedFriends);
                 break;
             default:
                 break;

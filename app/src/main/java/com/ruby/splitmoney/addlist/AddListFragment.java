@@ -11,7 +11,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,19 +27,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.AddSplitMemberAdapter;
-import com.ruby.splitmoney.adapters.QuickSplitPartialAdapter;
-import com.ruby.splitmoney.adapters.QuickSplitPercentAdapter;
 import com.ruby.splitmoney.adapters.SplitFreeAdapter;
 import com.ruby.splitmoney.adapters.SplitPartialAdapter;
 import com.ruby.splitmoney.adapters.SplitPercentAdapter;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
-import com.ruby.splitmoney.quicksplit.QuickSplitFragment;
 import com.ruby.splitmoney.util.FriendList;
 import com.ruby.splitmoney.util.WrapLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -80,7 +75,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     private SplitFreeAdapter mFreeAdapter;
     private EditText mTipPercent;
     private EditText mEvent;
-    private String mWhoPays;
+    private int mWhoPays;
     private List<String> mNames;
     private Spinner mGroupSpinner;
     private List<Group> mGroup;
@@ -151,40 +146,16 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         switch (v.getId()) {
             case R.id.add_list_calendar_icon:
             case R.id.add_list_pick_day:
-                mPresenter.dateClicked();
+                mPresenter.clickDate();
                 break;
             case R.id.add_list_cancel:
                 popBackStack();
                 break;
             case R.id.add_list_save:
-                if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString()) != 0 && !mEvent.getText().toString().equals("")) {
-                    mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString());
-                } else if (mAddedFriends.size() == 0) {
-                    Toast.makeText(getContext(), "至少需選擇一位朋友參與拆帳", Toast.LENGTH_SHORT).show();
-                } else if (mEvent.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "請輸入拆帳標題", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), "請輸入拆帳金額", Toast.LENGTH_SHORT).show();
-                }
+                mPresenter.clickSaveButton(mAddedFriends.size(),parseInt(mTotalMoney.getText().toString()),mEvent.getText().toString());
                 break;
-
             case R.id.dialog_correct_text:
-                if (mSplitTypeSpinner.getSelectedItemPosition() == 2) {
-                    if (mPresenter.isSharedListEmpty()) {
-                        Toast.makeText(getContext(), "須至少一人分攤帳務", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                }
-                if (mSplitTypeSpinner.getSelectedItemPosition() == 3) {
-                    if (mPresenter.freeTotalMoney() > parseInt(mTotalMoney.getText().toString())) {
-                        Toast.makeText(getContext(), "總數大於總金額 " + mTotalMoney.getText().toString() + " 元", Toast.LENGTH_SHORT).show();
-                        break;
-                    } else if (mPresenter.freeTotalMoney() < parseInt(mTotalMoney.getText().toString())) {
-                        Toast.makeText(getContext(), "總數小於總金額 " + mTotalMoney.getText().toString() + " 元", Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                }
-
+                mPresenter.clickDialogCorrectButton(mSplitTypeSpinner.getSelectedItemPosition(),parseInt(mTotalMoney.getText().toString()));
                 mDialogPartial.dismiss();
                 break;
             case R.id.dialog_cancel_text:
@@ -241,9 +212,6 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         });
         mNotAddFriends.remove(position);
         mLayoutId++;
-//        if (mNotAddFriends.size() == 0) {
-//            mAddMemberIcon.setVisibility(View.GONE);
-//        }
 
         refreshPayerSpinner();
         changeToEvenSplitType();
@@ -261,12 +229,12 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mPayerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mWhoPays = mNames.get(position);
+                mWhoPays = position;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mWhoPays = mNames.get(0);
+                mWhoPays = 0;
             }
         });
 
@@ -302,7 +270,6 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                                 mNotAddFriends.add(friends.get(i));
                             }
                         }
-
                     }
                     Collections.sort(mNotAddFriends, new Comparator<Friend>() {
                         @Override
@@ -343,12 +310,21 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
-
     }
 
     @Override
     public void popBackStack() {
         getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void showToastMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void saveData() {
+        mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString());
     }
 
     private int parseInt(String s) {
@@ -358,7 +334,6 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
             return Integer.parseInt(s);
         }
     }
-
 
     private View.OnClickListener mAddMemberClickListener = new View.OnClickListener() {
         @Override

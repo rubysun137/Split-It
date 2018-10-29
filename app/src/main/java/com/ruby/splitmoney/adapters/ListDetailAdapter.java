@@ -76,21 +76,25 @@ public class ListDetailAdapter extends RecyclerView.Adapter {
         private void bindView() {
             mPosition = getAdapterPosition();
             String userId = mSnapshots.get(mPosition).getId();
-            if (userId.equals(mUser.getUid()) && mUser.getPhotoUrl() != null) {
-                Glide.with(mContext).load(mUser.getPhotoUrl()).into(mUserImage);
+            if (userId.equals(mUser.getUid())) {
+                if (mUser.getPhotoUrl() != null) {
+                    Glide.with(mContext).load(mUser.getPhotoUrl()).into(mUserImage);
+                } else {
+                    mUserImage.setImageResource(R.drawable.user2);
+                }
                 setString(mUser.getDisplayName());
             } else {
                 for (Friend friend : FriendList.getInstance().getFriendList()) {
                     if (friend.getUid().equals(userId)) {
                         if (friend.getImage() != null) {
                             Glide.with(mContext).load(Uri.parse(friend.getImage())).into(mUserImage);
+                        } else {
+                            mUserImage.setImageResource(R.drawable.user2);
                         }
                         setString(friend.getName());
                     }
                 }
             }
-
-
         }
 
         private void setString(String name) {
@@ -101,7 +105,6 @@ public class ListDetailAdapter extends RecyclerView.Adapter {
                 String description = name + " " + mContext.getString(R.string.should_share) + mSnapshots.get(mPosition).getDouble(Constants.OWE);
                 mDescription.setText(description);
             }
-
         }
     }
 }

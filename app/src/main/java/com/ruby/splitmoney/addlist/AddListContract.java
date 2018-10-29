@@ -25,6 +25,10 @@ public interface AddListContract {
 
         void popBackStack();
 
+        void showToastMessage(String message);
+
+        void saveData();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -45,14 +49,18 @@ public interface AddListContract {
 
         boolean isSharedListEmpty();
 
-        int freeTotalMoney();
+        int getFreeTotalMoney();
 
-        void saveSplitResultToFirebase(String event, List<Friend> friends, String whoPays, int money, int tipPercent, String date);
+        void saveSplitResultToFirebase(String event, List<Friend> friends, int whoPays, int money, int tipPercent, String date);
 
         void getGroups();
 
         void selectGroup(int position);
 
-        void dateClicked();
+        void clickDate();
+
+        void clickSaveButton(int friendSize, int totalMoney, String eventName);
+
+        void clickDialogCorrectButton(int spinnerPosition, int totalMoney);
     }
 }

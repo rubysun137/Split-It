@@ -36,8 +36,8 @@ public interface AddGroupContract {
 
         void saveGroupData(String groupName, List<Friend> friends);
 
-        void addFriendToGroupClicked();
+        void clickAddFriendToGroup();
 
-        void saveButtonClicked(EditText groupName, List<Friend> addedFriend);
+        void clickSaveButton(EditText groupName, List<Friend> addedFriend);
     }
 }
