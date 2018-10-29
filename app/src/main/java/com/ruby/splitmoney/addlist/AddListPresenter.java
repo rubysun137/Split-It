@@ -83,7 +83,9 @@ public class AddListPresenter implements AddListContract.Presenter {
 
     @Override
     public void start() {
-
+        getCurrentDate();
+        getGroups();
+        mView.setViewTypeSpinner();
     }
 
     @Override
@@ -159,7 +161,7 @@ public class AddListPresenter implements AddListContract.Presenter {
     }
 
     @Override
-    public void saveSplitResultToFirebase(String eventName, List<Friend> friends, String whoPays, int totalMoney, int tipPercent, String date, FragmentManager fragmentManager) {
+    public void saveSplitResultToFirebase(String eventName, List<Friend> friends, String whoPays, int totalMoney, int tipPercent, String date) {
         mTotalMoney = totalMoney;
         mWhoPays = whoPays;
         //加入自己
@@ -442,7 +444,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                 }
             }
         });
-        fragmentManager.popBackStack();
+        mView.popBackStack();
     }
 
     private void setGroupEvent() {
@@ -480,6 +482,11 @@ public class AddListPresenter implements AddListContract.Presenter {
     @Override
     public void selectGroup(int position) {
         mGroupPosition = position;
+    }
+
+    @Override
+    public void dateClicked() {
+        mView.showDateDialog();
     }
 
     public void setTotalMoneyToFirebase(Friend friend) {

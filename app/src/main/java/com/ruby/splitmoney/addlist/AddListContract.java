@@ -19,6 +19,12 @@ public interface AddListContract {
 
         void setGroupList(List<Group> groupList);
 
+        void setViewTypeSpinner();
+
+        void showDateDialog();
+
+        void popBackStack();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -41,10 +47,12 @@ public interface AddListContract {
 
         int freeTotalMoney();
 
-        void saveSplitResultToFirebase(String event, List<Friend> friends, String whoPays, int money, int tipPercent, String date, FragmentManager fragmentManager);
+        void saveSplitResultToFirebase(String event, List<Friend> friends, String whoPays, int money, int tipPercent, String date);
 
         void getGroups();
 
         void selectGroup(int position);
+
+        void dateClicked();
     }
 }

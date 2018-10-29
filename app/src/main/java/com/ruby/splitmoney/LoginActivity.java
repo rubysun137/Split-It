@@ -173,15 +173,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         mFirebaseUser.getDisplayName();
                         mFirebaseUser.getEmail();
                         mFirebaseUser.getUid();
-                        User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), String.valueOf(mFirebaseUser.getPhotoUrl()));
-                        FirebaseFirestore.getInstance().collection(Constants.USERS).document(mFirebaseUser.getUid()).set(user);
+                        User user = new User(mFirebaseUser.getEmail(),
+                                mFirebaseUser.getDisplayName(),
+                                mFirebaseUser.getUid(),
+                                String.valueOf(mFirebaseUser.getPhotoUrl()));
+                        FirebaseFirestore.getInstance().collection(Constants.USERS)
+                                .document(mFirebaseUser.getUid()).set(user);
 
                     }
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式",
+                            Toast.LENGTH_SHORT).show();
                     mSignInLayout.setVisibility(View.VISIBLE);
                     mLoadingLayout.setVisibility(View.GONE);
                 }
@@ -236,16 +241,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (friendEmail.equals("")) {
                     friendEmail = "wrong";
                 }
-                FirebaseAuth.getInstance().sendPasswordResetEmail(friendEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "已傳送密碼重置信件到 Email", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Email 輸入錯誤", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                FirebaseAuth.getInstance().sendPasswordResetEmail(friendEmail)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(LoginActivity.this, "已傳送密碼重置信件到 Email",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Email 輸入錯誤",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 break;
             case R.id.sendButton:
                 Log.d("CLICK!!!!", "SEND! ");
@@ -262,30 +270,35 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         mSignInLayout.setVisibility(View.GONE);
                         mLoadingLayout.setVisibility(View.VISIBLE);
                         mIsLoading = true;
-                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                mIsLoading = false;
-                                if (task.isSuccessful()) {
-                                    Log.d("Login ", "signInWithEmail:success");
+                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(
+                                LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        mIsLoading = false;
+                                        if (task.isSuccessful()) {
+                                            Log.d("Login ", "signInWithEmail:success");
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                            Intent intent = new Intent(LoginActivity.this,
+                                                    MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
 
-                                } else {
-                                    mSignInLayout.setVisibility(View.VISIBLE);
-                                    mLoadingLayout.setVisibility(View.GONE);
-                                    Log.w("Login ", "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(LoginActivity.this, "登入失敗，請再次確認帳號與密碼是否正確!",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                                        } else {
+                                            mSignInLayout.setVisibility(View.VISIBLE);
+                                            mLoadingLayout.setVisibility(View.GONE);
+                                            Log.w("Login ", "signInWithEmail:failure",
+                                                    task.getException());
+                                            Toast.makeText(LoginActivity.this,
+                                                    "登入失敗，請再次確認帳號與密碼是否正確!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
                     }
                 } else {
                     Log.d("CLICK!!!!", "SEND! IN　ELSE !!!!");
-                    Toast.makeText(LoginActivity.this, "請輸入帳號與密碼", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "請輸入帳號與密碼",
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.registerSendButton:
@@ -301,25 +314,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         mSignInLayout.setVisibility(View.GONE);
                         mLoadingLayout.setVisibility(View.VISIBLE);
                         mIsLoading = true;
-                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("SighUp ", "signUpWithEmail:success");
-                                    addUser();
-                                } else {
-                                    Log.d("SighUp ", "SighUpWithEmail:failure", task.getException());
-                                    mSignInLayout.setVisibility(View.VISIBLE);
-                                    mLoadingLayout.setVisibility(View.GONE);
-                                    Toast.makeText(LoginActivity.this, "註冊失敗，請重新註冊!",
-                                            Toast.LENGTH_LONG).show();
-                                }
-                                mIsLoading = false;
-                            }
-                        });
+                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
+                                LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("SighUp ", "signUpWithEmail:success");
+                                            addUser();
+                                        } else {
+                                            Log.d("SighUp ", "SighUpWithEmail:failure",
+                                                    task.getException());
+                                            mSignInLayout.setVisibility(View.VISIBLE);
+                                            mLoadingLayout.setVisibility(View.GONE);
+                                            Toast.makeText(LoginActivity.this, "註冊失敗，請重新註冊!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                        mIsLoading = false;
+                                    }
+                                });
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "請輸入帳號、密碼與暱稱", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "請輸入帳號、密碼與暱稱",
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -332,16 +348,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         UserProfileChangeRequest profileChange = new UserProfileChangeRequest.Builder()
                 .setDisplayName(mName.getText().toString())
                 .build();
-        mFirebaseUser.updateProfile(profileChange).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void voidA) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), null);
-                FirebaseFirestore.getInstance().collection(Constants.USERS).document(mFirebaseUser.getUid()).set(user);
-            }
-        });
+        mFirebaseUser.updateProfile(profileChange).addOnSuccessListener(
+                new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void voidA) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(),
+                                mFirebaseUser.getUid(), null);
+                        FirebaseFirestore.getInstance().collection(Constants.USERS)
+                                .document(mFirebaseUser.getUid()).set(user);
+                    }
+                });
     }
 }

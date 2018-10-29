@@ -96,17 +96,11 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_list, container, false);
         mContext = container.getContext();
-        mPresenter = new AddListPresenter(this);
-
-        mAddedFriends = new ArrayList<>();
-        mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
 
         mPayerSpinner = view.findViewById(R.id.payer_spinner);
         mSplitTypeSpinner = view.findViewById(R.id.add_list_split_type_spinner);
         mGroupSpinner = view.findViewById(R.id.group_spinner);
 
-        mLayoutId = 0;
-        mMap = new HashMap<>();
         mAddMemberLayout = view.findViewById(R.id.add_list_member_linearlayout);
         mAddMemberIcon = view.findViewById(R.id.add_list_plus);
 
@@ -125,9 +119,13 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mAddedFriends = new ArrayList<>();
+        mNotAddFriends = new ArrayList<>(FriendList.getInstance().getFriendList());
+        mLayoutId = 0;
+        mMap = new HashMap<>();
+
+        mPresenter = new AddListPresenter(this);
         mPresenter.start();
-        mPresenter.getCurrentDate();
-        mPresenter.getGroups();
 
         mPickDate.setOnClickListener(this);
         mCalendarIcon.setOnClickListener(this);
@@ -135,12 +133,6 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mAddMemberIcon.setOnClickListener(mAddMemberClickListener);
         mCancelTextButton.setOnClickListener(this);
         mSaveTextButton.setOnClickListener(this);
-
-        mSplitTypeSpinner.setOnItemSelectedListener(mItemSelectedListener);
-
-        mSplitType = new String[]{"全部均分", "部份均分", "比例分攤", "任意分配"};
-        ArrayAdapter<String> splitTypeList = new ArrayAdapter<>(mContext, R.layout.dropdown_style, mSplitType);
-        mSplitTypeSpinner.setAdapter(splitTypeList);
 
     }
 
@@ -159,24 +151,14 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         switch (v.getId()) {
             case R.id.add_list_calendar_icon:
             case R.id.add_list_pick_day:
-                new DatePickerDialog(mContext, R.style.datePicker, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String format = String.valueOf(year) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth);
-                        mPickDate.setText(format);
-                    }
-                },
-                        Calendar.getInstance().get(Calendar.YEAR),
-                        Calendar.getInstance().get(Calendar.MONTH),
-                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
+                mPresenter.dateClicked();
                 break;
-
             case R.id.add_list_cancel:
-                getFragmentManager().popBackStack();
+                popBackStack();
                 break;
             case R.id.add_list_save:
                 if (mAddedFriends.size() != 0 && parseInt(mTotalMoney.getText().toString()) != 0 && !mEvent.getText().toString().equals("")) {
-                    mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString(), getFragmentManager());
+                    mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString());
                 } else if (mAddedFriends.size() == 0) {
                     Toast.makeText(getContext(), "至少需選擇一位朋友參與拆帳", Toast.LENGTH_SHORT).show();
                 } else if (mEvent.getText().toString().equals("")) {
@@ -339,6 +321,34 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 mPresenter.selectGroup(0);
             }
         });
+    }
+
+    @Override
+    public void setViewTypeSpinner() {
+        mSplitType = new String[]{"全部均分", "部份均分", "比例分攤", "任意分配"};
+        ArrayAdapter<String> splitTypeList = new ArrayAdapter<>(mContext, R.layout.dropdown_style, mSplitType);
+        mSplitTypeSpinner.setAdapter(splitTypeList);
+        mSplitTypeSpinner.setOnItemSelectedListener(mItemSelectedListener);
+    }
+
+    @Override
+    public void showDateDialog() {
+        new DatePickerDialog(mContext, R.style.datePicker, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String format = String.valueOf(year) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(dayOfMonth);
+                mPickDate.setText(format);
+            }
+        },
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
+
+    }
+
+    @Override
+    public void popBackStack() {
+        getFragmentManager().popBackStack();
     }
 
     private int parseInt(String s) {
