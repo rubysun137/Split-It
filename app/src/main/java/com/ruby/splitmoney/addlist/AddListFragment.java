@@ -136,7 +136,7 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mPresenter = presenter;
     }
 
-    private void changeToEvenSplitType() {
+    public void changeToEvenSplitType() {
         mSplitTypeSpinner.setSelection(0);
         mPresenter.selectSplitType(0);
     }
@@ -152,10 +152,10 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 popBackStack();
                 break;
             case R.id.add_list_save:
-                mPresenter.clickSaveButton(mAddedFriends.size(),parseInt(mTotalMoney.getText().toString()),mEvent.getText().toString());
+                mPresenter.clickSaveButton(mAddedFriends.size(), parseInt(mTotalMoney.getText().toString()), mEvent.getText().toString());
                 break;
             case R.id.dialog_correct_text:
-                mPresenter.clickDialogCorrectButton(mSplitTypeSpinner.getSelectedItemPosition(),parseInt(mTotalMoney.getText().toString()));
+                mPresenter.clickDialogCorrectButton(mSplitTypeSpinner.getSelectedItemPosition(), parseInt(mTotalMoney.getText().toString()));
                 mDialogPartial.dismiss();
                 break;
             case R.id.dialog_cancel_text:
@@ -181,9 +181,6 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mItemNameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mNotAddFriends.size() == 0) {
-                    mAddMemberIcon.setVisibility(View.VISIBLE);
-                }
                 for (Friend friend : mAddedFriends) {
                     if (friend.getUid().equals(mMap.get(v.getId()))) {
                         mNotAddFriends.add(friend);
@@ -264,9 +261,9 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                     mNotAddFriends = new ArrayList<>();
                     List<String> memberIdList = new ArrayList<>(mGroup.get(position - 1).getMembers());
                     List<Friend> friends = FriendList.getInstance().getFriendList();
-                    for (String memberid : memberIdList) {
+                    for (String memberId : memberIdList) {
                         for (int i = 0; i < friends.size(); i++) {
-                            if (friends.get(i).getUid().equals(memberid)) {
+                            if (friends.get(i).getUid().equals(memberId)) {
                                 mNotAddFriends.add(friends.get(i));
                             }
                         }
@@ -327,6 +324,31 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         mPresenter.saveSplitResultToFirebase(mEvent.getText().toString(), mAddedFriends, mWhoPays, parseInt(mTotalMoney.getText().toString()), parseInt(mTipPercent.getText().toString()), mPickDate.getText().toString());
     }
 
+    @Override
+    public void setSplitTypeDialog(int position) {
+        if (position == 1) {
+            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
+
+            RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
+            mPartialAdapter = new SplitPartialAdapter(mMoney, mAddedFriends, mPresenter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+            recyclerView.setAdapter(mPartialAdapter);
+
+            mDialogPartial = new AlertDialog.Builder(getContext())
+                    .setView(mDialogView)
+                    .setCancelable(false)
+                    .show();
+            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+
+            correct.setOnClickListener(AddListFragment.this);
+            cancel.setOnClickListener(AddListFragment.this);
+        }
+    }
+
     private int parseInt(String s) {
         if (s.equals("")) {
             return 0;
@@ -362,13 +384,14 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             mPresenter.selectSplitType(position);
+            mMoney = mTotalMoney.getText().toString();
             switch (position) {
                 default:
                 case 0:
                     changeToEvenSplitType();
                     break;
                 case 1:
-                    mMoney = mTotalMoney.getText().toString();
+                    mPresenter.changeSplitType(mMoney, mAddedFriends.size());
                     if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
                         mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
 

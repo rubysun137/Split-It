@@ -1,8 +1,14 @@
 package com.ruby.splitmoney.addlist;
 
+import android.app.AlertDialog;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.ruby.splitmoney.R;
+import com.ruby.splitmoney.adapters.SplitPartialAdapter;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
@@ -516,6 +524,19 @@ public class AddListPresenter implements AddListContract.Presenter {
             }
         }
 
+    }
+
+    @Override
+    public void changeSplitType(String money, int friendSize) {
+        if (!money.equals("") && !money.equals("0") && friendSize != 0) {
+            mView.setSplitTypeDialog(mSplitType);
+        } else if (friendSize == 0) {
+            mView.showToastMessage("至少需一個朋友參與拆帳");
+            mView.changeToEvenSplitType();
+        } else {
+            mView.showToastMessage("金額不可為 0 ");
+            mView.changeToEvenSplitType();
+        }
     }
 
     public void setTotalMoneyToFirebase(Friend friend) {

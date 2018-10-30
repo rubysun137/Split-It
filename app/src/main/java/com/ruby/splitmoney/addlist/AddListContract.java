@@ -29,6 +29,10 @@ public interface AddListContract {
 
         void saveData();
 
+        void setSplitTypeDialog(int position);
+
+        void changeToEvenSplitType();
+
     }
 
     interface Presenter extends BasePresenter {
@@ -62,5 +66,7 @@ public interface AddListContract {
         void clickSaveButton(int friendSize, int totalMoney, String eventName);
 
         void clickDialogCorrectButton(int spinnerPosition, int totalMoney);
+
+        void changeSplitType(String money, int friendSize);
     }
 }
