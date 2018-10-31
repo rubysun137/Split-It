@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputLayout;
@@ -28,30 +27,21 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.ruby.splitmoney.objects.User;
 import com.ruby.splitmoney.util.BaseActivity;
-import com.ruby.splitmoney.util.Constants;
 
 import java.util.Objects;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements LoginContract.View, View.OnClickListener {
 
+    private LoginContract.Presenter mPresenter;
     private FirebaseAuth mAuth;
+    private FirebaseUser mFirebaseUser;
     private EditText mEmail;
     private EditText mPassword;
     private EditText mName;
-    private boolean mIsLoading;
-    private FirebaseUser mFirebaseUser;
+    private boolean isLoading;
     private ConstraintLayout mSignInLayout;
     private LinearLayout mLoadingLayout;
     private ImageView mProgressBarImage;
@@ -74,20 +64,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mAuth = FirebaseAuth.getInstance();
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (mFirebaseUser != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            transToMain();
         }
-        mIsLoading = false;
+        isLoading = false;
         mProgressbar = findViewById(R.id.progress_bar_loading);
         Glide.with(this).load(R.drawable.loading).into(mProgressbar);
         mSignInLayout = findViewById(R.id.login_page_container);
         mLoadingLayout = findViewById(R.id.loading_layout);
-        mSignInLayout.setVisibility(View.VISIBLE);
-        mLoadingLayout.setVisibility(View.GONE);
-        mAuth = FirebaseAuth.getInstance();
         mEmail = findViewById(R.id.emailText);
         mPassword = findViewById(R.id.passwordText);
         mName = findViewById(R.id.nameText);
@@ -119,13 +105,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mLoginButton = findViewById(R.id.login_text_view_button);
         mLoginButton.setOnClickListener(this);
 
-
+        mPresenter = new LoginPresenter(this, this);
+        mPresenter.start();
     }
 
     private void signIn() {
-        mIsLoading = true;
-        mSignInLayout.setVisibility(View.GONE);
-        mLoadingLayout.setVisibility(View.VISIBLE);
+        showLoadingPageUi();
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -133,16 +118,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (!mIsLoading) {
-            mSignInLayout.setVisibility(View.VISIBLE);
-            mLoadingLayout.setVisibility(View.GONE);
-            mNameLayout.setVisibility(View.GONE);
-            mRegisterSendButton.setVisibility(View.GONE);
-            mLoginButton.setVisibility(View.GONE);
-            mSendButton.setVisibility(View.VISIBLE);
-            mForgetPassword.setVisibility(View.VISIBLE);
-            mRegistrationButton.setVisibility(View.VISIBLE);
-            mGoogleSignInButton.setVisibility(View.VISIBLE);
+        if (!isLoading) {
+            showLoginPageUi();
         }
     }
 
@@ -153,46 +130,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
+                mPresenter.firebaseAuthWithGoogle(account);
             } else {
                 mSignInLayout.setVisibility(View.VISIBLE);
                 mLoadingLayout.setVisibility(View.GONE);
-                mIsLoading = false;
             }
+            isLoading = false;
         }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().getAdditionalUserInfo().isNewUser()) {
-                        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        mFirebaseUser.getDisplayName();
-                        mFirebaseUser.getEmail();
-                        mFirebaseUser.getUid();
-                        User user = new User(mFirebaseUser.getEmail(),
-                                mFirebaseUser.getDisplayName(),
-                                mFirebaseUser.getUid(),
-                                String.valueOf(mFirebaseUser.getPhotoUrl()));
-                        FirebaseFirestore.getInstance().collection(Constants.USERS)
-                                .document(mFirebaseUser.getUid()).set(user);
-
-                    }
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(LoginActivity.this, "登入失敗，請再登入一次或是更換登入方式",
-                            Toast.LENGTH_SHORT).show();
-                    mSignInLayout.setVisibility(View.VISIBLE);
-                    mLoadingLayout.setVisibility(View.GONE);
-                }
-                mIsLoading = false;
-            }
-        });
     }
 
     @Override
@@ -204,138 +148,46 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.login_page_container:
                 //hide keyboard
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+                hideKeyboard();
                 break;
             case R.id.register_text_view_button:
-                mNameLayout.setVisibility(View.VISIBLE);
-                mRegisterSendButton.setVisibility(View.VISIBLE);
-                mLoginButton.setVisibility(View.VISIBLE);
-                mSendButton.setVisibility(View.GONE);
-                mForgetPassword.setVisibility(View.GONE);
-                mRegistrationButton.setVisibility(View.GONE);
-                mGoogleSignInButton.setVisibility(View.GONE);
+                mPresenter.clickRegisterButton();
                 break;
             case R.id.login_text_view_button:
-                mNameLayout.setVisibility(View.GONE);
-                mRegisterSendButton.setVisibility(View.GONE);
-                mLoginButton.setVisibility(View.GONE);
-                mSendButton.setVisibility(View.VISIBLE);
-                mForgetPassword.setVisibility(View.VISIBLE);
-                mRegistrationButton.setVisibility(View.VISIBLE);
-                mGoogleSignInButton.setVisibility(View.VISIBLE);
+                mPresenter.clickLoginButton();
                 break;
             case R.id.forget_password:
-                mDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_friend, null, false);
-                mDialog = new AlertDialog.Builder(this)
-                        .setView(mDialogView)
-                        .show();
-                mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-                ImageView sendImage = mDialogView.findViewById(R.id.send_friend_email);
-                sendImage.setImageResource(R.drawable.send_icon2);
-                sendImage.setOnClickListener(this);
+                showForgetPasswordDialog();
                 break;
             case R.id.send_friend_email:
                 EditText mail = mDialogView.findViewById(R.id.add_friend_email);
-                String friendEmail = mail.getText().toString();
-                if (friendEmail.equals("")) {
-                    friendEmail = "wrong";
+                String userEmail = mail.getText().toString();
+                if (userEmail.equals("")) {
+                    userEmail = "wrong";
                 }
-                FirebaseAuth.getInstance().sendPasswordResetEmail(friendEmail)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "已傳送密碼重置信件到 Email",
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Email 輸入錯誤",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                mPresenter.sendForgetPasswordEmail(userEmail);
                 break;
             case R.id.sendButton:
                 Log.d("CLICK!!!!", "SEND! ");
                 //hide keyboard
                 if (getCurrentFocus().getWindowToken() != null) {
-                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    hideKeyboard();
                 }
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
-                if (!"".equals(email) && !"".equals(password)) {
-                    Log.d("CLICK!!!!", "SEND! IN　IF !!!! is loading = " + mIsLoading);
-                    if (!mIsLoading) {
-                        mSignInLayout.setVisibility(View.GONE);
-                        mLoadingLayout.setVisibility(View.VISIBLE);
-                        mIsLoading = true;
-                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(
-                                LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        mIsLoading = false;
-                                        if (task.isSuccessful()) {
-                                            Log.d("Login ", "signInWithEmail:success");
-
-                                            Intent intent = new Intent(LoginActivity.this,
-                                                    MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-
-                                        } else {
-                                            mSignInLayout.setVisibility(View.VISIBLE);
-                                            mLoadingLayout.setVisibility(View.GONE);
-                                            Log.w("Login ", "signInWithEmail:failure",
-                                                    task.getException());
-                                            Toast.makeText(LoginActivity.this,
-                                                    "登入失敗，請再次確認帳號與密碼是否正確!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                });
-                    }
-                } else {
-                    Log.d("CLICK!!!!", "SEND! IN　ELSE !!!!");
-                    Toast.makeText(LoginActivity.this, "請輸入帳號與密碼",
-                            Toast.LENGTH_SHORT).show();
+                if(!isLoading) {
+                    mPresenter.clickSendButton(email, password);
                 }
                 break;
             case R.id.registerSendButton:
                 if (getCurrentFocus().getWindowToken() != null) {
-                    imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    hideKeyboard();
                 }
                 email = mEmail.getText().toString();
                 password = mPassword.getText().toString();
                 String name = mName.getText().toString();
-                if (!"".equals(email) && !"".equals(password) && !"".equals(name)) {
-                    if (!mIsLoading) {
-                        mSignInLayout.setVisibility(View.GONE);
-                        mLoadingLayout.setVisibility(View.VISIBLE);
-                        mIsLoading = true;
-                        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(
-                                LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d("SighUp ", "signUpWithEmail:success");
-                                            addUser();
-                                        } else {
-                                            Log.d("SighUp ", "SighUpWithEmail:failure",
-                                                    task.getException());
-                                            mSignInLayout.setVisibility(View.VISIBLE);
-                                            mLoadingLayout.setVisibility(View.GONE);
-                                            Toast.makeText(LoginActivity.this, "註冊失敗，請重新註冊!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                        mIsLoading = false;
-                                    }
-                                });
-                    }
-                } else {
-                    Toast.makeText(LoginActivity.this, "請輸入帳號、密碼與暱稱",
-                            Toast.LENGTH_SHORT).show();
+                if(!isLoading) {
+                    mPresenter.clickRegisterSendButton(email,password,name);
                 }
                 break;
             default:
@@ -343,24 +195,91 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void addUser() {
-        mFirebaseUser = mAuth.getCurrentUser();
-        UserProfileChangeRequest profileChange = new UserProfileChangeRequest.Builder()
-                .setDisplayName(mName.getText().toString())
-                .build();
-        mFirebaseUser.updateProfile(profileChange).addOnSuccessListener(
-                new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void voidA) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        User user = new User(mFirebaseUser.getEmail(), mFirebaseUser.getDisplayName(),
-                                mFirebaseUser.getUid(), null);
-                        FirebaseFirestore.getInstance().collection(Constants.USERS)
-                                .document(mFirebaseUser.getUid()).set(user);
-                    }
-                });
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+    }
+
+    private void showForgetPasswordDialog() {
+        mDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_friend, null, false);
+        mDialog = new AlertDialog.Builder(this)
+                .setView(mDialogView)
+                .show();
+        mDialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
+        ImageView sendImage = mDialogView.findViewById(R.id.send_friend_email);
+        sendImage.setImageResource(R.drawable.send_icon2);
+        sendImage.setOnClickListener(this);
+    }
+
+    @Override
+    public void setPresenter(LoginContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showLoginPageUi() {
+        mSignInLayout.setVisibility(View.VISIBLE);
+        mLoadingLayout.setVisibility(View.GONE);
+        mNameLayout.setVisibility(View.GONE);
+        mRegisterSendButton.setVisibility(View.GONE);
+        mLoginButton.setVisibility(View.GONE);
+        mSendButton.setVisibility(View.VISIBLE);
+        mForgetPassword.setVisibility(View.VISIBLE);
+        mRegistrationButton.setVisibility(View.VISIBLE);
+        mGoogleSignInButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void transToMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void showLoginGoogleFailMessage(String errorMessage) {
+//        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        showLongToastMessage("登入失敗，請確認連線狀態後再登入一次");
+        mSignInLayout.setVisibility(View.VISIBLE);
+        mLoadingLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRegisterUi() {
+        mNameLayout.setVisibility(View.VISIBLE);
+        mRegisterSendButton.setVisibility(View.VISIBLE);
+        mLoginButton.setVisibility(View.VISIBLE);
+        mSendButton.setVisibility(View.GONE);
+        mForgetPassword.setVisibility(View.GONE);
+        mRegistrationButton.setVisibility(View.GONE);
+        mGoogleSignInButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showShortToastMessage(String message) {
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLongToastMessage(String message) {
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLoadingPageUi() {
+        isLoading = true;
+        mSignInLayout.setVisibility(View.GONE);
+        mLoadingLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void completeLoading() {
+        isLoading = false;
+    }
+
+    @Override
+    public void backToLoginPageUi() {
+        mSignInLayout.setVisibility(View.VISIBLE);
+        mLoadingLayout.setVisibility(View.GONE);
     }
 }
