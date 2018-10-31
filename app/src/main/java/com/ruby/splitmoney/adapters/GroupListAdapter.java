@@ -68,20 +68,6 @@ public class GroupListAdapter extends RecyclerView.Adapter {
             mGroupName = itemView.findViewById(R.id.group_list_name);
             mDivider = itemView.findViewById(R.id.group_divider);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPresenter.transToGroupDetailPage(mGroupList.get(getAdapterPosition()).getId());
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-//                    mPresenter.deleteFriendDialog(mFriendNameList.get(getAdapterPosition()).getUid());
-                    return true;
-                }
-            });
         }
 
         private void bindView() {
@@ -92,6 +78,20 @@ public class GroupListAdapter extends RecyclerView.Adapter {
                 mDivider.setVisibility(View.INVISIBLE);
 //                mMoney.setVisibility(View.INVISIBLE);
             } else {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.transToGroupDetailPage(mGroupList.get(getAdapterPosition()).getId());
+                    }
+                });
+
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+//                    mPresenter.deleteFriendDialog(mFriendNameList.get(getAdapterPosition()).getUid());
+                        return true;
+                    }
+                });
                 mImage.setVisibility(View.VISIBLE);
                 mGroupName.setVisibility(View.VISIBLE);
                 if (position == mGroupList.size() - 1) {
@@ -99,22 +99,7 @@ public class GroupListAdapter extends RecyclerView.Adapter {
                 } else {
                     mDivider.setVisibility(View.VISIBLE);
                 }
-//                if (mFriendNameList.get(position).getImage() != null) {
-//                    Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
-//                }else{
-//                    Glide.with(mContext).load(R.drawable.user2).into(mImage);
-//                }
                 mGroupName.setText(mGroupList.get(position).getName());
-//                mMoney.setText(String.valueOf(mFriendNameList.get(position).getMoney()));
-//                if (mFriendNameList.get(position).getMoney() > 0) {
-//                    mMoney.setTextColor(getColor(mContext, R.color.moneyGreen));
-//                    mMoney.setVisibility(View.VISIBLE);
-//                } else if (mFriendNameList.get(position).getMoney() < 0) {
-//                    mMoney.setTextColor(getColor(mContext, R.color.moneyRed));
-//                    mMoney.setVisibility(View.VISIBLE);
-//                } else if (mFriendNameList.get(position).getMoney() == 0) {
-//                    mMoney.setVisibility(View.INVISIBLE);
-//                }
             }
 
         }
