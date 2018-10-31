@@ -50,16 +50,19 @@ public class SplitPresenter implements SplitContract.Presenter {
                 if (task.isSuccessful()) {
                     if (task.getResult().isEmpty()) {
                         Toast.makeText(mDialogContext, "email 輸入錯誤", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if (!mFriendEmail.equals(mUser.getEmail())) {
                         for (QueryDocumentSnapshot snapshot : task.getResult()) {
                             String uid = snapshot.getString(Constants.UID);
                             String name = snapshot.getString(Constants.NAME);
                             String image = snapshot.getString(Constants.IMAGE);
                             addFriend(mUser.getUid(), uid, name, image);
                         }
+                    } else {
+                        Toast.makeText(mDialogContext, "不能加自己為好友啦~", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
+
         });
     }
 
