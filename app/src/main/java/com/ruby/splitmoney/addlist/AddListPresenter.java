@@ -30,6 +30,7 @@ import com.ruby.splitmoney.adapters.SplitPartialAdapter;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
+import com.ruby.splitmoney.util.Constants;
 import com.ruby.splitmoney.util.GroupList;
 
 import java.text.ParseException;
@@ -184,75 +185,23 @@ public class AddListPresenter implements AddListContract.Presenter {
         if (mGroupPosition != 0) {
             mGroupId = mGroups.get(mGroupPosition - 1).getId();
         }
-//        String payBy;
-//        if (whoPays == 0) {
-//            payBy = mUser.getDisplayName();
-//        } else {
-//            payBy = whoPays;
-//        }
         Event event = new Event(eventName, "", mGroupId, mAddTipMoney, date, new Date(System.currentTimeMillis()), false, mFriendList.get(whoPays).getName());
-        mFirestore.collection("events").add(event).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        mFirestore.collection(Constants.EVENTS).add(event).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 mEventId = task.getResult().getId();
-                mFirestore.collection("events").document(mEventId).update("id", mEventId);
+                mFirestore.collection(Constants.EVENTS).document(mEventId).update(Constants.ID, mEventId);
                 switch (mSplitType) {
                     default:
                     case 0:
                         Log.d("HERE!!!!!", "onComplete: SPLIT TYPE");
                         mMoney = mAddTipMoney / mFriendList.size();
                         mMoney = (double) Math.round(mMoney * 100) / 100;
-                        mPayOweMap = new HashMap<>();
+                        List<Double> evenMoney = new ArrayList<>();
                         for (int i = 0; i < mFriendList.size(); i++) {
-                            if (i == mWhoPays) {
-                                //付款人
-                                mPayOweMap.put("pay", mAddTipMoney);
-                                mPayOweMap.put("owe", mMoney);
-                                mPayFriend = mFriendList.get(i);
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            } else {
-                                //非付款人
-                                mPayOweMap.put("pay", 0.0);
-                                mPayOweMap.put("owe", mMoney);
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            }
+                            evenMoney.add(mMoney);
                         }
-
-                        if (mGroupPosition == 0) {
-                            //非群組拆帳
-                            for (int i = 0; i < mFriendList.size(); i++) {
-                                if (i != mWhoPays) {
-                                    //建 event list
-                                    final Friend friend = mFriendList.get(i);
-                                    mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            Map<String, Object> listMap = new HashMap<>();
-                                            List<FieldValue> list = new ArrayList<>();
-                                            list.add(FieldValue.arrayUnion(mEventId));
-                                            listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
-//
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(friend.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
-
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(friend);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        } else {
-                            //群組拆帳
-                            setGroupEvent();
-                        }
-
+                        putDataToFirebase(evenMoney);
                         break;
                     case 1:
                         int moneyUnequal = mTotalMoney;
@@ -267,56 +216,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                             math = ((double) Math.round(math * 100) / 100);
                             mCountExtra.add(i, math);
                         }
-
-                        mPayOweMap = new HashMap<>();
-                        for (int i = 0; i < mFriendList.size(); i++) {
-                            if (i == mWhoPays) {
-                                //付款人
-                                mPayOweMap.put("pay", mAddTipMoney);
-                                mPayOweMap.put("owe", mCountExtra.get(i));
-                                mPayFriend = mFriendList.get(i);
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            } else {
-                                //非付款人
-                                mPayOweMap.put("pay", 0.0);
-                                mPayOweMap.put("owe", mCountExtra.get(i));
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            }
-                        }
-                        if (mGroupPosition == 0) {
-                            for (int i = 0; i < mFriendList.size(); i++) {
-                                if (i != mWhoPays) {
-                                    //建 event list
-                                    final Friend friend = mFriendList.get(i);
-                                    mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            Map<String, Object> listMap = new HashMap<>();
-                                            List<FieldValue> list = new ArrayList<>();
-                                            list.add(FieldValue.arrayUnion(mEventId));
-                                            listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
-
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(friend.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
-
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(friend);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        } else {
-                            setGroupEvent();
-                        }
-
-
+                        putDataToFirebase(mCountExtra);
                         break;
                     case 2:
                         mCountShared = new ArrayList<>();
@@ -338,54 +238,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                             }
                         }
 
-                        mPayOweMap = new HashMap<>();
-                        for (int i = 0; i < mFriendList.size(); i++) {
-                            if (i == mWhoPays) {
-                                //付款人
-                                mPayOweMap.put("pay", mAddTipMoney);
-                                mPayOweMap.put("owe", mCountShared.get(i));
-                                mPayFriend = mFriendList.get(i);
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            } else {
-                                //非付款人
-                                mPayOweMap.put("pay", 0.0);
-                                mPayOweMap.put("owe", mCountShared.get(i));
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            }
-                        }
-
-                        if (mGroupPosition == 0) {
-                            for (int i = 0; i < mFriendList.size(); i++) {
-                                if (i != mWhoPays) {
-                                    //建 event list
-                                    final Friend friend = mFriendList.get(i);
-                                    mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            Map<String, Object> listMap = new HashMap<>();
-                                            List<FieldValue> list = new ArrayList<>();
-                                            list.add(FieldValue.arrayUnion(mEventId));
-                                            listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
-
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(friend.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
-
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(friend);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        } else {
-                            setGroupEvent();
-                        }
+                        putDataToFirebase(mCountShared);
 
                         break;
                     case 3:
@@ -400,55 +253,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                             }
                         }
 
-
-                        mPayOweMap = new HashMap<>();
-                        for (int i = 0; i < mFriendList.size(); i++) {
-                            if (i == mWhoPays) {
-                                //付款人
-                                mPayOweMap.put("pay", mAddTipMoney);
-                                mPayOweMap.put("owe", mCountFree.get(i));
-                                mPayFriend = mFriendList.get(i);
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            } else {
-                                //非付款人
-                                mPayOweMap.put("pay", 0.0);
-                                mPayOweMap.put("owe", mCountFree.get(i));
-                                mFirestore.collection("events").document(mEventId).collection("members").document(mFriendList.get(i).getUid()).set(mPayOweMap);
-                            }
-                        }
-
-                        if (mGroupPosition == 0) {
-                            for (int i = 0; i < mFriendList.size(); i++) {
-                                if (i != mWhoPays) {
-                                    //建 event list
-                                    final Friend friend = mFriendList.get(i);
-                                    mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            Map<String, Object> listMap = new HashMap<>();
-                                            List<FieldValue> list = new ArrayList<>();
-                                            list.add(FieldValue.arrayUnion(mEventId));
-                                            listMap.put("events", list);
-                                            WriteBatch batch = mFirestore.batch();
-
-                                            DocumentReference refPay = mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(friend.getUid());
-                                            batch.update(refPay, "events", FieldValue.arrayUnion(mEventId));
-                                            DocumentReference refOwe = mFirestore.collection("users").document(friend.getUid()).collection("friends").document(mPayFriend.getUid());
-                                            batch.update(refOwe, "events", FieldValue.arrayUnion(mEventId));
-
-                                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    setTotalMoneyToFirebase(friend);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        } else {
-                            setGroupEvent();
-                        }
+                        putDataToFirebase(mCountFree);
                         break;
                 }
             }
@@ -456,19 +261,72 @@ public class AddListPresenter implements AddListContract.Presenter {
         mView.popBackStack();
     }
 
+    private void putDataToFirebase(List<Double> moneyList) {
+        mPayOweMap = new HashMap<>();
+        for (int i = 0; i < mFriendList.size(); i++) {
+            if (i == mWhoPays) {
+                //付款人
+                mPayOweMap.put(Constants.PAY, mAddTipMoney);
+                mPayOweMap.put(Constants.OWE, moneyList.get(i));
+                mPayFriend = mFriendList.get(i);
+                mFirestore.collection(Constants.EVENTS).document(mEventId).collection(Constants.MEMBERS).document(mFriendList.get(i).getUid()).set(mPayOweMap);
+            } else {
+                //非付款人
+                mPayOweMap.put(Constants.PAY, 0.0);
+                mPayOweMap.put(Constants.OWE, moneyList.get(i));
+                mFirestore.collection(Constants.EVENTS).document(mEventId).collection(Constants.MEMBERS).document(mFriendList.get(i).getUid()).set(mPayOweMap);
+            }
+        }
+
+        if (mGroupPosition == 0) {
+            //非群組拆帳
+            for (int i = 0; i < mFriendList.size(); i++) {
+                if (i != mWhoPays) {
+                    //建 event list
+                    final Friend friend = mFriendList.get(i);
+                    mFirestore.collection(Constants.USERS).document(mPayFriend.getUid()).collection(Constants.FRIENDS).document(friend.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            Map<String, Object> listMap = new HashMap<>();
+                            List<FieldValue> list = new ArrayList<>();
+                            list.add(FieldValue.arrayUnion(mEventId));
+                            listMap.put(Constants.EVENTS, list);
+                            WriteBatch batch = mFirestore.batch();
+
+                            DocumentReference refPay = mFirestore.collection(Constants.USERS).document(mPayFriend.getUid()).collection(Constants.FRIENDS).document(friend.getUid());
+                            batch.update(refPay, Constants.EVENTS, FieldValue.arrayUnion(mEventId));
+                            DocumentReference refOwe = mFirestore.collection(Constants.USERS).document(friend.getUid()).collection(Constants.FRIENDS).document(mPayFriend.getUid());
+                            batch.update(refOwe, Constants.EVENTS, FieldValue.arrayUnion(mEventId));
+
+                            batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    setTotalMoneyToFirebase(friend);
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        } else {
+            //群組拆帳
+            setGroupEvent();
+        }
+    }
+
     private void setGroupEvent() {
-        mFirestore.collection("groups").document(mGroupId).update("events", FieldValue.arrayUnion(mEventId));
+        mFirestore.collection(Constants.GROUPS).document(mGroupId).update(Constants.EVENTS, FieldValue.arrayUnion(mEventId));
     }
 
     @Override
     public void getGroups() {
-        mFirestore.collection("users").document(mUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        mFirestore.collection(Constants.USERS).document(mUser.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.contains("groups")) {
+                if (documentSnapshot.contains(Constants.GROUPS)) {
                     mGroups = new ArrayList<>();
-                    mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get("groups"));
-                    mFirestore.collection("groups").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    mGroupIdList = new ArrayList<>((List<String>) documentSnapshot.get(Constants.GROUPS));
+                    mFirestore.collection(Constants.GROUPS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
@@ -515,13 +373,16 @@ public class AddListPresenter implements AddListContract.Presenter {
     public void clickDialogCorrectButton(int spinnerPosition, int totalMoney) {
         if (spinnerPosition == 2 && isSharedListEmpty()) {
             mView.showToastMessage("須至少一人分攤帳務");
-        }
-        if (spinnerPosition == 3) {
+        } else if (spinnerPosition == 3) {
             if (getFreeTotalMoney() > totalMoney) {
                 mView.showToastMessage("總數大於總金額 " + totalMoney + " 元");
             } else if (getFreeTotalMoney() < totalMoney) {
                 mView.showToastMessage("總數小於總金額 " + totalMoney + " 元");
+            } else {
+                mView.dismissDialog();
             }
+        } else {
+            mView.dismissDialog();
         }
 
     }
@@ -540,25 +401,25 @@ public class AddListPresenter implements AddListContract.Presenter {
     }
 
     public void setTotalMoneyToFirebase(Friend friend) {
+        //更新好友總帳務金額
         mFriend = friend;
         mEventList = new ArrayList<>();
         mEventIdList = new ArrayList<>();
         mMoneyList = new ArrayList<>();
         mFirestore = FirebaseFirestore.getInstance();
         //payer and friends
-
-        mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(mFriend.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        mFirestore.collection(Constants.USERS).document(mPayFriend.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot.contains("events")) {
-                    mEventIdList = new ArrayList<>((List<String>) documentSnapshot.get("events"));
+                if (documentSnapshot.contains(Constants.EVENTS)) {
+                    mEventIdList = new ArrayList<>((List<String>) documentSnapshot.get(Constants.EVENTS));
                     for (int i = 0; i < mEventIdList.size(); i++) {
-                        mFirestore.collection("events").document(mEventIdList.get(i)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        mFirestore.collection(Constants.EVENTS).document(mEventIdList.get(i)).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 Event event = documentSnapshot.toObject(Event.class);
                                 mEventList.add(event);
-                                documentSnapshot.getReference().collection("members").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                documentSnapshot.getReference().collection(Constants.MEMBERS).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                     @Override
                                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                         boolean payByFriend = false;
@@ -566,9 +427,9 @@ public class AddListPresenter implements AddListContract.Presenter {
                                         double oweFriend = 0.0;
 
                                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                            double moneyBalance = documentSnapshot.getDouble("owe");
+                                            double moneyBalance = documentSnapshot.getDouble(Constants.OWE);
                                             if (documentSnapshot.getId().equals(mFriend.getUid())) {
-                                                if (documentSnapshot.getDouble("pay") != 0.0) {
+                                                if (documentSnapshot.getDouble(Constants.PAY) != 0.0) {
                                                     payByFriend = true;
                                                     oweFriend = moneyBalance;
                                                 } else {
@@ -593,10 +454,9 @@ public class AddListPresenter implements AddListContract.Presenter {
                                                 balanceMoney += money;
                                             }
                                             balanceMoney = ((double) Math.round(balanceMoney * 100) / 100);
-                                            mFirestore.collection("users").document(mPayFriend.getUid()).collection("friends").document(mFriend.getUid()).update("money", balanceMoney);
-                                            mFirestore.collection("users").document(mFriend.getUid()).collection("friends").document(mPayFriend.getUid()).update("money", 0 - balanceMoney);
+                                            mFirestore.collection(Constants.USERS).document(mPayFriend.getUid()).collection(Constants.FRIENDS).document(mFriend.getUid()).update(Constants.MONEY, balanceMoney);
+                                            mFirestore.collection(Constants.USERS).document(mFriend.getUid()).collection(Constants.FRIENDS).document(mPayFriend.getUid()).update(Constants.MONEY, 0 - balanceMoney);
                                         }
-
                                     }
                                 });
                             }
@@ -606,9 +466,5 @@ public class AddListPresenter implements AddListContract.Presenter {
                 }
             }
         });
-
-
     }
-
-
 }

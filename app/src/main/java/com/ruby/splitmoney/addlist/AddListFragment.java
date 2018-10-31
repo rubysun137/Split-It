@@ -142,6 +142,11 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
     }
 
     @Override
+    public void dismissDialog() {
+        mDialogPartial.dismiss();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_list_calendar_icon:
@@ -156,7 +161,6 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                 break;
             case R.id.dialog_correct_text:
                 mPresenter.clickDialogCorrectButton(mSplitTypeSpinner.getSelectedItemPosition(), parseInt(mTotalMoney.getText().toString()));
-                mDialogPartial.dismiss();
                 break;
             case R.id.dialog_cancel_text:
                 mDialogPartial.dismiss();
@@ -326,27 +330,31 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
 
     @Override
     public void setSplitTypeDialog(int position) {
-        if (position == 1) {
-            mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
-
+        mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
             RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-            mPartialAdapter = new SplitPartialAdapter(mMoney, mAddedFriends, mPresenter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        if (position == 1) {
+            mPartialAdapter = new SplitPartialAdapter(mMoney, mAddedFriends, mPresenter);
             recyclerView.setAdapter(mPartialAdapter);
-
-            mDialogPartial = new AlertDialog.Builder(getContext())
-                    .setView(mDialogView)
-                    .setCancelable(false)
-                    .show();
-            mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-            mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
-
-            TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-            TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
-
-            correct.setOnClickListener(AddListFragment.this);
-            cancel.setOnClickListener(AddListFragment.this);
+        } else if (position == 2) {
+            mPercentAdapter = new SplitPercentAdapter(mMoney, mAddedFriends, mPresenter);
+            recyclerView.setAdapter(mPercentAdapter);
+        } else if (position == 3) {
+            mFreeAdapter = new SplitFreeAdapter(mMoney, mAddedFriends, mPresenter);
+            recyclerView.setAdapter(mFreeAdapter);
         }
+        mDialogPartial = new AlertDialog.Builder(getContext())
+                .setView(mDialogView)
+                .setCancelable(false)
+                .show();
+        mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
+
+        TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
+        TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
+
+        correct.setOnClickListener(AddListFragment.this);
+        cancel.setOnClickListener(AddListFragment.this);
     }
 
     private int parseInt(String s) {
@@ -392,97 +400,13 @@ public class AddListFragment extends Fragment implements AddListContract.View, V
                     break;
                 case 1:
                     mPresenter.changeSplitType(mMoney, mAddedFriends.size());
-                    if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
-                        mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
-
-                        RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                        mPartialAdapter = new SplitPartialAdapter(mMoney, mAddedFriends, mPresenter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(mPartialAdapter);
-
-                        mDialogPartial = new AlertDialog.Builder(getContext())
-                                .setView(mDialogView)
-                                .setCancelable(false)
-                                .show();
-                        mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                        mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
-
-                        TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                        TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
-
-                        correct.setOnClickListener(AddListFragment.this);
-                        cancel.setOnClickListener(AddListFragment.this);
-                    } else if (mAddedFriends.size() == 0) {
-                        Toast.makeText(getContext(), "至少需一個朋友參與拆帳", Toast.LENGTH_SHORT).show();
-                        changeToEvenSplitType();
-                    } else {
-                        Toast.makeText(getContext(), "金額不可為 0 ", Toast.LENGTH_SHORT).show();
-                        changeToEvenSplitType();
-                    }
                     break;
                 case 2:
-                    mMoney = mTotalMoney.getText().toString();
-                    if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
-                        mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
-
-                        RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                        mPercentAdapter = new SplitPercentAdapter(mMoney, mAddedFriends, mPresenter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(mPercentAdapter);
-
-                        mDialogPartial = new AlertDialog.Builder(getContext())
-                                .setView(mDialogView)
-                                .setCancelable(false)
-                                .show();
-                        mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                        mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
-
-                        TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                        TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
-
-                        correct.setOnClickListener(AddListFragment.this);
-                        cancel.setOnClickListener(AddListFragment.this);
-                    } else if (mAddedFriends.size() == 0) {
-                        Toast.makeText(getContext(), "至少需一個朋友參與拆帳", Toast.LENGTH_SHORT).show();
-                        changeToEvenSplitType();
-
-                    } else {
-                        Toast.makeText(getContext(), "金額不可為 0 ", Toast.LENGTH_SHORT).show();
-                        changeToEvenSplitType();
-                    }
+                    mPresenter.changeSplitType(mMoney, mAddedFriends.size());
                     break;
                 case 3:
-                    mMoney = mTotalMoney.getText().toString();
-                    if (!mMoney.equals("") && !mMoney.equals("0") && mAddedFriends.size() != 0) {
-                        mDialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_partial, null);
-
-                        RecyclerView recyclerView = mDialogView.findViewById(R.id.dialog_recycler_view);
-                        mFreeAdapter = new SplitFreeAdapter(mMoney, mAddedFriends, mPresenter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                        recyclerView.setAdapter(mFreeAdapter);
-
-                        mDialogPartial = new AlertDialog.Builder(getContext())
-                                .setView(mDialogView)
-                                .setCancelable(false)
-                                .show();
-                        mDialogPartial.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                        mDialogPartial.getWindow().setBackgroundDrawableResource(R.color.transparent);
-
-                        TextView correct = mDialogView.findViewById(R.id.dialog_correct_text);
-                        TextView cancel = mDialogView.findViewById(R.id.dialog_cancel_text);
-
-                        correct.setOnClickListener(AddListFragment.this);
-                        cancel.setOnClickListener(AddListFragment.this);
-                    } else if (mAddedFriends.size() == 0) {
-                        Toast.makeText(getContext(), "至少需一個朋友參與拆帳", Toast.LENGTH_SHORT).show();
-                        changeToEvenSplitType();
-
-                    } else {
-                        Toast.makeText(getContext(), "金額不可為 0 ", Toast.LENGTH_SHORT).show();
-                        changeToEvenSplitType();
-                    }
+                    mPresenter.changeSplitType(mMoney, mAddedFriends.size());
                     break;
-
             }
         }
 

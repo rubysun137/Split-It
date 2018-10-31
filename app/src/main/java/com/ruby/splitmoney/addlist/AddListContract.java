@@ -33,6 +33,8 @@ public interface AddListContract {
 
         void changeToEvenSplitType();
 
+        void dismissDialog();
+
     }
 
     interface Presenter extends BasePresenter {
