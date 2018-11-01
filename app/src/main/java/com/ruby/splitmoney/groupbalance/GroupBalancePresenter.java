@@ -1,25 +1,26 @@
 package com.ruby.splitmoney.groupbalance;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ruby.splitmoney.R;
+import com.google.firebase.firestore.WriteBatch;
 import com.ruby.splitmoney.objects.Event;
 import com.ruby.splitmoney.objects.Friend;
 import com.ruby.splitmoney.objects.Group;
 import com.ruby.splitmoney.util.Constants;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,9 +60,9 @@ public class GroupBalancePresenter implements GroupBalanceContract.Presenter {
         mMemberIdList = new ArrayList<>(mGroup.getMembers());
         mBalanceMoney = new HashMap<>();
 
-        mFirestore.collection(Constants.EVENTS).whereEqualTo(Constants.GROUP, mGroup.getId()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        mFirestore.collection(Constants.EVENTS).whereEqualTo(Constants.GROUP, mGroup.getId()).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (queryDocumentSnapshots.size() == 0) {
                     mView.showNoEventSign();
                 }
@@ -78,8 +79,8 @@ public class GroupBalancePresenter implements GroupBalanceContract.Presenter {
                                     money = money + documentSnapshot.getDouble(Constants.PAY) - documentSnapshot.getDouble(Constants.OWE);
                                     money = (double) Math.round((mBalanceMoney.get(memberId) + money) * 100) / 100;
                                     mBalanceMoney.put(memberId, money);
-                                    Log.d("MAP!!!!!", "onSuccess: " + mBalanceMoney.get(memberId));
-                                    Log.d("MAP!!!!!", "onSuccess: " + memberId);
+//                                    Log.d("MAP!!!!!", "onSuccess: " + mBalanceMoney.get(memberId));
+//                                    Log.d("MAP!!!!!", "onSuccess: " + memberId);
                                     mView.updateBalance(mBalanceMoney);
 //                                    mBalanceMoney.put(memberId, mBalanceMoney.get(memberId) + documentSnapshot.getDouble("pay"));
 //                                    mBalanceMoney.put(memberId, mBalanceMoney.get(memberId) - documentSnapshot.getDouble("owe"));
@@ -88,14 +89,48 @@ public class GroupBalancePresenter implements GroupBalanceContract.Presenter {
                         });
                     }
                 }
-                Log.d("MONEY", "onSuccess: " + mBalanceMoney.get(mMemberIdList.get(0)));
+//                Log.d("MONEY", "onSuccess: " + mBalanceMoney.get(mMemberIdList.get(0)));
             }
         });
     }
 
     @Override
-    public void deleteEvent(int position, List<Friend> friendList, List<Double> moneyList) {
-        mView.showDeleteEventDialog(position, friendList, moneyList);
+    public void settleUp(int position, List<Friend> friendList, List<Double> moneyList) {
+        mView.showSettleUpDialog(position, friendList, moneyList);
+    }
+
+    @Override
+    public void setSettleUpToFirebase(final Double settleMoney, final Friend payMoneyFriend, final Friend getMoneyFriend) {
+        Calendar calendar = Calendar.getInstance();
+        String format = String.valueOf(calendar.get(Calendar.YEAR)) + "/" + String.valueOf(calendar.get(Calendar.MONTH) + 1) + "/" + String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+
+        Event event = new Event("結清帳務", "", mGroup.getId(), settleMoney, format, new Date(System.currentTimeMillis()), true, payMoneyFriend.getName());
+        mFirestore.collection(Constants.EVENTS).add(event).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                WriteBatch batch = mFirestore.batch();
+                String eventId = documentReference.getId();
+                DocumentReference refEventId = mFirestore.collection(Constants.EVENTS).document(eventId);
+                batch.update(refEventId, Constants.ID, eventId);
+
+                //set event
+                Map<String, Double> map = new HashMap<>();
+                map.put(Constants.OWE, 0.0);
+                map.put(Constants.PAY, settleMoney);
+                DocumentReference refEventPay = mFirestore.collection(Constants.EVENTS).document(eventId).collection(Constants.MEMBERS).document(payMoneyFriend.getUid());
+                batch.set(refEventPay, map);
+
+                map.put(Constants.OWE, settleMoney);
+                map.put(Constants.PAY, 0.0);
+                DocumentReference refEventOwe = mFirestore.collection(Constants.EVENTS).document(eventId).collection(Constants.MEMBERS).document(getMoneyFriend.getUid());
+                batch.set(refEventOwe, map);
+
+                //update user event
+                DocumentReference refUserEvent = mFirestore.collection(Constants.GROUPS).document(mGroup.getId());
+                batch.update(refUserEvent, Constants.EVENTS, FieldValue.arrayUnion(eventId));
+                batch.commit();
+            }
+        });
     }
 
 

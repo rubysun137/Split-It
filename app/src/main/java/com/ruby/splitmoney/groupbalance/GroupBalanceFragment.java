@@ -2,6 +2,7 @@ package com.ruby.splitmoney.groupbalance;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ruby.splitmoney.R;
 import com.ruby.splitmoney.adapters.GroupBalanceAdapter;
@@ -41,6 +44,9 @@ public class GroupBalanceFragment extends Fragment implements GroupBalanceContra
     private ImageView mWhoOweImage;
     private ImageView mOweWhoImage;
     private EditText mSettleMoney;
+    private Double mBalanceMoney;
+    private Friend mPayMoneyFriend;
+    private Friend mGetMoneyFriend;
 
 
     public GroupBalanceFragment() {
@@ -93,8 +99,9 @@ public class GroupBalanceFragment extends Fragment implements GroupBalanceContra
     }
 
     @Override
-    public void showDeleteEventDialog(int position, List<Friend> friendList, List<Double> moneyList) {
-        Double balanceMoney = Math.abs(moneyList.get(0)) > Math.abs(moneyList.get(position)) ? Math.abs(moneyList.get(position)) : Math.abs(moneyList.get(0));
+    public void showSettleUpDialog(int position, List<Friend> friendList, List<Double> moneyList) {
+        //找出兩人間較小的值
+        mBalanceMoney = Math.abs(moneyList.get(0)) > Math.abs(moneyList.get(position)) ? Math.abs(moneyList.get(position)) : Math.abs(moneyList.get(0));
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_settle_up, null, false);
         mDialog = new AlertDialog.Builder(mContext)
                 .setView(view)
@@ -107,10 +114,52 @@ public class GroupBalanceFragment extends Fragment implements GroupBalanceContra
         mOweWhoImage = view.findViewById(R.id.owe_who_image);
         mSettleMoney = view.findViewById(R.id.settle_money_edit_text);
 
-        if (moneyList.get(0) > 0 && moneyList.get(position) < 0) {
+        if (moneyList.get(0) > 0 ) {
             //別人要還錢
-        } else if (moneyList.get(0) < 0 && moneyList.get(position) > 0) {
+            mGetMoneyFriend = friendList.get(0);
+            mPayMoneyFriend = friendList.get(position);
+            if (friendList.get(position).getImage() != null) {
+                Glide.with(mContext).load(friendList.get(position).getImage()).into(mWhoOweImage);
+            }
+            if (friendList.get(0).getImage() != null) {
+                Glide.with(mContext).load(friendList.get(0).getImage()).into(mOweWhoImage);
+            }
+            mDialogWhoOwe.setText(friendList.get(position).getName());
+            mDialogOweWho.setText("你");
+            mSettleMoney.setText(String.valueOf(mBalanceMoney));
+
+        } else if (moneyList.get(0) < 0 ) {
             //我要還錢
+            mGetMoneyFriend = friendList.get(position);
+            mPayMoneyFriend = friendList.get(0);
+            if (friendList.get(position).getImage() != null) {
+                Glide.with(mContext).load(friendList.get(position).getImage()).into(mOweWhoImage);
+            }
+            if (friendList.get(0).getImage() != null) {
+                Glide.with(mContext).load(friendList.get(0).getImage()).into(mWhoOweImage);
+            }
+            mDialogWhoOwe.setText(friendList.get(position).getName());
+            mDialogOweWho.setText("你");
+            mSettleMoney.setText(String.valueOf(mBalanceMoney));
         }
+        view.findViewById(R.id.dialog_positive).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Double settleMoney = Double.parseDouble(mSettleMoney.getText().toString());
+                if (mBalanceMoney >= settleMoney) {
+                    mPresenter.setSettleUpToFirebase(settleMoney, mPayMoneyFriend,mGetMoneyFriend);
+                    mDialog.dismiss();
+                } else {
+                    Toast.makeText(getContext(), "請輸入 " + mBalanceMoney + " 或以下的數字", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        view.findViewById(R.id.dialog_negative).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
     }
 }

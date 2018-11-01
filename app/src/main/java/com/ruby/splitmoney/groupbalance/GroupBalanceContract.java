@@ -16,7 +16,7 @@ public interface GroupBalanceContract {
 
         void updateBalance(Map<String, Double> moneyMap);
 
-        void showDeleteEventDialog(int position,List<Friend> friendList, List<Double> moneyList);
+        void showSettleUpDialog(int position, List<Friend> friendList, List<Double> moneyList);
 
     }
 
@@ -24,6 +24,8 @@ public interface GroupBalanceContract {
 
         void calculateMoney(Group group);
 
-        void deleteEvent(int position,List<Friend> friendList, List<Double> moneyList);
+        void settleUp(int position, List<Friend> friendList, List<Double> moneyList);
+
+        void setSettleUpToFirebase(Double settleMoney, Friend payMoneyFriend, Friend getMoneyFriend);
     }
 }
