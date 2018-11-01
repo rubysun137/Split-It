@@ -61,7 +61,7 @@ public class GroupBalanceAdapter extends RecyclerView.Adapter {
             if (mMoneyMap.containsKey(friend.getUid())) {
                 mFriendList.add(friend);
                 mMoneyList.add(mMoneyMap.get(friend.getUid()));
-                Log.d("MONEY MAP ", "setMoneyMap: " + mMoneyMap.get(friend.getUid()));
+//                Log.d("MONEY MAP ", "setMoneyMap: " + mMoneyMap.get(friend.getUid()));
             }
         }
         notifyDataSetChanged();
@@ -82,7 +82,7 @@ public class GroupBalanceAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mMoneyMap.size();
+        return mMoneyList.size();
     }
 
     private class GroupBalanceViewHolder extends RecyclerView.ViewHolder {
@@ -104,9 +104,9 @@ public class GroupBalanceAdapter extends RecyclerView.Adapter {
 
             mPosition = getAdapterPosition();
             if (mFriendList.get(mPosition).getImage() != null) {
-                Glide.with(mContext).load(Uri.parse(mFriendList.get(mPosition).getImage())).into(mMemberImage);
+                Glide.with(mContext).load(mFriendList.get(mPosition).getImage()).into(mMemberImage);
             } else {
-                Glide.with(mContext).load(R.drawable.user2).into(mMemberImage);
+                mMemberImage.setImageResource(R.drawable.user2);
             }
             mMemberName.setText(mFriendList.get(mPosition).getName());
             mMoney.setText(String.valueOf(mMoneyList.get(mPosition)));
@@ -123,22 +123,18 @@ public class GroupBalanceAdapter extends RecyclerView.Adapter {
             }
 
             //TODO 長按結算功能
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    //不是自己
-                    if (mPosition != 0) {
-                        //我還錢或別人還錢
-                        if ((mMoneyList.get(0) > 0 && mMoneyList.get(mPosition) < 0) || (mMoneyList.get(0) < 0 && mMoneyList.get(mPosition) > 0)) {
-
-                            mPresenter.deleteEvent(mPosition, mFriendList, mMoneyList);
+            //不是自己
+            if (mPosition != 0) {
+                //我還錢或別人還錢
+                if ((mMoneyList.get(0) > 0 && mMoneyList.get(mPosition) < 0) || (mMoneyList.get(0) < 0 && mMoneyList.get(mPosition) > 0)) {
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPresenter.settleUp(mPosition, mFriendList, mMoneyList);
                         }
-
-                        return true;
-                    }
-                    return false;
+                    });
                 }
-            });
+            }
         }
     }
 }

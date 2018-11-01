@@ -237,9 +237,7 @@ public class AddListPresenter implements AddListContract.Presenter {
                                 mCountShared.add(i, 0.0);
                             }
                         }
-
                         putDataToFirebase(mCountShared);
-
                         break;
                     case 3:
                         mCountFree = new ArrayList<>();

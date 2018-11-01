@@ -83,9 +83,9 @@ public class AddGroupSelectAdapter extends RecyclerView.Adapter {
             mPosition = getAdapterPosition();
             Friend friend = mFriends.get(mPosition);
             if (friend.getImage() != null) {
-                Glide.with(mContext).load(Uri.parse(friend.getImage())).into(mMemberImage);
+                Glide.with(mContext).load(friend.getImage()).into(mMemberImage);
             } else {
-                Glide.with(mContext).load(R.drawable.user2).into(mMemberImage);
+                mMemberImage.setImageResource(R.drawable.user2);
             }
             mMemberName.setText(friend.getName());
             mMemberEmail.setText(friend.getEmail());

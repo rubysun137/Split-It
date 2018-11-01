@@ -99,7 +99,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
             if (friend.getName().equals(mFriendName)) {
                 mFriend = friend;
                 if (mFriend.getImage() != null) {
-                    Glide.with(mContext).load(Uri.parse(mFriend.getImage())).into(mFriendDetailImage);
+                    Glide.with(mContext).load(mFriend.getImage()).into(mFriendDetailImage);
                 }
             }
         }
@@ -134,7 +134,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
 
                 if (mBalanceMoney > 0) {
                     if (mFriend.getImage() != null) {
-                        Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mWhoOweImage);
+                        Glide.with(this).load(mFriend.getImage()).into(mWhoOweImage);
                     }
                     if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null) {
                         Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mOweWhoImage);
@@ -144,7 +144,7 @@ public class FriendDetailFragment extends Fragment implements FriendDetailContra
                     mSettleMoney.setText(String.valueOf(mBalanceMoney));
                 } else if (mBalanceMoney < 0) {
                     if (mFriend.getImage() != null) {
-                        Glide.with(this).load(Uri.parse(mFriend.getImage())).into(mOweWhoImage);
+                        Glide.with(this).load(mFriend.getImage()).into(mOweWhoImage);
                     }
                     if (FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null) {
                         Glide.with(this).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(mWhoOweImage);

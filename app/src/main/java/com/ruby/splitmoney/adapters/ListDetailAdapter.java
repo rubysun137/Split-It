@@ -87,7 +87,7 @@ public class ListDetailAdapter extends RecyclerView.Adapter {
                 for (Friend friend : FriendList.getInstance().getFriendList()) {
                     if (friend.getUid().equals(userId)) {
                         if (friend.getImage() != null) {
-                            Glide.with(mContext).load(Uri.parse(friend.getImage())).into(mUserImage);
+                            Glide.with(mContext).load(friend.getImage()).into(mUserImage);
                         } else {
                             mUserImage.setImageResource(R.drawable.user2);
                         }

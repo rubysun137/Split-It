@@ -106,16 +106,16 @@ public class AddGroupAdapter extends RecyclerView.Adapter {
                 if (mUser.getPhotoUrl() != null) {
                     Glide.with(mContext).load(mUser.getPhotoUrl()).into(mMemberImage);
                 } else {
-                    Glide.with(mContext).load(R.drawable.user2).into(mMemberImage);
+                    mMemberImage.setImageResource(R.drawable.user2);
                 }
                 mMemberName.setText(mUser.getDisplayName());
                 mMemberEmail.setText(mUser.getEmail());
             } else {
                 Friend friend = mFriends.get(mPosition - 1);
                 if (friend.getImage() != null) {
-                    Glide.with(mContext).load(Uri.parse(friend.getImage())).into(mMemberImage);
+                    Glide.with(mContext).load(friend.getImage()).into(mMemberImage);
                 } else {
-                    Glide.with(mContext).load(R.drawable.user2).into(mMemberImage);
+                    mMemberImage.setImageResource(R.drawable.user2);
                 }
                 mMemberName.setText(friend.getName());
                 mMemberEmail.setText(friend.getEmail());

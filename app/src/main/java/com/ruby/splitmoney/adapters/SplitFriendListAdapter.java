@@ -105,9 +105,9 @@ public class SplitFriendListAdapter extends RecyclerView.Adapter {
                     mDivider.setVisibility(View.VISIBLE);
                 }
                 if (mFriendNameList.get(position).getImage() != null) {
-                    Glide.with(mContext).load(Uri.parse(mFriendNameList.get(position).getImage())).into(mImage);
+                    Glide.with(mContext).load(mFriendNameList.get(position).getImage()).into(mImage);
                 } else {
-                    Glide.with(mContext).load(R.drawable.user2).into(mImage);
+                    mImage.setImageResource(R.drawable.user2);
                 }
                 mName.setText(mFriendNameList.get(position).getName());
                 if (mFriendNameList.get(position).getMoney() > 0) {
