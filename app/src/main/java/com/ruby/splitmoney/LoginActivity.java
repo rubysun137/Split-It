@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
             case R.id.send_friend_email:
                 EditText mail = mDialogView.findViewById(R.id.add_friend_email);
                 String userEmail = mail.getText().toString();
-                if (userEmail.equals("")) {
+                if ("".equals(userEmail)) {
                     userEmail = "wrong";
                 }
                 mPresenter.sendForgetPasswordEmail(userEmail);
