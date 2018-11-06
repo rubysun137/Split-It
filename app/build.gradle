@@ -22,8 +22,8 @@ android {
         applicationId "com.ruby.splitmoney"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 6
-        versionName "1.0.0-beta-2"
+        versionCode 8
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -132,10 +132,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 GoogleSignInAccount account = result.getSignInAccount();
                 mPresenter.firebaseAuthWithGoogle(account);
             } else {
-                mSignInLayout.setVisibility(View.VISIBLE);
-                mLoadingLayout.setVisibility(View.GONE);
+                backToLoginPageUi();
             }
-            isLoading = false;
         }
     }
 
@@ -148,7 +146,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 break;
             case R.id.login_page_container:
                 //hide keyboard
-                hideKeyboard();
+                if (getCurrentFocus().getWindowToken() != null) {
+                    hideKeyboard();
+                }
                 break;
             case R.id.register_text_view_button:
                 mPresenter.clickRegisterButton();
@@ -175,7 +175,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 }
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
-                if(!isLoading) {
+                if (!isLoading) {
                     mPresenter.clickSendButton(email, password);
                 }
                 break;
@@ -186,8 +186,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 email = mEmail.getText().toString();
                 password = mPassword.getText().toString();
                 String name = mName.getText().toString();
-                if(!isLoading) {
-                    mPresenter.clickRegisterSendButton(email,password,name);
+                if (!isLoading) {
+                    mPresenter.clickRegisterSendButton(email, password, name);
                 }
                 break;
             default:
@@ -234,12 +234,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+        isLoading = false;
     }
 
     @Override
     public void showLoginGoogleFailMessage(String errorMessage) {
 //        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         showLongToastMessage("登入失敗，請確認連線狀態後再登入一次");
+        isLoading = false;
         mSignInLayout.setVisibility(View.VISIBLE);
         mLoadingLayout.setVisibility(View.GONE);
     }
@@ -279,6 +281,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
 
     @Override
     public void backToLoginPageUi() {
+        isLoading = false;
         mSignInLayout.setVisibility(View.VISIBLE);
         mLoadingLayout.setVisibility(View.GONE);
     }
