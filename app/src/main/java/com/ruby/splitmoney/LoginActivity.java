@@ -146,7 +146,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 break;
             case R.id.login_page_container:
                 //hide keyboard
-                if (getCurrentFocus().getWindowToken() != null) {
+                if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
                     hideKeyboard();
                 }
                 break;
@@ -170,7 +170,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
             case R.id.sendButton:
                 Log.d("CLICK!!!!", "SEND! ");
                 //hide keyboard
-                if (getCurrentFocus().getWindowToken() != null) {
+                if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
                     hideKeyboard();
                 }
                 String email = mEmail.getText().toString();
@@ -180,7 +180,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View, V
                 }
                 break;
             case R.id.registerSendButton:
-                if (getCurrentFocus().getWindowToken() != null) {
+                if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
                     hideKeyboard();
                 }
                 email = mEmail.getText().toString();

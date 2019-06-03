@@ -19,5 +19,7 @@ public interface GroupContract {
     interface Presenter extends BasePresenter {
 
         void transToGroupDetailPage(String groupId);
+
+        void deleteGroupDialog(String groupId);
     }
 }

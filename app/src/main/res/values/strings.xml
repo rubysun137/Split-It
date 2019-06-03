@@ -32,6 +32,8 @@
     <string name="add_group_out">移出群組</string>
     <string name="delete_friend_title">刪除好友</string>
     <string name="delete_friend_content">請問確定要刪除好友嗎?</string>
+    <string name="delete_group_title">刪除群組</string>
+    <string name="delete_group_content">請問確定要刪除群組嗎?</string>
     <string name="cancel">取消</string>
     <string name="ok">確定</string>
     <string name="settle_up">結清帳務</string>

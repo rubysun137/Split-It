@@ -135,14 +135,19 @@ public class LoginPresenter implements LoginContract.Presenter {
                         addUser(name);
                         mView.showShortToastMessage("註冊成功");
                     } else {
-                        Log.d("SighUp ", "SighUpWithEmail:failure" + ((FirebaseAuthException) task.getException()).getErrorCode());
-                        mView.backToLoginPageUi();
-                        if (((FirebaseAuthException) task.getException()).getErrorCode().equals("ERROR_EMAIL_ALREADY_IN_USE")) {
-                            mView.showLongToastMessage("Email 已被註冊過");
-                        } else if (((FirebaseAuthException) task.getException()).getErrorCode().equals("ERROR_WEAK_PASSWORD")) {
-                            mView.showLongToastMessage("密碼強度不足，請輸入至少六位數字或英文字母");
-                        } else if (((FirebaseAuthException) task.getException()).getErrorCode().equals("ERROR_INVALID_EMAIL")) {
-                            mView.showLongToastMessage("Email 格式錯誤");
+                        if (task.getException() != null) {
+                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            Log.d("SighUp ", "SighUpWithEmail:failure" + errorCode);
+                            mView.backToLoginPageUi();
+                            if (errorCode.equals("ERROR_EMAIL_ALREADY_IN_USE")) {
+                                mView.showLongToastMessage("Email 已被註冊過");
+                            } else if (errorCode.equals("ERROR_WEAK_PASSWORD")) {
+                                mView.showLongToastMessage("密碼強度不足，請輸入至少六位數字或英文字母");
+                            } else if (errorCode.equals("ERROR_INVALID_EMAIL")) {
+                                mView.showLongToastMessage("Email 格式錯誤");
+                            } else {
+                                mView.showLongToastMessage("註冊失敗，請重新註冊!");
+                            }
                         } else {
                             mView.showLongToastMessage("註冊失敗，請重新註冊!");
                         }

@@ -114,7 +114,7 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
                             }
                         }
                         if (mEvent.getGroup().equals("")) {
-                            //刪除 event list
+                            //從 user 的 event list 中刪除
                             for (String id : mMemberId) {
                                 if (!id.equals(mPayId)) {
                                     mFirestore.collection(Constants.USERS).document(mPayId).collection(Constants.FRIENDS).document(id).update(Constants.EVENTS, FieldValue.arrayRemove(mEvent.getId()));
@@ -122,7 +122,7 @@ public class ListDetailFragment extends Fragment implements ListDetailContract.V
                                 }
                             }
                         } else {
-                            //刪除 group list
+                            //從 group list 中刪除
                             mFirestore.collection(Constants.GROUPS).document(mEvent.getGroup()).update(Constants.EVENTS, FieldValue.arrayRemove(mEvent.getId()));
                         }
                         //刪除 event

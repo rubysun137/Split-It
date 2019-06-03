@@ -71,7 +71,7 @@ public class GroupListAdapter extends RecyclerView.Adapter {
         }
 
         private void bindView() {
-            int position = getAdapterPosition();
+            final int position = getAdapterPosition();
             if (position == mGroupList.size()) {
                 mImage.setVisibility(View.INVISIBLE);
                 mGroupName.setVisibility(View.INVISIBLE);
@@ -88,7 +88,7 @@ public class GroupListAdapter extends RecyclerView.Adapter {
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-//                    mPresenter.deleteFriendDialog(mFriendNameList.get(getAdapterPosition()).getUid());
+                    mPresenter.deleteGroupDialog(mGroupList.get(position).getId());
                         return true;
                     }
                 });
